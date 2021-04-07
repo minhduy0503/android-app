@@ -8,8 +8,8 @@
     tools:context=".CameraActivity">
 
     <com.dev.fitface.RoundedFrameLayout
-        android:layout_width="480px"
-        android:layout_height="480px"
+        android:layout_width="720px"
+        android:layout_height="720px"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

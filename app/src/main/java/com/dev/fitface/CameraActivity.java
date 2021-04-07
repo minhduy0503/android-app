@@ -7,8 +7,10 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,6 +127,23 @@ public class CameraActivity extends AppCompatActivity {
                                 return;
                             }
                             FirebaseVisionFace face = faces.get(0);
+                            Log.i(TAG ,face.getBoundingBox().toString());
+                            // Check front face
+                            if (face.getHeadEulerAngleY() > -12 && face.getHeadEulerAngleY() < 12){
+                                this.runOnUiThread(() -> {
+                                    tvAction.setText("Vui lòng nhìn thẳng");
+                                });
+                            } else {
+                                this.runOnUiThread(() -> {
+                                    tvAction.setText("Đã thẳng");
+                                });
+                            }
+                            // Check face size
+                            int left = cameraView.getLeft();
+                            int top = cameraView.getTop();
+                            int right = cameraView.getRight();
+                            int bottom = cameraView.getBottom();
+                            Log.i(TAG,String.format()
                         }
                 )
                 .addOnFailureListener( e -> {
