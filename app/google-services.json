@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "269385954087",
+    "project_id": "fit-face-40b6e",
+    "storage_bucket": "fit-face-40b6e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269385954087:android:3e6c02c54e480561eeef02",
+        "android_client_info": {
+          "package_name": "com.dev.fitface"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269385954087-s81efe7qnik0pofv3l65qkj8hnoodgg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiRfTdYJuY9gB7PJpDEofS0fw43ATTah8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269385954087-s81efe7qnik0pofv3l65qkj8hnoodgg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
