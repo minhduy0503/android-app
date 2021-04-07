@@ -1,34 +1,41 @@
 package com.dev.fitface;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
+import android.graphics.Bitmap;
+
 import android.os.Bundle;
 
+import android.os.CountDownTimer;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
-import com.google.mlkit.vision.face.FaceDetection;
 
-import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 
-import java.util.List;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.ByteArrayOutputStream;
+
+import java.util.concurrent.ExecutionException;
 
 import io.fotoapparat.Fotoapparat;
 import io.fotoapparat.error.CameraErrorListener;
@@ -36,7 +43,12 @@ import io.fotoapparat.exception.camera.CameraException;
 import io.fotoapparat.log.Logger;
 import io.fotoapparat.parameter.ScaleType;
 import io.fotoapparat.preview.Frame;
+import io.fotoapparat.result.BitmapPhoto;
+import io.fotoapparat.result.Photo;
+import io.fotoapparat.result.PhotoResult;
+import io.fotoapparat.result.WhenDoneListener;
 import io.fotoapparat.view.CameraView;
+import kotlin.Unit;
 
 import static io.fotoapparat.log.LoggersKt.fileLogger;
 import static io.fotoapparat.log.LoggersKt.logcat;
@@ -58,6 +70,10 @@ public class CameraActivity extends AppCompatActivity {
     FirebaseVisionFaceDetector detector;
     long currentTime, prevTime;
     float minSmileProb, maxSmileProb;
+    int leftF, topF, widthF, heightF;
+    Bitmap bitmapF;
+    String base64Str;
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,36 +132,78 @@ public class CameraActivity extends AppCompatActivity {
         detector.detectInImage(getVisionImageFromFrame(frame))
                 .addOnSuccessListener(
                         faces -> {
-                            if (faces.size() > 1) {
+ /*                           // Kiểm tra có tồn tại duy nhất 1 khuôn mặt không
+                            if (faces.size() > 1){
                                 this.runOnUiThread(() -> {
-                                    tvAction.setText("Có nhiều hơn 1 khuôn mặt");
+                                    tvAction.setText("Nhận diện lỗi");
                                 });
+                                tvAction.setText("Nhận diện lỗi");
                                 return;
-                            } else if (faces.size() < 1) {
+                            } else if(faces.size() < 1) {
                                 this.runOnUiThread(() -> {
-                                    tvAction.setText("Không tìm thấy khuôn mặt");
+                                    tvAction.setText("Nhận dạng thành công");
                                 });
-                                return;
+*//*                                tvAction.setText("Không tồn tại người nào ");
+                                isFaceProcessRunning = true;*//*
                             }
                             FirebaseVisionFace face = faces.get(0);
                             Log.i(TAG, face.getBoundingBox().toString());
                             // Check front face
                             if (face.getHeadEulerAngleY() < -12 || face.getHeadEulerAngleY() > 12) {
+                                isFaceProcessRunning = true;
                                 this.runOnUiThread(() -> {
                                     tvAction.setText("Vui lòng nhìn thẳng");
                                 });
+                            } else {
+                                leftF = face.getBoundingBox().left;
+                                topF = face.getBoundingBox().top;
+                                widthF = face.getBoundingBox().width();
+                                heightF = face.getBoundingBox().height();
+//                                startCountdown(3);
+                            }*/
+
+
+                            if (faces.size() > 1) {
+                                this.runOnUiThread(() -> {
+                                    tvAction.setText("Có nhiều khuôn mặt");
+                                });
+                                isFaceProcessRunning = true;
+                                return;
+                            } else if (faces.size() < 1) {
+                                this.runOnUiThread(() -> {
+                                    tvAction.setText("Không tìm thấy khuôn mặt");
+                                });
+                                isFaceProcessRunning = true;
                                 return;
                             }
-                           // Check face sizeint
-                            int left = roundedFrameLayout.getLeft();
+                            else if(faces.size() == 1){
+                                FirebaseVisionFace face = faces.get(0);
+                                Log.i(TAG, face.getBoundingBox().toString());
+                                // Check front face
+                                if (face.getHeadEulerAngleY() < -12 || face.getHeadEulerAngleY() > 12) {
+                                    this.runOnUiThread(() -> {
+                                        tvAction.setText("Vui lòng nhìn thẳng");
+                                    });
+                                    isFaceProcessRunning = true;
+                                } else {
+                                    this.runOnUiThread(() -> {
+                                        tvAction.setText("Nhận diện thành công");
+                                    });
+                                    leftF = face.getBoundingBox().left;
+                                    topF = face.getBoundingBox().top;
+                                    widthF = face.getBoundingBox().width();
+                                    heightF = face.getBoundingBox().height();
+                                    isFaceProcessRunning = false;
+                                    startCountdown(2);
+                                }
+                            }
+
+
+                        /*   // Check face sizeint
+                          int left = roundedFrameLayout.getLeft();
                             int top = roundedFrameLayout.getTop();
                             int right = roundedFrameLayout.getRight();
                             int bottom = roundedFrameLayout.getBottom();
-
-                            int leftF = face.getBoundingBox().left;
-                            int topF = face.getBoundingBox().top;
-                            int rightF = face.getBoundingBox().right;
-                            int bottomF = face.getBoundingBox().bottom;
 
                             if (((leftF - left) > 0) && ((topF - top) > 0) && ((right - rightF) > 0) && (bottom - bottomF) > 0){
                                 this.runOnUiThread(() -> {
@@ -156,12 +214,65 @@ public class CameraActivity extends AppCompatActivity {
                                     tvAction.setText("Không tìm thấy khuôn mặt");
                                 });
                             }
-                            return;
+                            return;*/
                         }
                 )
                 .addOnFailureListener(e -> {
-
                 });
+    }
+
+
+    private void startCountdown(int second) {
+        /*new CountDownTimer(second * 1000, 1000) {
+            int time = second;
+            public void onTick(long millisUntilFinished) {
+                if (!isFaceProcessRunning) {
+                    tvAction.setText("Bắt đầu chụp trong " + time + " giây nữa!");
+                    time--;
+                    if(time == 0){
+                        takePhoto();
+                    }
+                }
+            }
+
+            public void onFinish() {
+            }
+        }.start();*/
+        new CountDownTimer(second * 1000, 1000){
+            int time = second;
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvAction.setText("Bắt đầu chụp trong " + time + " giây nữa!");
+                time--;
+            }
+
+            @Override
+            public void onFinish() {
+                tvAction.setText("Bắt đầu chụp trong " + time + " giây nữa!");
+                takePhoto();
+            }
+        }.start();
+    }
+
+    private void takePhoto() {
+        final PhotoResult picture = fotoapparat.takePicture();
+        fotoapparat.stop();
+        fotoapparat.start();
+        /*picture.toBitmap().whenDone(bitmapPhoto -> {
+            fotoapparat.stop();
+            fotoapparat.start();
+        });*/
+/*        fotoapparat.stop();
+        fotoapparat.start();*/
+    }
+
+    private String bitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return encoded;
     }
 
     private FirebaseVisionImage getVisionImageFromFrame(Frame frame) {
