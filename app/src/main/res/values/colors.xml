@@ -10,5 +10,5 @@
     <color name="background">#FF005b96</color>
     <color name="transparent">#00000000</color>
     <color name="orange">#FFFF8C00</color>
-    <color name="orange_disactive">#40FF8C00</color>
+    <color name="orange_inactive">#40FF8C00</color>
 </resources>

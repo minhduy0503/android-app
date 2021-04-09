@@ -11,9 +11,9 @@ import android.widget.FrameLayout;
 import static android.graphics.Path.Direction.CCW;
 
 public class RoundedFrameLayout extends FrameLayout {
-    private float mRadius;
-    private Path mPath = new Path();
-    private RectF mRect = new RectF();
+    private final float mRadius;
+    private final Path mPath = new Path();
+    private final RectF mRect = new RectF();
 
     public RoundedFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
