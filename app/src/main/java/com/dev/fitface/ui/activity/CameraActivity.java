@@ -1,4 +1,4 @@
-package com.dev.fitface;
+package com.dev.fitface.ui.activity;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,46 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.google.firebase.ml.vision.face.FirebaseVisionFace;
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
-
-import com.google.mlkit.vision.face.FaceDetectorOptions;
-
-
-import org.jetbrains.annotations.Nullable;
-
-import java.io.ByteArrayOutputStream;
-
-import java.util.concurrent.ExecutionException;
-
-import io.fotoapparat.Fotoapparat;
-import io.fotoapparat.error.CameraErrorListener;
-import io.fotoapparat.exception.camera.CameraException;
-import io.fotoapparat.log.Logger;
-import io.fotoapparat.parameter.ScaleType;
-import io.fotoapparat.preview.Frame;
-import io.fotoapparat.result.BitmapPhoto;
-import io.fotoapparat.result.Photo;
-import io.fotoapparat.result.PhotoResult;
-import io.fotoapparat.result.WhenDoneListener;
-import io.fotoapparat.view.CameraView;
-import kotlin.Unit;
-
-import static io.fotoapparat.log.LoggersKt.fileLogger;
-import static io.fotoapparat.log.LoggersKt.logcat;
-import static io.fotoapparat.log.LoggersKt.loggers;
-import static io.fotoapparat.selector.AspectRatioSelectorsKt.standardRatio;
-import static io.fotoapparat.selector.LensPositionSelectorsKt.front;
-import static io.fotoapparat.selector.ResolutionSelectorsKt.highestResolution;
+import com.dev.fitface.R;
 
 public class CameraActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    /*private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private static final String TAG = "CAMERA ACTIVITY";
 
     RoundedFrameLayout roundedFrameLayout;
@@ -74,19 +39,19 @@ public class CameraActivity extends AppCompatActivity {
     Bitmap bitmapF;
     String base64Str;
     Runnable runnable;
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        setupUI();
+  /*      setupUI();
         initServices();
         prevTime = System.currentTimeMillis();
         fotoapparat = startFotoapparat();
         checkPermission();
-
+*/
     }
-
+/*
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
@@ -132,7 +97,7 @@ public class CameraActivity extends AppCompatActivity {
         detector.detectInImage(getVisionImageFromFrame(frame))
                 .addOnSuccessListener(
                         faces -> {
- /*                           // Kiểm tra có tồn tại duy nhất 1 khuôn mặt không
+ *//*                           // Kiểm tra có tồn tại duy nhất 1 khuôn mặt không
                             if (faces.size() > 1){
                                 this.runOnUiThread(() -> {
                                     tvAction.setText("Nhận diện lỗi");
@@ -143,8 +108,8 @@ public class CameraActivity extends AppCompatActivity {
                                 this.runOnUiThread(() -> {
                                     tvAction.setText("Nhận dạng thành công");
                                 });
-*//*                                tvAction.setText("Không tồn tại người nào ");
-                                isFaceProcessRunning = true;*//*
+*//**//*                                tvAction.setText("Không tồn tại người nào ");
+                                isFaceProcessRunning = true;*//**//*
                             }
                             FirebaseVisionFace face = faces.get(0);
                             Log.i(TAG, face.getBoundingBox().toString());
@@ -160,7 +125,7 @@ public class CameraActivity extends AppCompatActivity {
                                 widthF = face.getBoundingBox().width();
                                 heightF = face.getBoundingBox().height();
 //                                startCountdown(3);
-                            }*/
+                            }*//*
 
 
                             if (faces.size() > 1) {
@@ -199,7 +164,7 @@ public class CameraActivity extends AppCompatActivity {
                             }
 
 
-                        /*   // Check face sizeint
+                        *//*   // Check face sizeint
                           int left = roundedFrameLayout.getLeft();
                             int top = roundedFrameLayout.getTop();
                             int right = roundedFrameLayout.getRight();
@@ -214,7 +179,7 @@ public class CameraActivity extends AppCompatActivity {
                                     tvAction.setText("Không tìm thấy khuôn mặt");
                                 });
                             }
-                            return;*/
+                            return;*//*
                         }
                 )
                 .addOnFailureListener(e -> {
@@ -223,7 +188,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
     private void startCountdown(int second) {
-        /*new CountDownTimer(second * 1000, 1000) {
+        *//*new CountDownTimer(second * 1000, 1000) {
             int time = second;
             public void onTick(long millisUntilFinished) {
                 if (!isFaceProcessRunning) {
@@ -237,7 +202,7 @@ public class CameraActivity extends AppCompatActivity {
 
             public void onFinish() {
             }
-        }.start();*/
+        }.start();*//*
         new CountDownTimer(second * 1000, 1000){
             int time = second;
 
@@ -259,12 +224,12 @@ public class CameraActivity extends AppCompatActivity {
         final PhotoResult picture = fotoapparat.takePicture();
         fotoapparat.stop();
         fotoapparat.start();
-        /*picture.toBitmap().whenDone(bitmapPhoto -> {
+        *//*picture.toBitmap().whenDone(bitmapPhoto -> {
             fotoapparat.stop();
             fotoapparat.start();
-        });*/
-/*        fotoapparat.stop();
-        fotoapparat.start();*/
+        });*//*
+*//*        fotoapparat.stop();
+        fotoapparat.start();*//*
     }
 
     private String bitmapToBase64(Bitmap bitmap){
@@ -306,5 +271,5 @@ public class CameraActivity extends AppCompatActivity {
         cameraView = findViewById(R.id.camera_front);
         tvAction = findViewById(R.id.tvAction);
         roundedFrameLayout = findViewById(R.id.main_frame);
-    }
+    }*/
 }

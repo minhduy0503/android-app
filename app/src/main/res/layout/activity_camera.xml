@@ -5,22 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".CameraActivity">
+    tools:context=".ui.activity.CameraActivity">
 
-    <com.dev.fitface.RoundedFrameLayout
+    <com.dev.fitface.ui.RoundFrameLayout
         android:id="@+id/main_frame"
-        android:layout_width="720px"
-        android:layout_height="720px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <io.fotoapparat.view.CameraView
-            android:id="@+id/camera_front"
+        <androidx.camera.view.PreviewView
+            android:id="@+id/cameraView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.dev.fitface.RoundedFrameLayout>
+            android:layout_height="match_parent"/>
+
+        <com.dev.fitface.camerax.GraphicOverlay
+            android:id="@+id/graphicOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.dev.fitface.ui.RoundFrameLayout>
 
     <TextView
         android:id="@+id/tvAction"
