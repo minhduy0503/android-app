@@ -9,6 +9,4 @@ class User {
     var shortname: String = ""
     var token: String = ""
     var role: String = ""
-
-
 }

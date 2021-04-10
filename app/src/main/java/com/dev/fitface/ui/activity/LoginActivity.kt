@@ -56,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
                     //Go to home screen:
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
 
