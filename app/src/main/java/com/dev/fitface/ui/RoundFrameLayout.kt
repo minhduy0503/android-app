@@ -13,7 +13,9 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
         FrameLayout(context!!, attrs) {
     private val mRadius: Float = attrs.getAttributeFloatValue(null, "corner_radius", 0f)
     private val mPath = Path()
-    private val mRect = RectF()
+    val mRect = RectF()
+        get() = field
+
     override fun onDraw(canvas: Canvas) {
         val savedState = canvas.save()
         val w = width.toFloat()
@@ -30,9 +32,10 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
         super.onSizeChanged(w, h, oldw, oldh)
         // compute the mPath
         val centerX = w / 2f // calculating half width
-        val centerY = h / 4f // calculating half height
+        val centerY = h / 3f // calculating half height
         mPath.reset()
-        mPath.addCircle(centerX, centerY, (min(centerX, centerY) * 0.75).toFloat(), Path.Direction.CW)
+        mPath.addCircle(centerX, centerY, (min(centerX, centerY) * 0.6).toFloat(), Path.Direction.CW)
+//      mPath.addOval(centerX - 50, centerY - 100, centerX + 50, centerY + 100, Path.Direction.CCW)
         mPath.close()
     }
 
@@ -42,5 +45,4 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
         super.dispatchDraw(canvas)
         canvas.restoreToCount(save)
     }
-
 }

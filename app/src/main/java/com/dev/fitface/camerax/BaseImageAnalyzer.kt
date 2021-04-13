@@ -17,9 +17,10 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
             detectInImage(InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees))
                     .addOnSuccessListener { results ->
                         onSuccess(
+                                imageProxy,
                                 results,
                                 graphicOverlay,
-                                image.cropRect
+                                image.cropRect,
                         )
                     }
                     .addOnFailureListener { e ->
@@ -38,9 +39,10 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
     protected abstract fun detectInImage(image: InputImage): Task<T>
 
     protected abstract fun onSuccess(
+            image: ImageProxy,
             results: T,
             graphicOverlay: GraphicOverlay,
-            rect: Rect
+            rect: Rect,
     )
 
     protected abstract fun onFailure(e: Exception)

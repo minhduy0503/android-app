@@ -19,4 +19,8 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    companion object {
+        @JvmStatic
+        fun newInstance(): HomeFragment = HomeFragment()
+    }
 }

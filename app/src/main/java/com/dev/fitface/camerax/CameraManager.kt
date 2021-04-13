@@ -37,10 +37,11 @@ class CameraManager(
     lateinit var metrics: DisplayMetrics
 
     var rotation: Float = 0f
-    var cameraSelectorOption = CameraSelector.LENS_FACING_BACK
+    var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
 
     init {
         createNewExecutor()
+
     }
 
     private fun createNewExecutor() {
@@ -97,7 +98,6 @@ class CameraManager(
                                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                                     .build()
                     setCameraConfig(cameraProvider, cameraSelector)
-
                 }, ContextCompat.getMainExecutor(context)
         )
     }
