@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/photo"
+                android:src="@drawable/sample_6"
+                android:layout_margin="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+
+            <RelativeLayout
+                android:layout_toRightOf="@+id/photo"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:text="name_string"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
+                    android:layout_marginTop="0dp"
+                    android:maxWidth="150dp"
+                    android:maxLines="1"
+                    android:text="profession_stringggggggggggggggggggg"
+                    android:textSize="12sp" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewt"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="10dp"
+                android:text="c: 3"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textViewv"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/textViewt"
+                android:text="c: 3"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textViewc"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/textViewv"
+                android:text="c: 3"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textViewb"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/textViewc"
+                android:text="c: 3"
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

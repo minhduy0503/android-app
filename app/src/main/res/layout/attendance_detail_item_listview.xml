@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/relativeDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@+id/relativeDetail2">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13/4/2021"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/checkin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/date"
+                    android:layout_marginTop="0dp"
+                    android:maxWidth="150dp"
+                    android:maxLines="1"
+                    android:text="15:30"
+                    android:textSize="12sp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeDetail2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_toRightOf="@+id/photo">
+
+                <TextView
+                    android:id="@+id/session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Session: 1"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/session"
+                    android:layout_marginTop="0dp"
+                    android:maxWidth="150dp"
+                    android:maxLines="1"
+                    android:text="E402 NVC"
+                    android:textSize="12sp" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="97dp"
+                android:text="Status: Vắng"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="62dp"
+                android:layout_height="29dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:text="Button"
+                android:textAlignment="center"
+                android:textDirection="anyRtl"
+                android:textSize="8sp" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
