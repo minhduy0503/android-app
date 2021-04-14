@@ -5,18 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class Report {
     @SerializedName("lesson")
     private int lesson;
+
     @SerializedName("statusid")
     private int statusid;
+
     @SerializedName("sessionid")
     private int sessionid;
+
     @SerializedName("timein")
     private long timein;
+
     @SerializedName("timeout")
     private long timeout;
+
     @SerializedName("sessdate")
     private long sessdate;
+
     @SerializedName("campus")
     private String campus;
+
     @SerializedName("room")
     private String room;
 

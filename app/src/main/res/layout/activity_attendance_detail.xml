@@ -1,79 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AttendanceDetailActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+
+            <TextView
+                android:id="@+id/attendance"
+                android:layout_width="179dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/photo"
+                android:text="Đặng Thành Duy"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="256dp"
+                android:layout_height="26dp"
+                android:layout_below="@+id/attendance"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="11dp"
+                android:layout_toEndOf="@+id/photo"
+                android:text="Course: THIẾT KẾ PHẦN MỀM"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="0dp"
+                android:background="#222" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/sample_6" />
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="#FFF"
-            android:orientation="vertical">
-
-            <RelativeLayout
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/listVieww"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/tours"
-                    android:layout_width="98dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_toEndOf="@+id/photo"
-                    android:text="trips"
-                    android:textColor="#000"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView44"
-                    android:layout_width="146dp"
-                    android:layout_height="27dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_toEndOf="@+id/tours"
-                    android:text="trips"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="0dp"
-                    android:background="#222" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/photo"
-                    android:src="@drawable/sample_6"
-                    android:layout_margin="5dp"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="601dp"
-                android:layout_margin="20dp">
-
-                <ListView
-                    android:id="@+id/list_reports"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:dividerHeight="10dp" />
-            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+
+
 </FrameLayout>

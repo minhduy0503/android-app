@@ -40,14 +40,20 @@ public class ListAttendanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_attendances);
         customListView = (ListView) findViewById(R.id.custom_list_view);
         attendances = new ArrayList<>();
+
+    for (int count = 0; count <3; count++) {
+        attendances.add(new Attendance(count,2,3,1235674567,1667543456,1745456432,"name ne", "statusne",null));
+
+        }
+
         customListAttendanceAdapter = new CustomListAttendanceAdapter(attendances, this);
         customListView.setAdapter(customListAttendanceAdapter);
         customListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(ListAttendanceActivity.this, "Name : "  + "\n Profession : " + adapterView, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ListAttendanceActivity.this, AttendanceDetailActivity.class);
-                intent.putExtra("attendance", attendances.get(i).getName());
+                Toast.makeText(ListAttendanceActivity.this, "Name : "  + attendances.get(i).getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(), AttendanceDetailActivity.class);
+//                intent.putExtra("a", attendances.get(i).getName());
                 startActivity(intent);
             }
         });

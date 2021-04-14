@@ -1,23 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foregroundTint="#100F0F"
     android:orientation="vertical"
     tools:context=".ListAttendanceActivity">
 
-
     <LinearLayout
-        android:layout_margin="10dp"
-        android:elevation="3dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/custom_list_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="80dp"
+            android:background="#FAF4F4"
+            android:foregroundTint="#020202">
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="143dp"
+                android:layout_height="25dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="139dp"
+                android:layout_marginTop="9dp"
+                android:text="Thiết kế phần mềm"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textDirection="locale"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="106dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="39dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:text="1/4/2021" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="21dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    app:srcCompat="@drawable/calendar" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="108dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="45dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:background="#FAF6F6"
+                    android:foregroundTint="#100F0F"
+                    android:tint="#0C0C0C"
+                    app:srcCompat="@android:drawable/ic_dialog_map" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="2dp"
+                    android:text="E402 NVC" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:elevation="3dp">
+
+            <ListView
+                android:id="@+id/custom_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
     </LinearLayout>
+
 
 </FrameLayout>
