@@ -9,7 +9,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.dev.fitface.api.ApiService
 import com.dev.fitface.mlkit.FaceDetectorProcessor
+import com.dev.fitface.ui.activity.CameraActivity
 import java.lang.Exception
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -18,7 +20,9 @@ class CameraManager(
         private val context: Context,
         private val finderView: PreviewView,
         private val lifecycleOwner: LifecycleOwner,
-        private val graphicOverlay: GraphicOverlay
+        private val graphicOverlay: GraphicOverlay,
+        private val cameraActivity: CameraActivity,
+        private val service: ApiService
 ) {
 
     companion object {
@@ -41,7 +45,6 @@ class CameraManager(
 
     init {
         createNewExecutor()
-
     }
 
     private fun createNewExecutor() {
@@ -80,13 +83,20 @@ class CameraManager(
                     cameraProvider = cameraProviderFuture.get()
                     preview = Preview.Builder().build()
                     metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+                    Log.i("Debug","${metrics.widthPixels} - ${metrics.heightPixels}")
 
                     imageAnalyzer = ImageAnalysis.Builder()
                             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                             .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                             .build()
                             .also {
-                                it.setAnalyzer(cameraExecutor, FaceDetectorProcessor(graphicOverlay))
+                                it.setAnalyzer(cameraExecutor,
+                                        FaceDetectorProcessor(
+                                                this,
+                                                context,
+                                                cameraActivity,
+                                                service
+                                        ))
                             }
 
                     val cameraSelector = CameraSelector.Builder()
@@ -118,4 +128,9 @@ class CameraManager(
     fun isFrontMode() : Boolean {
         return cameraSelectorOption == CameraSelector.LENS_FACING_FRONT
     }
+
+    fun unbind() {
+        cameraProvider?.unbindAll()
+    }
+
 }

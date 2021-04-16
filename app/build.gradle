@@ -77,4 +77,9 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
+    implementation 'androidx.cardview:cardview:1.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 }

@@ -57,4 +57,6 @@ fun Bitmap.calculateBrightnessEstimate(bitmap: Bitmap): Int{
         n++
     }
     return (r + g + b) / (n * 3)
+
+
 }

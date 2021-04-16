@@ -1,6 +1,6 @@
 package com.dev.fitface.models
 
-class Campus {
+class Campus(id: String, name: String) {
     var id: String = ""
     var name: String = ""
 

@@ -8,7 +8,6 @@ import com.dev.fitface.ui.fragments.CheckinFragment
 import com.dev.fitface.ui.fragments.HomeFragment
 import com.dev.fitface.ui.fragments.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(){
@@ -16,8 +15,8 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setDefaultFragment(savedInstanceState)
-        nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+//        setDefaultFragment(savedInstanceState)
+//        nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     private fun setDefaultFragment(savedInstanceState: Bundle?){

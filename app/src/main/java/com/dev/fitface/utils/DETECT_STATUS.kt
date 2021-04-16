@@ -10,4 +10,5 @@ enum class DETECT_STATUS {
     LOW_BRIGHTNESS,
     OUTSIDE,
     SUCCESS,
+    FAILURE
 }

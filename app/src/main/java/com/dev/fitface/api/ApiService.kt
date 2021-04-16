@@ -1,9 +1,11 @@
 package com.dev.fitface.api;
 
-import com.dev.fitface.models.FaceRequest
+import com.dev.fitface.models.requests.FaceRequest
 import com.dev.fitface.models.Student
 import com.dev.fitface.models.User
-import okhttp3.Interceptor
+import com.dev.fitface.models.requests.LoginRequest
+import com.dev.fitface.models.response.FaceResponse
+import com.dev.fitface.models.response.LoginResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -11,12 +13,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://f376c6f3fbee.ngrok.io"
+private const val BASE_URL = "http://d1bdc403cdb7.ngrok.io"
 
 interface ApiService {
-    @POST("/api/login/")
-    @FormUrlEncoded
-    fun postLogin(@FieldMap param: Map<String, String>): Call<User>
+    @POST("/api/login")
+    fun postLogin(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
 
     @POST("/face/checkin/{id}")
@@ -24,7 +25,7 @@ interface ApiService {
             @Path("id") id: String,
             @Query("token") token: String,
             @Body images: FaceRequest
-    ): Call<Student>
+    ): Call<FaceResponse>
 
 
     /**

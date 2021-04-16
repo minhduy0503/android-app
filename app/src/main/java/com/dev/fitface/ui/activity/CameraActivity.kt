@@ -1,56 +1,56 @@
 package com.dev.fitface.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.Manifest;
+import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.*
 import android.media.Image
-import android.os.Bundle;
+import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.OrientationEventListener
-import android.widget.Toast;
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageProxy
-
-import com.dev.fitface.R;
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.dev.fitface.R
 import com.dev.fitface.api.ApiService
+import com.dev.fitface.camerax.BaseImageAnalyzer
 import com.dev.fitface.camerax.CameraManager
+import com.dev.fitface.camerax.GraphicOverlay
 import com.dev.fitface.interfaces.FaceDetectorDelegate
 import com.dev.fitface.interfaces.UIDelegate
 import com.dev.fitface.mlkit.*
-import com.dev.fitface.models.FaceRequest
+import com.dev.fitface.models.requests.FaceRequest
 import com.dev.fitface.models.Student
-import com.dev.fitface.utils.DETECT_STATUS
-import com.dev.fitface.utils.getBaseYByView
-import com.dev.fitface.utils.imageToBitmap
-import com.dev.fitface.utils.rotateFlipImage
+import com.dev.fitface.utils.*
+import com.google.android.gms.tasks.Task
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.Face
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import kotlinx.android.synthetic.main.activity_camera.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
+
+class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraManager: CameraManager
     private lateinit var service: ApiService
-    private var UIDelegate: UIDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
+        initService()
         createCameraManager()
         getCoordinateOfView()
-        initService()
         askPermission()
-
-
-
     }
 
     private fun askPermission(){
@@ -66,12 +66,11 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
     }
 
     private fun getCoordinateOfView(){
-        val l = main_frame.mRect.left
-        val t = main_frame.mRect.top
-        val r = main_frame.mRect.right
-        val b = main_frame.mRect.bottom
-
-        UIDelegate?.onViewListener(l, t, r, b)
+        val displayMetrics = DisplayMetrics()
+        this@CameraActivity.display?.getRealMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
+        Log.i("Debug", "$height $width")
     }
 
     private fun initService() {
@@ -85,11 +84,13 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
                 this,
                 cameraView,
                 this,
-                graphicOverlay
+                graphicOverlay,
+                this,
+                service
         )
     }
 
-    private fun takePicture() {
+   /* private fun takePicture() {
         // shutter effect
         Toast.makeText(this@CameraActivity, "take a picture!", Toast.LENGTH_SHORT).show()
         setOrientationEvent()
@@ -126,7 +127,7 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
                             })
 
 //                     Createe bitmap and encode to Base64 string
-                 /*   var res = Bitmap.createBitmap(bitmap, left , top, width , height)
+                 *//*   var res = Bitmap.createBitmap(bitmap, left , top, width , height)
                     var byteArrayOutputStream = ByteArrayOutputStream();
                     res.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                     var byteArray = byteArrayOutputStream .toByteArray()
@@ -135,19 +136,19 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
                     var list = mutableListOf<String>(base64Str)
                     listFace.images = list
                     // Call API
-                    checkin(listFace)*/
+                    checkin(listFace)*//*
                 }
     }
 
-
-    private fun checkin(base64Str: FaceRequest) {
+*/
+ /*   private fun checkin(base64Str: FaceRequest) {
         // Test
         val token = "ed898d0e7296158731c1e582f3055625"
         val id = "17"
 
-        service.postCheckin(id,token, base64Str).enqueue(object : Callback<Student?>{
+        service.postCheckin(id, token, base64Str).enqueue(object : Callback<Student?> {
             override fun onResponse(call: Call<Student?>, response: Response<Student?>) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     Toast.makeText(this@CameraActivity, "Check in successfully", Toast.LENGTH_LONG).show()
                 }
             }
@@ -158,7 +159,7 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
 
         })
     }
-
+*/
 
     private fun setOrientationEvent() {
         val orientationEventListener = object : OrientationEventListener(this as Context) {
@@ -194,18 +195,13 @@ class CameraActivity : AppCompatActivity(), FaceDetectorDelegate {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
+
     companion object {
+        private const val TAG = "CameraActivity"
+
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(
                 Manifest.permission.CAMERA
         )
-    }
-
-    override fun onCapture(isProcessing: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onProcess(status: DETECT_STATUS) {
-        TODO("Not yet implemented")
     }
 }

@@ -55,7 +55,8 @@
         <androidx.camera.view.PreviewView
             android:id="@+id/cameraView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:scaleType="fillCenter"/>
 
         <com.dev.fitface.camerax.GraphicOverlay
             android:id="@+id/graphicOverlay"
@@ -69,10 +70,8 @@
         android:id="@+id/tvAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="Action"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:text="Action"
         android:textSize="@dimen/text_26"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -93,6 +92,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
