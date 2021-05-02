@@ -43,8 +43,8 @@ class CustomToast(context: Context) : Toast(context) {
         var WARNING = 2
         var ERROR = 3
         var CONFUSING = 4
-        var SHORT = 500;
-        var LONG = 1000;
+        var SHORT = 500
+        var LONG = 1000
     }
 
 }

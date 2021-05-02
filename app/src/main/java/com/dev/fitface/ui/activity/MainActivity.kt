@@ -1,23 +1,29 @@
-package com.dev.fitface.ui.activity;
+package com.dev.fitface.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dev.fitface.R
-import com.dev.fitface.ui.fragments.CheckinFragment
+import com.dev.fitface.models.Campus
+import com.dev.fitface.models.Room
+import com.dev.fitface.ui.fragments.BottomSheetFragment
+import com.dev.fitface.ui.fragments.CheckingFragment
 import com.dev.fitface.ui.fragments.HomeFragment
 import com.dev.fitface.ui.fragments.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFragmentInteractionListener{
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        setDefaultFragment(savedInstanceState)
-//        nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        setDefaultFragment(savedInstanceState)
+        nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
+
 
     private fun setDefaultFragment(savedInstanceState: Bundle?){
         if(savedInstanceState == null){
@@ -36,8 +42,8 @@ class MainActivity : AppCompatActivity(){
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_check_in -> {
-                val checkinFragment = CheckinFragment.newInstance()
-                openFragment(checkinFragment)
+                val checkingFragment = CheckingFragment.newInstance()
+                openFragment(checkingFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
@@ -55,4 +61,17 @@ class MainActivity : AppCompatActivity(){
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+    override fun onOptionCampusDialogFragmentInteraction(bundle: Bundle?) {
+        val data: Campus? = bundle?.getParcelable("selectedCampus")
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
+        fragment.onCampusTextViewChange(data?.name)
+    }
+
+    override fun onOptionRoomDialogFragmentInteraction(bundle: Bundle?) {
+        val data: Room? = bundle?.getParcelable("selectedRoom")
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
+        fragment.onRoomTextViewChange(data?.name)
+    }
+
 }

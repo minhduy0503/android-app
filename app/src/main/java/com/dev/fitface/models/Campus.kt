@@ -1,10 +1,16 @@
 package com.dev.fitface.models
 
-class Campus(id: String, name: String) {
-    var id: String = ""
-    var name: String = ""
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-    override fun toString(): String {
-        return "$id - $name"
-    }
-}
+@Parcelize
+data class Campus(
+        @SerializedName("id")
+        var id: String? = null,
+        @SerializedName("name")
+        var name: String? = null,
+        var isSelected: Int? = 0
+): Parcelable
+
+

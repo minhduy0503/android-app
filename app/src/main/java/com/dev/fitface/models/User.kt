@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class User(
         @SerializedName("id")
-        var id: Int,
+        var id: Int?,
         @SerializedName("username")
-        var username: String,
+        var username: String?,
         @SerializedName("firstname")
-        var firstname: String,
+        var firstname: String?,
         @SerializedName("lastname")
-        var lastname: String,
+        var lastname: String?,
         @SerializedName("roleid")
-        var roleid: Int,
+        var roleid: Int?,
         @SerializedName("shortname")
-        var shortname: String,
+        var shortname: String?,
         @SerializedName("token")
-        var token: String,
+        var token: String?,
         @SerializedName("role")
-        var role: String,
+        var role: String?,
 )

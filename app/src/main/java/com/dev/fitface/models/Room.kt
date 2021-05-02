@@ -1,7 +1,16 @@
 package com.dev.fitface.models
 
-class Room {
-    var id: Int = 0
-    var name: String = ""
-    var campus: String = ""
-}
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Room(
+        @SerializedName("id")
+        var id: Int? = null,
+        @SerializedName("name")
+        var name: String? = null,
+        @SerializedName("campus")
+        var campus: String? = null,
+        var isSelected: Int? = 0
+): Parcelable

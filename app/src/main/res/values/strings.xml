@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nvc">Nguyễn Văn Cừ</string>
     <string name="lt">Linh Trung</string>
+    <string name="campus_type">Campus</string>
+    <string name="room_type">Room</string>
+    <string name="campus_selection">Choose a campus</string>
+    <string name="room_selection">Choose a room</string>
+    <string name="error_username">* Username is incorrect</string>
+    <string name="error_pwd">* Password is required</string>
 </resources>

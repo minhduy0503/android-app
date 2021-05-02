@@ -3,9 +3,11 @@ package com.dev.fitface.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.dev.fitface.MyApp
+import com.dev.fitface.MyApp.Companion.self
+
 
 class SharedPrefs private constructor() {
-    private val mSharedPreferences: SharedPreferences = MyApp.self()!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    private val mSharedPreferences: SharedPreferences = self()!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     @Suppress("UNCHECKED_CAST")
     operator fun <T> get(key: String, anonymousClass: Class<T>): T {
@@ -49,7 +51,7 @@ class SharedPrefs private constructor() {
     }
 
     companion object {
-        private const val PREFS_NAME = "share_prefs"
+        private const val PREFS_NAME = "fit_face_shared_pref"
         private var mInstance: SharedPrefs? = null
         val instance: SharedPrefs
             get() {

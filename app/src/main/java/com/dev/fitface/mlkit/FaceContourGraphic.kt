@@ -64,6 +64,7 @@ class FaceContourGraphic(
                 face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
+        // Debug
 
         val contours = face.allContours
 

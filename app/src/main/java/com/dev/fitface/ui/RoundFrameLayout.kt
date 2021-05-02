@@ -6,7 +6,6 @@ import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import com.dev.fitface.interfaces.UIDelegate
 import kotlin.math.min
 
 
@@ -19,7 +18,6 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
     var radius: Float = 0F
     var centerX: Float = 0F
     var centerY: Float = 0F
-        get() = field
 
 
     override fun onDraw(canvas: Canvas) {
@@ -38,12 +36,11 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
         super.onSizeChanged(w, h, oldw, oldh)
         // compute the mPath
         centerX = w / 2f // calculating half width
-        centerY = h / 3f // calculating half height
-        radius = (min(centerX, centerY) * 0.65F)
+        centerY = h / 2f // calculating half height
+        radius = (min(centerX, centerY) * 1)
 
         mPath.reset()
         mPath.addCircle(centerX, centerY, radius, Path.Direction.CW)
-//      mPath.addOval(centerX - 50, centerY - 100, centerX + 50, centerY + 100, Path.Direction.CCW)
         mPath.close()
     }
 

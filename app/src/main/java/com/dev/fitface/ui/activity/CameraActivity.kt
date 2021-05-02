@@ -1,4 +1,4 @@
-package com.dev.fitface.ui.activity;
+package com.dev.fitface.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.OrientationEventListener
 import android.widget.Toast
@@ -18,27 +17,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dev.fitface.R
 import com.dev.fitface.api.ApiService
-import com.dev.fitface.camerax.BaseImageAnalyzer
 import com.dev.fitface.camerax.CameraManager
-import com.dev.fitface.camerax.GraphicOverlay
-import com.dev.fitface.interfaces.FaceDetectorDelegate
-import com.dev.fitface.interfaces.UIDelegate
 import com.dev.fitface.mlkit.*
-import com.dev.fitface.models.requests.FaceRequest
-import com.dev.fitface.models.Student
 import com.dev.fitface.utils.*
-import com.google.android.gms.tasks.Task
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.Face
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
 import kotlinx.android.synthetic.main.activity_camera.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class CameraActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity(){
 
     private lateinit var cameraManager: CameraManager
     private lateinit var service: ApiService
@@ -49,8 +34,11 @@ class CameraActivity : AppCompatActivity() {
 
         initService()
         createCameraManager()
-        getCoordinateOfView()
         askPermission()
+
+        SharedPrefs.instance.put("abc","1111")
+        val a : String = SharedPrefs.instance["abc", String::class.java]
+        Log.i("Debug", "$a")
     }
 
     private fun askPermission(){
@@ -65,36 +53,23 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCoordinateOfView(){
-        val displayMetrics = DisplayMetrics()
-        this@CameraActivity.display?.getRealMetrics(displayMetrics)
-        val height = displayMetrics.heightPixels
-        val width = displayMetrics.widthPixels
-        Log.i("Debug", "$height $width")
-    }
-
     private fun initService() {
         service = ApiService.create()
     }
-
-
 
     private fun createCameraManager() {
         cameraManager = CameraManager(
                 this,
                 cameraView,
                 this,
-                graphicOverlay,
-                this,
-                service
+                graphicOverlay
         )
     }
 
-   /* private fun takePicture() {
+    private fun takePicture() {
         // shutter effect
         Toast.makeText(this@CameraActivity, "take a picture!", Toast.LENGTH_SHORT).show()
         setOrientationEvent()
-
         cameraManager.imageCapture.takePicture(
                 cameraManager.cameraExecutor,
                 object : ImageCapture.OnImageCapturedCallback() {
@@ -127,7 +102,7 @@ class CameraActivity : AppCompatActivity() {
                             })
 
 //                     Createe bitmap and encode to Base64 string
-                 *//*   var res = Bitmap.createBitmap(bitmap, left , top, width , height)
+/*                    var res = Bitmap.createBitmap(bitmap, left , top, width , height)
                     var byteArrayOutputStream = ByteArrayOutputStream();
                     res.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                     var byteArray = byteArrayOutputStream .toByteArray()
@@ -136,11 +111,10 @@ class CameraActivity : AppCompatActivity() {
                     var list = mutableListOf<String>(base64Str)
                     listFace.images = list
                     // Call API
-                    checkin(listFace)*//*
+                    checkin(listFace)*/
                 }
     }
 
-*/
  /*   private fun checkin(base64Str: FaceRequest) {
         // Test
         val token = "ed898d0e7296158731c1e582f3055625"
@@ -198,10 +172,10 @@ class CameraActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "CameraActivity"
-
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(
                 Manifest.permission.CAMERA
         )
     }
+
 }

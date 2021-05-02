@@ -5,6 +5,7 @@ import com.google.gson.Gson
 
 class MyApp : Application() {
 
+
     var gSon: Gson? = null
 
     override fun onCreate() {

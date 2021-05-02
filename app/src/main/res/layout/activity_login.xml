@@ -38,12 +38,27 @@
         app:layout_constraintRight_toRightOf="@id/rightLine"
         app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
 
+    <TextView
+        android:id="@+id/tv_errorUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_6"
+        android:text="@string/error_username"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_16"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/edt_password"
+        app:layout_constraintLeft_toLeftOf="@id/edt_username"
+        app:layout_constraintTop_toBottomOf="@+id/edt_username" />
+
 
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_6"
         android:background="@drawable/bgr_edittext"
         android:drawableStart="@drawable/ic_password"
         android:drawablePadding="@dimen/padding_16"
@@ -54,18 +69,52 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_20"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/white"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@id/leftLine"
         app:layout_constraintRight_toRightOf="@id/rightLine"
-        app:layout_constraintTop_toBottomOf="@+id/edt_username" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_errorUsername"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_errorPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_6"
+        android:text="@string/error_pwd"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_16"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/edt_username"
+        app:layout_constraintTop_toBottomOf="@+id/edt_password" />
+
+
+    <ImageView
+        android:id="@+id/img_showHidePass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_24"
+        android:src="@drawable/ic_invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
+        app:layout_constraintRight_toRightOf="@id/edt_password"
+        app:layout_constraintTop_toTopOf="@+id/edt_password" />
+
+    <View
+        android:id="@+id/btn_showHidePass"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        app:layout_constraintBottom_toBottomOf="@id/img_showHidePass"
+        app:layout_constraintLeft_toLeftOf="@id/img_showHidePass"
+        app:layout_constraintRight_toRightOf="@id/img_showHidePass"
+        app:layout_constraintTop_toTopOf="@id/img_showHidePass" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="@dimen/dimen_40"
         android:background="@drawable/bgr_button_active"
         android:text="Login"
         android:textColor="@color/white"
@@ -76,15 +125,16 @@
         app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_20"
         android:text="version 1.0.0"
         android:textColor="@color/white"
         android:textSize="@dimen/text_18"
-        android:layout_marginBottom="@dimen/margin_20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/leftLine"
-        app:layout_constraintRight_toRightOf="@id/rightLine"/>
+        app:layout_constraintRight_toRightOf="@id/rightLine" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomLine"
@@ -114,7 +164,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

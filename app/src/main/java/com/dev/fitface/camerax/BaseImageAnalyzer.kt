@@ -2,13 +2,14 @@ package com.dev.fitface.camerax
 
 import android.annotation.SuppressLint
 import android.graphics.Rect
-import android.media.Image
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
+
+    abstract val graphicOverlay: GraphicOverlay
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
@@ -17,13 +18,14 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
             detectInImage(InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees))
                     .addOnSuccessListener { results ->
                         onSuccess(
-                                image,
                                 results,
+                                graphicOverlay,
                                 image.cropRect,
                         )
                     }
                     .addOnFailureListener { e ->
-//                        graphicOverlay.postInvalidate()
+                        graphicOverlay.clear()
+                        graphicOverlay.postInvalidate()
                         onFailure(e)
                     }
                     .addOnCompleteListener {
@@ -37,9 +39,9 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
     protected abstract fun detectInImage(image: InputImage): Task<T>
 
     protected abstract fun onSuccess(
-            image: Image?,
             results: T,
-            rect: Rect,
+            graphicOverlay: GraphicOverlay,
+            rect: Rect
     )
 
     protected abstract fun onFailure(e: Exception)
