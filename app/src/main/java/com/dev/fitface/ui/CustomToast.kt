@@ -1,6 +1,7 @@
 package com.dev.fitface.ui
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -21,6 +22,8 @@ class CustomToast(context: Context) : Toast(context) {
             val l1 = layout.findViewById(R.id.toast_text) as TextView
             val linearLayout = layout.findViewById(R.id.toast_type) as LinearLayout
             val img: ImageView = layout.findViewById(R.id.toast_icon) as ImageView
+
+            toast.setGravity(Gravity.BOTTOM, 0, 90)
             l1.text = message
             if (type == 1) {
                 linearLayout.setBackgroundResource(R.drawable.success_shape)
@@ -43,8 +46,8 @@ class CustomToast(context: Context) : Toast(context) {
         var WARNING = 2
         var ERROR = 3
         var CONFUSING = 4
-        var SHORT = 500
-        var LONG = 1000
+        var SHORT = 50
+        var LONG = 100
     }
 
 }

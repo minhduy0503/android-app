@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
             if (!isValidUsername || !isValidPassword) {
                 showError()
             } else {
+                progressDialog.show(this)
                 postLogin()
             }
         }
@@ -136,17 +137,17 @@ class LoginActivity : AppCompatActivity() {
 
         service.postLogin(loginRequest).enqueue(object : Callback<LoginResponse?> {
             override fun onResponse(call: Call<LoginResponse?>?, response: Response<LoginResponse?>) {
-                if (response.isSuccessful) {
+                progressDialog.dialog.dismiss()
+
+                if (response.code() != 200){
+                    CustomToast.makeText(applicationContext, "Error", CustomToast.SHORT, CustomToast.ERROR).show()
+                }
+
+                else {
                     val body = response.body()
                     val status = body?.status
-
-                    // Handle other code:
-                    if (response.code() != 200) {
-                        CustomToast.makeText(applicationContext, "Error", Toast.LENGTH_LONG, CustomToast.ERROR).show()
-                    }
-
                     // If status is 200 -> Login successfully
-                    else if (status == 200) {
+                     if (status == 200) {
                         CustomToast.makeText(applicationContext, "Login successfully", CustomToast.SHORT, CustomToast.SUCCESS).show()
                         // Save token:
                         val token = body.data?.token

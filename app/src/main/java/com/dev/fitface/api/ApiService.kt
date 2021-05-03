@@ -2,22 +2,34 @@ package com.dev.fitface.api
 
 import com.dev.fitface.models.requests.FaceRequest
 import com.dev.fitface.models.requests.LoginRequest
+import com.dev.fitface.models.response.CampusResponse
 import com.dev.fitface.models.response.FaceResponse
 import com.dev.fitface.models.response.LoginResponse
 import com.dev.fitface.models.response.RoomResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import retrofit2.http.Query as Query
 
-private const val BASE_URL = "https://5d625692a785.ngrok.io"
+private const val BASE_URL = "https://fa7adb04e81d.ngrok.io"
 
 interface ApiService {
 
     @POST("/api/login")
     fun postLogin(@Body loginRequest: LoginRequest): Call<LoginResponse>
+
+    @GET("/api/campus")
+    fun getCampus(@Query("token") token: String): Call<CampusResponse>
+
+    @GET("/api/rooms")
+    fun getRoom(@Query("token") token: String, @Query("campus") campus: String): Call<RoomResponse>
+
+
+
 
     @Multipart
     @POST("/face/checkin/{id}")
@@ -27,8 +39,6 @@ interface ApiService {
             @Part images: FaceRequest
     ): Call<FaceResponse>
 
-    @GET("/api/rooms")
-    fun getRoom(@QueryMap query: Map<String, String>): Call<RoomResponse>
 
     /**
      * Singleton Retrofit

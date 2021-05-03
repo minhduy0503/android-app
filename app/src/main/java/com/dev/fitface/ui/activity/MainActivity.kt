@@ -1,19 +1,28 @@
 package com.dev.fitface.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.dev.fitface.R
+import com.dev.fitface.api.ApiService
 import com.dev.fitface.models.Campus
 import com.dev.fitface.models.Room
+import com.dev.fitface.models.response.CampusResponse
+import com.dev.fitface.ui.CustomToast
 import com.dev.fitface.ui.fragments.BottomSheetFragment
 import com.dev.fitface.ui.fragments.CheckingFragment
 import com.dev.fitface.ui.fragments.HomeFragment
 import com.dev.fitface.ui.fragments.ProfileFragment
+import com.dev.fitface.utils.SharedPrefs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFragmentInteractionListener{
@@ -27,6 +36,7 @@ class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFrag
         setDefaultFragment(savedInstanceState)
         nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
+
 
     private fun setDefaultFragment(savedInstanceState: Bundle?){
 

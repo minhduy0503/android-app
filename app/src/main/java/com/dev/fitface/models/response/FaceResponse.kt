@@ -9,5 +9,5 @@ data class FaceResponse(
         @SerializedName("message")
         var message: String,
         @SerializedName("data")
-        var data: List<FaceCheck>
+        var data: ArrayList<FaceCheck>
 )
