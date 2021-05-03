@@ -12,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://0b9db6490bdc.ngrok.io"
+private const val BASE_URL = "https://5d625692a785.ngrok.io"
 
 interface ApiService {
 

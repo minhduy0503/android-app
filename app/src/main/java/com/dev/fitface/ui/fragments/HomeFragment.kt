@@ -10,6 +10,7 @@ import com.dev.fitface.R
 class HomeFragment : Fragment() {
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -19,5 +20,6 @@ class HomeFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(): HomeFragment = HomeFragment()
+        const val Tag: String = "home_frag"
     }
 }

@@ -18,5 +18,6 @@ class ProfileFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(): ProfileFragment = ProfileFragment()
+        const val Tag: String = "profile_frag"
     }
 }

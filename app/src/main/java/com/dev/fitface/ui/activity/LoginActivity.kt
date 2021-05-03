@@ -140,17 +140,20 @@ class LoginActivity : AppCompatActivity() {
                     val body = response.body()
                     val status = body?.status
 
+                    // Handle other code:
+                    if (response.code() != 200) {
+                        CustomToast.makeText(applicationContext, "Error", Toast.LENGTH_LONG, CustomToast.ERROR).show()
+                    }
+
                     // If status is 200 -> Login successfully
-                    if (status == 200) {
+                    else if (status == 200) {
                         CustomToast.makeText(applicationContext, "Login successfully", CustomToast.SHORT, CustomToast.SUCCESS).show()
                         // Save token:
                         val token = body.data?.token
                         SharedPrefs.instance.put("Token", token)
-
                         /**
                          * Get more information here:
                          * */
-
                         //Go to home screen:
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)

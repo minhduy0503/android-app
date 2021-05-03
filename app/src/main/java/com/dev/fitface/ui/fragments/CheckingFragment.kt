@@ -1,5 +1,6 @@
 package com.dev.fitface.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.dev.fitface.R
 import com.dev.fitface.models.Campus
 import com.dev.fitface.models.Room
 import com.dev.fitface.ui.activity.CameraActivity
+import com.dev.fitface.ui.activity.MainActivity
 
 
 class CheckingFragment : Fragment() {
@@ -122,6 +124,7 @@ class CheckingFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(): CheckingFragment = CheckingFragment()
+        const val Tag: String = "checking_frag"
     }
 
 }

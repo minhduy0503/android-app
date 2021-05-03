@@ -134,6 +134,13 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
         view.btnClose.setOnClickListener(this)
     }
 
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            btnClose?.id -> {
+                dialog?.dismiss()
+            }
+        }
+    }
 
     companion object {
         const val TAG = "BottomSheetFragment"
@@ -143,14 +150,6 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
             val fragment = BottomSheetFragment()
             fragment.arguments = bundle
             return fragment
-        }
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            btnClose?.id -> {
-                dialog?.dismiss()
-            }
         }
     }
 }
