@@ -140,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
                 progressDialog.dialog.dismiss()
 
                 if (response.code() != 200){
-                    CustomToast.makeText(applicationContext, "Error", CustomToast.SHORT, CustomToast.ERROR).show()
+                    CustomToast.makeText(applicationContext, "Error", 400, CustomToast.ERROR).show()
                 }
 
                 else {
@@ -148,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
                     val status = body?.status
                     // If status is 200 -> Login successfully
                      if (status == 200) {
-                        CustomToast.makeText(applicationContext, "Login successfully", CustomToast.SHORT, CustomToast.SUCCESS).show()
+                        CustomToast.makeText(applicationContext, "Login successfully", 400, CustomToast.SUCCESS).show()
                         // Save token:
                         val token = body.data?.token
                         SharedPrefs.instance.put("Token", token)
@@ -158,13 +158,14 @@ class LoginActivity : AppCompatActivity() {
                         //Go to home screen:
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
-                        finish()
+                        finishAffinity()
                     }
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse?>?, t: Throwable?) {
-                CustomToast.makeText(applicationContext, "Error", Toast.LENGTH_LONG, CustomToast.ERROR).show()
+                progressDialog.dialog.dismiss()
+                CustomToast.makeText(applicationContext, "Error", 400, CustomToast.ERROR).show()
             }
         })
     }

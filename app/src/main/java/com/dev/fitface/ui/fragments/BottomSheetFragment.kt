@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dev.fitface.R
 import com.dev.fitface.adapter.CampusAdapter
-import com.dev.fitface.api.ApiService
+import com.dev.fitface.adapter.RoomAdapter
 import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.models.Campus
 import com.dev.fitface.models.Room
@@ -28,12 +28,9 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
     private lateinit var dataRoom: ArrayList<Room>
     private var campusID: String? = null
 
-    private lateinit var service: ApiService
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initValue()
-        initService()
     }
 
     override fun onAttach(context: Context) {
@@ -50,10 +47,6 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
         mListener = null
     }
 
-    private fun initService() {
-        service = ApiService.create()
-    }
-
 
     private fun initValue() {
         arguments?.let {
@@ -61,6 +54,9 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
             when (mDialogType) {
                 "Campus" -> {
                     dataCampus = it.getParcelableArrayList("Data")!!
+                }
+                "Room" -> {
+                    dataRoom = it.getParcelableArrayList("Data")!!
                 }
             }
 
@@ -71,17 +67,6 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
                 when (bundle?.getString("type")) {
                     "Campus" -> {
                         mListener?.onOptionCampusDialogFragmentInteraction(bundle)
-                        //get room by campus
-                        val campus: Campus? = bundle.getParcelable("selectedCampus")
-                        /*   view.resources.getString(R.string.room_type) -> {
-       view.tvTitleBottomSheet.text = view.resources.getString(R.string.room_selection)
-       getRoomByCampus(campusID!!)
-       var roomAdapter = RoomAdapter(context!!, dataRoom, mCallFromChild)
-       view.rvOption.layoutManager = LinearLayoutManager(context)
-       view.rvOption.setHasFixedSize(true)
-       view.rvOption.adapter = roomAdapter
-   }*/
-
                     }
                     "Room" -> {
                         mListener?.onOptionRoomDialogFragmentInteraction(bundle)
@@ -118,14 +103,13 @@ class BottomSheetFragment : BottomSheetDialogFragment(), View.OnClickListener {
                 view.rvOption.setHasFixedSize(true)
                 view.rvOption.adapter = campusAdapter
             }
-            /*   view.resources.getString(R.string.room_type) -> {
-                   view.tvTitleBottomSheet.text = view.resources.getString(R.string.room_selection)
-                   getRoomByCampus(campusID!!)
-                   var roomAdapter = RoomAdapter(context!!, dataRoom, mCallFromChild)
-                   view.rvOption.layoutManager = LinearLayoutManager(context)
-                   view.rvOption.setHasFixedSize(true)
-                   view.rvOption.adapter = roomAdapter
-               }*/
+            view.resources.getString(R.string.room_type) -> {
+                view.tvTitleBottomSheet.text = view.resources.getString(R.string.room_selection)
+                var roomAdapter = RoomAdapter(context!!, dataRoom, mCallFromChild)
+                view.rvOption.layoutManager = LinearLayoutManager(context)
+                view.rvOption.setHasFixedSize(true)
+                view.rvOption.adapter = roomAdapter
+            }
         }
     }
 

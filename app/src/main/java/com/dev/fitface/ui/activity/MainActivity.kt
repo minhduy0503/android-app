@@ -1,34 +1,20 @@
 package com.dev.fitface.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.dev.fitface.R
-import com.dev.fitface.api.ApiService
 import com.dev.fitface.models.Campus
 import com.dev.fitface.models.Room
-import com.dev.fitface.models.response.CampusResponse
-import com.dev.fitface.ui.CustomToast
 import com.dev.fitface.ui.fragments.BottomSheetFragment
 import com.dev.fitface.ui.fragments.CheckingFragment
 import com.dev.fitface.ui.fragments.HomeFragment
 import com.dev.fitface.ui.fragments.ProfileFragment
-import com.dev.fitface.utils.SharedPrefs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFragmentInteractionListener{
-
-    private var menuItemSelected: MenuItem? = null
-    private var menuSelectedIndex: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,45 +25,41 @@ class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFrag
 
 
     private fun setDefaultFragment(savedInstanceState: Bundle?){
-
-        val fragmentTrans = supportFragmentManager.beginTransaction()
-        fragmentTrans.replace(R.id.main_frame, HomeFragment.newInstance())
-
-        if (savedInstanceState != null){
-            menuSelectedIndex = savedInstanceState.getInt(SELECTED_ITEM, 0)
-            menuItemSelected = nav_bar.menu.findItem(menuSelectedIndex!!)
-        } else {
-            menuItemSelected = nav_bar.menu.getItem(0)
+        if(savedInstanceState == null){
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_frame, HomeFragment.newInstance())
+                    .commit()
         }
-
-        selectFragment(menuItemSelected)
-
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{ item ->
-        selectFragment(item)
-        return@OnNavigationItemSelectedListener true
+        when (item.itemId){
+            R.id.navigation_home -> {
+                val homeFragment = HomeFragment.newInstance()
+                openFragment(homeFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_check_in -> {
+
+                val checkingFragment = CheckingFragment.newInstance()
+                openFragment(checkingFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_profile -> {
+                val profileFragment = ProfileFragment.newInstance()
+                openFragment(profileFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
     }
 
-    private fun selectFragment(item: MenuItem?) {
-        var fragment: Fragment? = null
-        val fragmentClass: Class<*> = when (item?.itemId) {
-            R.id.navigation_home -> HomeFragment::class.java
-            R.id.navigation_check_in -> CheckingFragment::class.java
-            R.id.navigation_profile -> ProfileFragment::class.java
-            else -> HomeFragment::class.java
-        }
-        try {
-            fragment = fragmentClass.newInstance() as Fragment
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        val fragmentManager: FragmentManager = supportFragmentManager
-        if (fragment != null) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_frame, fragment)
-                    .commit()
-        }
+    private fun openFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction
+                .replace(R.id.main_frame, fragment)
+                .commit()
     }
 
     override fun onBackPressed() {
@@ -88,15 +70,14 @@ class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFrag
         val data: Campus? = bundle?.getParcelable("selectedCampus")
         val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
         fragment.onCampusTextViewChange(data?.name)
+        fragment.getRoomData(data?.id!!)
     }
 
     override fun onOptionRoomDialogFragmentInteraction(bundle: Bundle?) {
         val data: Room? = bundle?.getParcelable("selectedRoom")
         val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
         fragment.onRoomTextViewChange(data?.name)
+        fragment.arguments = bundle
     }
 
-    companion object{
-        private const val SELECTED_ITEM: String = "selected_item"
-    }
 }

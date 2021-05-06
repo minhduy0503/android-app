@@ -37,7 +37,7 @@ class RoundFrameLayout(context: Context?, attrs: AttributeSet) :
         // compute the mPath
         centerX = w / 2f // calculating half width
         centerY = h / 2f // calculating half height
-        radius = (min(centerX, centerY) * 1)
+        radius = (min(centerX, centerY) * 0.65F)
 
         mPath.reset()
         mPath.addCircle(centerX, centerY, radius, Path.Direction.CW)

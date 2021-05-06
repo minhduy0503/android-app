@@ -10,8 +10,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.interfaces.FaceResultCallback
 import com.dev.fitface.mlkit.FaceDetectorProcessor
+import com.dev.fitface.utils.EyeStatus
+import com.dev.fitface.utils.FaceSize
+import com.dev.fitface.utils.SharedPrefs
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -20,7 +24,8 @@ class CameraManager(
         private val finderView: PreviewView,
         private val lifecycleOwner: LifecycleOwner,
         private val graphicOverlay: GraphicOverlay,
-){
+        private val mActivityResultCallback: CameraCallback?
+) {
 
     companion object {
         private const val TAG = "CameraManager"
@@ -43,12 +48,33 @@ class CameraManager(
 
     init {
         createNewExecutor()
-        mCallback = object: FaceResultCallback{
+        mCallback = object : FaceResultCallback {
+            override fun onFaceSize(size: FaceSize) {
+                mActivityResultCallback?.onFaceSizeNotify(size)
+            }
+
+            override fun onNotFrontFace() {
+                mActivityResultCallback?.onFrontFaceNotify()
+            }
+
             override fun onFaceLocated(faceRect: Rect) {
-                Log.i("Debug", "OK")
+                mActivityResultCallback?.onFaceCapture(faceRect)
             }
 
             override fun onFaceOutside() {
+                mActivityResultCallback?.onFaceOutsideNotify()
+            }
+
+            override fun onNumberOfFace() {
+                mActivityResultCallback?.onFaceInvalidNumber()
+            }
+
+            override fun onNoFace() {
+                mActivityResultCallback?.onFaceNone()
+            }
+
+            override fun onEye(eyeStatus: EyeStatus) {
+                mActivityResultCallback?.onEyeNotify(eyeStatus)
             }
 
         }
@@ -73,7 +99,7 @@ class CameraManager(
     private fun setCameraConfig(
             cameraProvider: ProcessCameraProvider?,
             cameraSelector: CameraSelector
-    ){
+    ) {
         try {
             cameraProvider?.unbindAll()
             camera = cameraProvider?.bindToLifecycle(
@@ -86,7 +112,7 @@ class CameraManager(
             preview?.setSurfaceProvider(
                     finderView.createSurfaceProvider()
             )
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.e(TAG, "Use case binding failed", e)
         }
     }
@@ -115,11 +141,11 @@ class CameraManager(
                 Runnable {
                     cameraProvider = cameraProviderFuture.get()
                     preview = Preview.Builder().build()
-
-                    metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+                    metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
 
                     imageAnalyzer = ImageAnalysis.Builder()
                             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                            .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                             .build()
                             .also {
                                 it.setAnalyzer(cameraExecutor, FaceDetectorProcessor(graphicOverlay, mCallback))
@@ -134,26 +160,33 @@ class CameraManager(
                                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                                     .build()
                     setCameraConfig(cameraProvider, cameraSelector)
+
+                    SharedPrefs.instance.put("widthScreen", metrics.widthPixels)
+                    SharedPrefs.instance.put("heightScreen", metrics.heightPixels)
+
                 }, ContextCompat.getMainExecutor(context)
         )
     }
 
-   /* fun changeCameraSelector() {
-        cameraProvider?.unbindAll()
-        cameraSelectorOption =
-                if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
-                else CameraSelector.LENS_FACING_BACK
-        graphicOverlay.toggleSelector()
-        startCamera()
-    }*/
+    /* fun changeCameraSelector() {
+         cameraProvider?.unbindAll()
+         cameraSelectorOption =
+                 if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+                 else CameraSelector.LENS_FACING_BACK
+         graphicOverlay.toggleSelector()
+         startCamera()
+     }*/
 
-    fun isHorizontalMode() : Boolean {
+    fun stopCamera(){
+        cameraProvider?.unbindAll()
+    }
+
+    fun isHorizontalMode(): Boolean {
         return rotation == 90f || rotation == 270f
     }
 
-    fun isFrontMode() : Boolean {
+    fun isFrontMode(): Boolean {
         return cameraSelectorOption == CameraSelector.LENS_FACING_FRONT
     }
-
 
 }

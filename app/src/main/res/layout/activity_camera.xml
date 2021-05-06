@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_28"
-        android:src="@drawable/ic_lock"
+        android:src="@drawable/ic_unlock"
         app:layout_constraintBottom_toBottomOf="@+id/tvRoomID"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvCoursesName" />
@@ -21,21 +21,23 @@
         android:id="@+id/tvCoursesName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
-        android:hint="Đồ án tốt nghiệp"
+        android:text="Check in"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="@dimen/text_24"
+        android:textSize="@dimen/text_36"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topGuideline" />
 
     <TextView
         android:id="@+id/tvRoomID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10"
-        android:hint="I43"
+        android:text="Room ID"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_24"
@@ -56,14 +58,23 @@
             android:id="@+id/cameraView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:scaleType="fillCenter"/>
+            app:scaleType="fillCenter" />
 
         <com.dev.fitface.camerax.GraphicOverlay
             android:id="@+id/graphicOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </com.dev.fitface.ui.RoundFrameLayout>
+
+<!--    <ImageView
+        android:id="@+id/imgCheckIn"
+        android:layout_width="600px"
+        android:layout_height="600px"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>-->
 
 
     <TextView
@@ -71,29 +82,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:text="Action"
         android:textSize="@dimen/text_26"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_30"
+        android:layout_marginTop="@dimen/margin_14"
+        app:layout_constraintTop_toBottomOf="@+id/tvAction"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/btnCheckin"
+        android:id="@+id/btnReport"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@drawable/ic_shutter"
         android:layout_marginTop="@dimen/margin_30"
-        app:layout_constraintTop_toBottomOf="@+id/tvAction"
+        android:background="@drawable/ic_feedback"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/bottomGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
