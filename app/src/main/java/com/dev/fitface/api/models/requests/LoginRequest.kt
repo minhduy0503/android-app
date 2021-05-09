@@ -1,4 +1,4 @@
-package com.dev.fitface.models.requests
+package com.dev.fitface.api.models.requests
 
 import com.google.gson.annotations.SerializedName
 

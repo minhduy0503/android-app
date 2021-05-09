@@ -1,11 +1,11 @@
 package com.dev.fitface.api
 
-import com.dev.fitface.models.requests.FaceRequest
-import com.dev.fitface.models.requests.LoginRequest
-import com.dev.fitface.models.response.CampusResponse
-import com.dev.fitface.models.response.FaceResponse
-import com.dev.fitface.models.response.LoginResponse
-import com.dev.fitface.models.response.RoomResponse
+import com.dev.fitface.api.models.requests.FaceRequest
+import com.dev.fitface.api.models.requests.LoginRequest
+import com.dev.fitface.api.models.response.CampusResponse
+import com.dev.fitface.api.models.response.FaceResponse
+import com.dev.fitface.api.models.response.LoginResponse
+import com.dev.fitface.api.models.response.RoomResponse
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor

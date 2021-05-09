@@ -1,13 +1,13 @@
-package com.dev.fitface.models.response
+package com.dev.fitface.api.models.response
 
-import com.dev.fitface.models.Room
+import com.dev.fitface.api.models.FaceCheck
 import com.google.gson.annotations.SerializedName
 
-data class RoomResponse(
+data class FaceResponse(
         @SerializedName("status")
         var status: Int,
         @SerializedName("message")
         var message: String,
         @SerializedName("data")
-        var data: ArrayList<Room>
+        var data: ArrayList<FaceCheck>
 )

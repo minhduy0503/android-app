@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dev.fitface.R
-import com.dev.fitface.models.Campus
-import com.dev.fitface.models.Room
+import com.dev.fitface.api.models.Campus
+import com.dev.fitface.api.models.Room
 import com.dev.fitface.ui.fragments.BottomSheetFragment
 import com.dev.fitface.ui.fragments.CheckingFragment
 import com.dev.fitface.ui.fragments.HomeFragment

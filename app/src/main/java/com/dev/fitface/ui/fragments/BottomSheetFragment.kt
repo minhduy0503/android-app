@@ -10,8 +10,8 @@ import com.dev.fitface.R
 import com.dev.fitface.adapter.CampusAdapter
 import com.dev.fitface.adapter.RoomAdapter
 import com.dev.fitface.interfaces.CallToAction
-import com.dev.fitface.models.Campus
-import com.dev.fitface.models.Room
+import com.dev.fitface.api.models.Campus
+import com.dev.fitface.api.models.Room
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.view.*

@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
 import com.dev.fitface.interfaces.CallToAction
-import com.dev.fitface.models.Room
+import com.dev.fitface.api.models.Room
 
 class RoomAdapter(private val context: Context, var roomData: ArrayList<Room>?, val actionToParent: CallToAction?): RecyclerView.Adapter<RoomAdapter.RoomHolder>(){
 

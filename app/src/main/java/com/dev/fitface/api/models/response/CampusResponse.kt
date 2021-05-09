@@ -1,6 +1,6 @@
-package com.dev.fitface.models.response
+package com.dev.fitface.api.models.response
 
-import com.dev.fitface.models.Campus
+import com.dev.fitface.api.models.Campus
 import com.google.gson.annotations.SerializedName
 
 

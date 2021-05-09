@@ -1,6 +1,6 @@
-package com.dev.fitface.models.response
+package com.dev.fitface.api.models.response
 
-import com.dev.fitface.models.User
+import com.dev.fitface.api.models.User
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(

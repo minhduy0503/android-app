@@ -1,4 +1,4 @@
-package com.dev.fitface.models
+package com.dev.fitface.api.models
 
 class Student {
     var id: String = ""

@@ -11,10 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dev.fitface.R
 import com.dev.fitface.api.ApiService
-import com.dev.fitface.models.Campus
-import com.dev.fitface.models.Room
-import com.dev.fitface.models.response.CampusResponse
-import com.dev.fitface.models.response.RoomResponse
+import com.dev.fitface.api.models.Campus
+import com.dev.fitface.api.models.Room
+import com.dev.fitface.api.models.response.CampusResponse
+import com.dev.fitface.api.models.response.RoomResponse
 import com.dev.fitface.ui.CustomToast
 import com.dev.fitface.ui.activity.CameraActivity
 import com.dev.fitface.utils.SharedPrefs

@@ -2,8 +2,8 @@ package com.dev.fitface.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.dev.fitface.MyApp
-import com.dev.fitface.MyApp.Companion.self
+import com.dev.fitface.FitFaceApp
+import com.dev.fitface.FitFaceApp.Companion.self
 
 
 class SharedPrefs private constructor() {
@@ -17,7 +17,7 @@ class SharedPrefs private constructor() {
             Float::class.java -> java.lang.Float.valueOf(mSharedPreferences.getFloat(key, 0f)) as T
             Int::class.java -> Integer.valueOf(mSharedPreferences.getInt(key, 0)) as T
             Long::class.java -> java.lang.Long.valueOf(mSharedPreferences.getLong(key, 0)) as T
-            else -> MyApp.self()?.gSon?.fromJson(mSharedPreferences.getString(key, ""), anonymousClass)!!
+            else -> FitFaceApp.self()?.gSon?.fromJson(mSharedPreferences.getString(key, ""), anonymousClass)!!
         }
     }
 
@@ -29,7 +29,7 @@ class SharedPrefs private constructor() {
             Float::class.java -> java.lang.Float.valueOf(mSharedPreferences.getFloat(key, defaultValue as Float)) as T
             Int::class.java -> Integer.valueOf(mSharedPreferences.getInt(key, defaultValue as Int)) as T
             Long::class.java -> java.lang.Long.valueOf(mSharedPreferences.getLong(key, defaultValue as Long)) as T
-            else -> MyApp.self()?.gSon?.fromJson(mSharedPreferences.getString(key, ""), anonymousClass)!!
+            else -> FitFaceApp.self()?.gSon?.fromJson(mSharedPreferences.getString(key, ""), anonymousClass)!!
         }
     }
 
@@ -41,7 +41,7 @@ class SharedPrefs private constructor() {
             is Float -> editor.putFloat(key, data as Float)
             is Int -> editor.putInt(key, data as Int)
             is Long -> editor.putLong(key, data as Long)
-            else -> editor.putString(key, MyApp.self()?.gSon?.toJson(data))
+            else -> editor.putString(key, FitFaceApp.self()?.gSon?.toJson(data))
         }
         editor.apply()
     }
@@ -51,7 +51,8 @@ class SharedPrefs private constructor() {
     }
 
     companion object {
-        private const val PREFS_NAME = "fit_face_shared_pref"
+        private const val PREFS_NAME = "FitFace.SharedPref"
+        private const val KeyToken = "FitFace.LoginToken"
         private var mInstance: SharedPrefs? = null
         val instance: SharedPrefs
             get() {

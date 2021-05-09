@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.fitface.R
 import com.dev.fitface.api.ApiService
-import com.dev.fitface.models.requests.LoginRequest
-import com.dev.fitface.models.response.LoginResponse
+import com.dev.fitface.api.models.requests.LoginRequest
+import com.dev.fitface.api.models.response.LoginResponse
 import com.dev.fitface.ui.CustomProgressDialog
 import com.dev.fitface.ui.CustomToast
 import com.dev.fitface.utils.SharedPrefs

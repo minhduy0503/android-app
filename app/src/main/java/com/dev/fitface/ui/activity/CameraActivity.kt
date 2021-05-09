@@ -1,4 +1,4 @@
-inpackage com.dev.fitface.ui.activity
+package com.dev.fitface.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -23,8 +23,8 @@ import com.dev.fitface.api.ApiService
 import com.dev.fitface.camerax.CameraManager
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.mlkit.*
-import com.dev.fitface.models.requests.FaceRequest
-import com.dev.fitface.models.response.FaceResponse
+import com.dev.fitface.api.models.requests.FaceRequest
+import com.dev.fitface.api.models.response.FaceResponse
 import com.dev.fitface.ui.CustomToast
 import com.dev.fitface.utils.*
 import kotlinx.android.synthetic.main.activity_camera.*
