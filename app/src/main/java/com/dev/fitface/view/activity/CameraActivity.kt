@@ -1,4 +1,4 @@
-package com.dev.fitface.ui.activity
+package com.dev.fitface.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,8 +7,6 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.view.OrientationEventListener
@@ -25,12 +23,9 @@ import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.mlkit.*
 import com.dev.fitface.api.models.requests.FaceRequest
 import com.dev.fitface.api.models.response.FaceResponse
-import com.dev.fitface.ui.CustomToast
+import com.dev.fitface.view.CustomToast
 import com.dev.fitface.utils.*
 import kotlinx.android.synthetic.main.activity_camera.*
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.create
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.dev.fitface.api
+package com.dev.fitface.api.api_utils
 
 import okhttp3.Headers
 import okhttp3.Request

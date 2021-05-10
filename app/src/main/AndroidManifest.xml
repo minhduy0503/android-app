@@ -17,15 +17,15 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.CameraActivity">
+        <activity android:name=".view.activity.CameraActivity">
         </activity>
-        <activity android:name=".ui.activity.LoginActivity">
+        <activity android:name=".view.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".view.activity.MainActivity">
         </activity>
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"

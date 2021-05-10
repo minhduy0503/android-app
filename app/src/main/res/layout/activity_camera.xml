@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.activity.CameraActivity">
+    tools:context=".view.activity.CameraActivity">
 
     <ImageView
         android:id="@+id/img_lock"
@@ -45,7 +45,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCoursesName" />
 
-    <com.dev.fitface.ui.RoundFrameLayout
+    <com.dev.fitface.view.RoundFrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,7 +64,7 @@
             android:id="@+id/graphicOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.dev.fitface.ui.RoundFrameLayout>
+    </com.dev.fitface.view.RoundFrameLayout>
 
 <!--    <ImageView
         android:id="@+id/imgCheckIn"

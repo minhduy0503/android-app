@@ -1,13 +1,12 @@
 package com.dev.fitface.viewmodel
 
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.dev.fitface.BuildConfig
-import com.dev.fitface.api.ApiStatus
-import com.dev.fitface.api.AppExecutor
-import com.dev.fitface.api.Resource
+import com.dev.fitface.api.api_utils.ApiStatus
+import com.dev.fitface.api.api_utils.AppExecutor
+import com.dev.fitface.api.api_utils.Resource
 
 /**
  * Created by Dang Minh Duy on 09,May,2021

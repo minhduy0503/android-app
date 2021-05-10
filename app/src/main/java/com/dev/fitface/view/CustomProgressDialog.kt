@@ -1,4 +1,4 @@
-package com.dev.fitface.ui
+package com.dev.fitface.view
 
 import android.app.Activity
 import android.app.Dialog

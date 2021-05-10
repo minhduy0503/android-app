@@ -1,27 +1,74 @@
-package com.dev.fitface.ui.activity
+package com.dev.fitface.view.activity
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
-import com.dev.fitface.api.ApiService
-import com.dev.fitface.api.models.requests.LoginRequest
-import com.dev.fitface.api.models.response.LoginResponse
-import com.dev.fitface.ui.CustomProgressDialog
-import com.dev.fitface.ui.CustomToast
-import com.dev.fitface.utils.SharedPrefs
+import com.dev.fitface.api.models.auth.LoginInput
+import com.dev.fitface.view.BaseActivity
+import com.dev.fitface.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.activity_login.view.*
+
+
+class LoginActivity : BaseActivity<LoginActivityViewModel>(){
+
+    override fun onActivityCreated() {
+        super.onActivityCreated()
+        initListener()
+    }
+
+    private fun initListener() {
+        btn_login.setOnClickListener {
+            callApi()
+        }
+    }
+
+    private fun callApi() {
+        viewModel.postLogin(LoginInput("admin","Minhduy0503#"))
+    }
+
+
+    override fun createViewModel(): LoginActivityViewModel {
+        val a = ViewModelProvider(this).get(LoginActivityViewModel::class.java)
+        Log.i("Debug","$a")
+        return a
+    }
+
+    override fun fetchData() {
+
+    }
+
+    override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
+
+    }
+
+    override fun observeData() {
+        viewModel.responseLogin.observe(this, Observer {
+            it.resource?.data.let {
+                Log.i("Debug", "OK")
+            }
+        })
+    }
+
+    override fun setLoadingView(): View? {
+        return null
+    }
+
+    override fun setActivityView() {
+        setContentView(R.layout.activity_login)
+    }
+
+    override fun setActivityName(): String {
+        return "ABC"
+    }
+
+}
+
+
+/*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -152,9 +199,11 @@ class LoginActivity : AppCompatActivity() {
                         // Save token:
                         val token = body.data?.token
                         SharedPrefs.instance.put("Token", token)
-                        /**
+                        */
+/**
                          * Get more information here:
-                         * */
+                         * *//*
+
                         //Go to home screen:
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
@@ -171,3 +220,4 @@ class LoginActivity : AppCompatActivity() {
     }
 
 }
+*/

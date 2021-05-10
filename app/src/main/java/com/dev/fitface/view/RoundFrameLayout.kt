@@ -1,4 +1,4 @@
-package com.dev.fitface.ui
+package com.dev.fitface.view
 
 import android.content.Context
 import android.graphics.Canvas

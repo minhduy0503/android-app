@@ -1,7 +1,8 @@
 package com.dev.fitface
 
 import android.app.Application
-import com.dev.fitface.api.AppExecutor
+import androidx.appcompat.app.AppCompatActivity
+import com.dev.fitface.api.api_utils.AppExecutor
 import com.google.gson.Gson
 
 class FitFaceApp : Application() {

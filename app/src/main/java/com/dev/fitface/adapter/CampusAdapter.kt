@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
 import com.dev.fitface.interfaces.CallToAction
-import com.dev.fitface.api.models.Campus
+import com.dev.fitface.api.models.`object`.Campus
 
 
 class CampusAdapter(private val context: Context, var campusData: ArrayList<Campus>?, val actionToParent: CallToAction?): RecyclerView.Adapter<CampusAdapter.CampusHolder>(){

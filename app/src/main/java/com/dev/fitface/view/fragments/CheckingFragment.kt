@@ -1,4 +1,4 @@
-package com.dev.fitface.ui.fragments
+package com.dev.fitface.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dev.fitface.R
 import com.dev.fitface.api.ApiService
-import com.dev.fitface.api.models.Campus
-import com.dev.fitface.api.models.Room
+import com.dev.fitface.api.models.`object`.Campus
+import com.dev.fitface.api.models.`object`.Room
 import com.dev.fitface.api.models.response.CampusResponse
 import com.dev.fitface.api.models.response.RoomResponse
-import com.dev.fitface.ui.CustomToast
-import com.dev.fitface.ui.activity.CameraActivity
+import com.dev.fitface.view.CustomToast
+import com.dev.fitface.view.activity.CameraActivity
 import com.dev.fitface.utils.SharedPrefs
 import retrofit2.Call
 import retrofit2.Callback

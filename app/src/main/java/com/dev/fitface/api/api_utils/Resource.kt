@@ -1,4 +1,4 @@
-package com.dev.fitface.api
+package com.dev.fitface.api.api_utils
 
 import android.os.Bundle
 import okhttp3.Headers

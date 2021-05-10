@@ -1,4 +1,4 @@
-package com.dev.fitface.api
+package com.dev.fitface.api.api_utils
 
 /**
  * Created by Dang Minh Duy on 09,May,2021

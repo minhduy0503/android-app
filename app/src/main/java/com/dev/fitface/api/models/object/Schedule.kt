@@ -1,4 +1,4 @@
-package com.dev.fitface.api.models
+package com.dev.fitface.api.models.`object`
 
 class Schedule {
     var id: Int = 0

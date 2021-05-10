@@ -1,4 +1,4 @@
-package com.dev.fitface.api.models
+package com.dev.fitface.api.models.`object`
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
