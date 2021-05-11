@@ -10,7 +10,7 @@ class SharedPrefs private constructor() {
     private val mSharedPreferences: SharedPreferences = self()!!.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <T> get(key: String, anonymousClass: Class<T>): T {
+    operator fun <T> get(key: String, anonymousClass: Class<T>): T? {
         return when (anonymousClass) {
             String::class.java -> mSharedPreferences.getString(key, "") as T
             Boolean::class.java -> java.lang.Boolean.valueOf(mSharedPreferences.getBoolean(key, false)) as T

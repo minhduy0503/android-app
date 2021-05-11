@@ -27,8 +27,10 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
             .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
             .build()
 
-    private val widthScreen = SharedPrefs.instance["widthScreen", Int::class.java]
-    private val heightScreen = SharedPrefs.instance["heightScreen", Int::class.java]
+    /*    private val widthScreen = SharedPrefs.instance["widthScreen", Int::class.java]
+        private val heightScreen = SharedPrefs.instance["heightScreen", Int::class.java]*/
+    private val widthScreen = 800
+    private val heightScreen = 1280
     private val centerX = widthScreen / 2
     private val centerY = heightScreen / 2
 
@@ -84,7 +86,7 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
             val faceGraphic = FaceContourGraphic(graphicOverlay, face, image.cropRect)
             graphicOverlay.add(faceGraphic)
 
-            if (results.size > 1){
+            if (results.size > 1) {
                 callback?.onNumberOfFace()
                 return@forEach
             }

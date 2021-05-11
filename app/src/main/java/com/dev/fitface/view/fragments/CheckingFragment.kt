@@ -40,7 +40,7 @@ class CheckingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind(view)
-        getCampusData()
+//        getCampusData()
         initListener()
     }
 
@@ -103,7 +103,7 @@ class CheckingFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_checkin, container, false)
     }
-
+/*
     private fun getCampusData() {
         val token = SharedPrefs.instance["Token", String::class.java]
         service.getCampus(token)?.enqueue(object : Callback<CampusResponse?> {
@@ -131,8 +131,9 @@ class CheckingFragment : Fragment() {
             }
 
         })
-    }
+    }*/
 
+/*
     fun getRoomData(campusId: String) {
         savedCampusId = campusId
         val token = SharedPrefs.instance["Token", String::class.java]
@@ -162,6 +163,7 @@ class CheckingFragment : Fragment() {
 
         })
     }
+*/
 
     fun onCampusTextViewChange(campus: String?) {
         tvCampus?.text = campus

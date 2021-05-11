@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFrag
         val data: Campus? = bundle?.getParcelable("selectedCampus")
         val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
         fragment.onCampusTextViewChange(data?.name)
-        fragment.getRoomData(data?.id!!)
+//        fragment.getRoomData(data?.id!!)
     }
 
     override fun onOptionRoomDialogFragmentInteraction(bundle: Bundle?) {

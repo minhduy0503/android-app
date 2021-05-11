@@ -55,17 +55,17 @@ class CameraActivity : AppCompatActivity() {
     private fun initValue() {
         roomId = intent.getStringExtra("room_checkin")
         tvRoomID.text = roomId
-        token = SharedPrefs.instance["Token", String::class.java]
+//        token = SharedPrefs.instance["Token", String::class.java]
         base64List = arrayListOf()
     }
 
     init {
         mCallback = object : CameraCallback {
             override fun onFaceCapture(rect: Rect) {
-                tvAction.text = "Đã điểm danh"
+                tvAction.text = "Đã điểm danh"/*
                 captureFace(rect)
                 checkin(base64List!!, "CNTT3", roomId!!)
-
+*/
 /*                cameraManager.stopCamera()
                 Handler(Looper.getMainLooper()).postDelayed({
                     //Do something after 5000ms
@@ -148,7 +148,8 @@ class CameraActivity : AppCompatActivity() {
                 cameraView,
                 this,
                 graphicOverlay,
-                mCallback
+                mCallback,
+                Constants.CameraMode.manual
         )
     }
 

@@ -28,7 +28,7 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL_API", "\"http://c9eb49a74ca5.ngrok.io\""
+            buildConfigField "String", "BASE_URL_API", "\"https://23799f7290c6.ngrok.io\""
         }
 
         release {
@@ -92,5 +92,8 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 
 }

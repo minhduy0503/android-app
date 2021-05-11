@@ -1,7 +1,16 @@
 package com.dev.fitface.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.dev.fitface.BuildConfig
+import com.dev.fitface.R
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,6 +36,22 @@ class AppUtils {
                 interceptor.level = HttpLoggingInterceptor.Level.NONE
             }
             return interceptor
+        }
+
+        fun <T> startActivityWithResultCode(beginActivity: AppCompatActivity,
+                                            finishActivity: Class<T>, resultCode: Int?, bundle: Bundle?) {
+            val intentAcitivity = Intent(beginActivity, finishActivity)
+            bundle?.let {
+                intentAcitivity.putExtras(it)
+            }
+            beginActivity.startActivityForResult(intentAcitivity, resultCode?: 0)
+            beginActivity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }
+
+        fun hideSoftKeyboard(view: View) {
+            val inputMethodManager: InputMethodManager = view.context
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }

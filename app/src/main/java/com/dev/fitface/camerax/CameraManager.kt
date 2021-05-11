@@ -1,10 +1,13 @@
 package com.dev.fitface.camerax
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.view.ScaleGestureDetector
+import android.view.Surface
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -13,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.interfaces.FaceResultCallback
 import com.dev.fitface.mlkit.FaceDetectorProcessor
+import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.EyeStatus
 import com.dev.fitface.utils.FaceSize
 import com.dev.fitface.utils.SharedPrefs
@@ -24,7 +28,8 @@ class CameraManager(
         private val finderView: PreviewView,
         private val lifecycleOwner: LifecycleOwner,
         private val graphicOverlay: GraphicOverlay,
-        private val mActivityResultCallback: CameraCallback?
+        private val mActivityResultCallback: CameraCallback?,
+        private val type: Int
 ) {
 
     companion object {
@@ -43,11 +48,28 @@ class CameraManager(
 
 
     var rotation: Float = 0f
-    var cameraSelectorOption = CameraSelector.LENS_FACING_FRONT
+    private var cameraSelectorOption = if (type == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
 
 
     init {
         createNewExecutor()
+        when(type){
+            Constants.CameraMode.automatic -> {
+                initFrontCamera()
+            }
+            Constants.CameraMode.manual -> {
+                initBackCamera()
+            }
+        }
+
+
+    }
+
+    private fun initBackCamera() {
+
+    }
+
+    private fun initFrontCamera() {
         mCallback = object : FaceResultCallback {
             override fun onFaceSize(size: FaceSize) {
                 mActivityResultCallback?.onFaceSizeNotify(size)
@@ -84,18 +106,6 @@ class CameraManager(
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    /**
-     * Select checking and camera selection
-     * */
-/*    private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return when (analyzerVisionType) {
-            VisionType.Object -> ObjectDetectionProcessor(graphicOverlay)
-            VisionType.OCR -> TextRecognitionProcessor(graphicOverlay)
-            VisionType.Face -> FaceContourDetectionProcessor(graphicOverlay)
-            VisionType.Barcode -> BarcodeScannerProcessor(graphicOverlay)
-        }
-    }*/
-
     private fun setCameraConfig(
             cameraProvider: ProcessCameraProvider?,
             cameraSelector: CameraSelector
@@ -117,13 +127,15 @@ class CameraManager(
         }
     }
 
-/*    private fun setUpPinchToZoom() {
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setUpPinchToZoom() {
         val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
             override fun onScale(detector: ScaleGestureDetector): Boolean {
                 val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
                 val delta = detector.scaleFactor
                 camera?.cameraControl?.setZoomRatio(currentZoomRatio * delta)
-                return true
+                return true//        fragment.getRoomData(data?.id!!)
+
             }
         }
         val scaleGestureDetector = ScaleGestureDetector(context, listener)
@@ -133,7 +145,7 @@ class CameraManager(
             }
             return@setOnTouchListener true
         }
-    }*/
+    }
 
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
@@ -159,23 +171,19 @@ class CameraManager(
                             ImageCapture.Builder()
                                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                                     .build()
+
+                    if (Constants.CameraMode.manual == 0){
+                        setUpPinchToZoom()
+                    }
                     setCameraConfig(cameraProvider, cameraSelector)
 
+                         /* Do something better than
                     SharedPrefs.instance.put("widthScreen", metrics.widthPixels)
-                    SharedPrefs.instance.put("heightScreen", metrics.heightPixels)
+                    SharedPrefs.instance.put("heightScreen", metrics.heightPixels)*/
 
                 }, ContextCompat.getMainExecutor(context)
         )
     }
-
-    /* fun changeCameraSelector() {
-         cameraProvider?.unbindAll()
-         cameraSelectorOption =
-                 if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
-                 else CameraSelector.LENS_FACING_BACK
-         graphicOverlay.toggleSelector()
-         startCamera()
-     }*/
 
     fun stopCamera(){
         cameraProvider?.unbindAll()
