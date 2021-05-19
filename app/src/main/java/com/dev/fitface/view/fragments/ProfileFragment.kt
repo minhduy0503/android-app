@@ -17,7 +17,10 @@ class ProfileFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(): ProfileFragment = ProfileFragment()
-        const val Tag: String = "profile_frag"
+        fun newInstance(bundle: Bundle): ProfileFragment {
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

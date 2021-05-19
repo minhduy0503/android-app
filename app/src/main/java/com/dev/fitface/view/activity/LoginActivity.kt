@@ -5,17 +5,16 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
 import com.dev.fitface.api.models.auth.LoginInput
 import com.dev.fitface.utils.AppUtils
 import com.dev.fitface.utils.Constants
+import com.dev.fitface.utils.SharedPrefs
 import com.dev.fitface.view.BaseActivity
-import com.dev.fitface.view.CustomToast
+import com.dev.fitface.view.fragments.CheckInResultFragment
 import com.dev.fitface.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -38,8 +37,8 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
         return findViewById(R.id.layoutLoadingLogin)
     }
 
-    override fun onActivityCreated() {
-        super.onActivityCreated()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         initListener()
     }
 
@@ -96,7 +95,7 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
     }
 
     override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
-        Log.i("Debug","---- $statusCode ---- $message")
+
     }
 
     override fun observeData() {
@@ -105,7 +104,9 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
 
     private fun observeLogin() {
         viewModel.responseLogin.observe(this, Observer {
-            it.resource?.data.let {
+            it.resource?.data.let { user ->
+                SharedPrefs.instance.put("Token", user?.token)
+                AppUtils.startActivityWithNameAndClearTask(this, MainActivity::class.java)
             }
         })
     }

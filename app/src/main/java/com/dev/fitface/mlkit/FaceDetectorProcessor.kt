@@ -10,7 +10,6 @@ import com.dev.fitface.camerax.GraphicOverlay
 import com.dev.fitface.interfaces.FaceResultCallback
 import com.dev.fitface.utils.EyeStatus
 import com.dev.fitface.utils.FaceSize
-import com.dev.fitface.utils.SharedPrefs
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face

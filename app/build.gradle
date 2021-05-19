@@ -28,7 +28,7 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL_API", "\"https://23799f7290c6.ngrok.io\""
+            buildConfigField "String", "BASE_URL_API", "\"https://de4ebb951128.ngrok.io\""
         }
 
         release {
@@ -83,7 +83,6 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha14"
 
     //Live data
-
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-service:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'

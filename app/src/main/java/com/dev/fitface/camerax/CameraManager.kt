@@ -7,7 +7,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
 import android.view.ScaleGestureDetector
-import android.view.Surface
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -19,7 +18,6 @@ import com.dev.fitface.mlkit.FaceDetectorProcessor
 import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.EyeStatus
 import com.dev.fitface.utils.FaceSize
-import com.dev.fitface.utils.SharedPrefs
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

@@ -10,8 +10,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
+import com.dev.fitface.api.models.campus.Campus
 import com.dev.fitface.interfaces.CallToAction
-import com.dev.fitface.api.models.`object`.Campus
+import com.dev.fitface.utils.Constants
 
 
 class CampusAdapter(private val context: Context, var campusData: ArrayList<Campus>?, val actionToParent: CallToAction?): RecyclerView.Adapter<CampusAdapter.CampusHolder>(){
@@ -19,22 +20,15 @@ class CampusAdapter(private val context: Context, var campusData: ArrayList<Camp
     inner class CampusHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val ctrRootView: ConstraintLayout?
         private val tvOption: TextView?
-        private val imgIsChosen: ImageView?
 
         init {
             ctrRootView = itemView.findViewById(R.id.ctrRootView) as ConstraintLayout
             tvOption = itemView.findViewById(R.id.tvOption) as TextView
-            imgIsChosen = itemView.findViewById(R.id.imgOptionCheck) as ImageView
             ctrRootView.setOnClickListener(this)
         }
 
         fun bind(item: Campus?){
             item?.let { campus ->
-                if(campus.isSelected == 1){
-                    imgIsChosen?.visibility = View.VISIBLE
-                } else {
-                    imgIsChosen?.visibility = View.INVISIBLE
-                }
                 campus.name?.let {
                     tvOption?.text = it
                 }
@@ -49,8 +43,8 @@ class CampusAdapter(private val context: Context, var campusData: ArrayList<Camp
             campusData?.get(position)?.isSelected = 1
             notifyDataSetChanged()
             val bundle = Bundle()
-            bundle.putString("type","Campus")
-            bundle.putParcelable("selectedCampus", campusData?.get(position))
+            bundle.putString(Constants.Param.dataType,Constants.Obj.campus)
+            bundle.putParcelable(Constants.Param.dataSelected, campusData?.get(position))
             actionToParent?.action(bundle)
         }
     }

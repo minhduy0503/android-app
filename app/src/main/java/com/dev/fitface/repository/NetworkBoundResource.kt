@@ -40,6 +40,11 @@ abstract class NetworkBoundResource<Result>
                     appExecutor.diskIO().execute {
                         saveCallResult(processData)
                     }
+                    if(processData is BaseResponse){
+                        if (processData.status == 200){
+                            setValue(Resource.success(processData,response.headers))
+                        }
+                    }
                 }
 
                 is ApiEmptyResponse -> {

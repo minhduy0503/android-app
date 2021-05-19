@@ -1,7 +1,8 @@
 package com.dev.fitface.api.models.auth
 
+import android.os.Parcelable
 import com.dev.fitface.api.models.BaseResponse
-import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Dang Minh Duy on 09,May,2021
@@ -10,6 +11,7 @@ class LoginResponse : BaseResponse() {
     var data: User? = null
 }
 
+@Parcelize
 data class User(
         var id: Int?,
         var username: String?,
@@ -19,4 +21,4 @@ data class User(
         var shortname: String?,
         var token: String?,
         var role: String?,
-)
+):Parcelable

@@ -17,21 +17,16 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.SplashActivity">
+        <activity android:name=".view.activity.ManualCheckInActivity"></activity>
+        <activity android:name=".view.activity.SplashActivity"></activity>
+        <activity android:name=".view.activity.AutoCheckInActivity"></activity>
+        <activity android:name=".view.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.CameraActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".view.activity.LoginActivity"></activity>
         <activity android:name=".view.activity.MainActivity"></activity>
 
         <meta-data

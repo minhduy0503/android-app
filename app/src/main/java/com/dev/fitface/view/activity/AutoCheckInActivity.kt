@@ -1,77 +1,101 @@
 package com.dev.fitface.view.activity
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.graphics.*
-import android.media.Image
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
-import android.view.OrientationEventListener
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageProxy
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import android.provider.SyncStateContract
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
-import com.dev.fitface.api.ApiService
 import com.dev.fitface.camerax.CameraManager
 import com.dev.fitface.interfaces.CameraCallback
-import com.dev.fitface.mlkit.*
-import com.dev.fitface.api.models.requests.FaceRequest
-import com.dev.fitface.api.models.response.FaceResponse
-import com.dev.fitface.view.CustomToast
-import com.dev.fitface.utils.*
-import kotlinx.android.synthetic.main.activity_camera.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import java.util.*
-import kotlin.collections.ArrayList
+import com.dev.fitface.utils.Constants
+import com.dev.fitface.view.BaseActivity
+import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
+import kotlinx.android.synthetic.main.activity_auto_check_in.*
 
 
-class CameraActivity : AppCompatActivity() {
+class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>() {
 
     private lateinit var cameraManager: CameraManager
-    private lateinit var service: ApiService
     private var mCallback: CameraCallback? = null
-    private var base64List: ArrayList<String>? = null
-    private var roomId: String? = null
-    private var token: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
-        initValue()
-        initService()
-        createCameraManager()
-        askPermission()
+
+    override fun setLoadingView(): View? {
+        return null
     }
 
-    private fun initValue() {
-        roomId = intent.getStringExtra("room_checkin")
-        tvRoomID.text = roomId
-//        token = SharedPrefs.instance["Token", String::class.java]
-        base64List = arrayListOf()
+    override fun setActivityView() {
+        setContentView(R.layout.activity_auto_check_in)
     }
 
-    init {
-        mCallback = object : CameraCallback {
-            override fun onFaceCapture(rect: Rect) {
-                tvAction.text = "Đã điểm danh"/*
+    override fun setActivityName(): String {
+        return Constants.ActivityName.autoCheckInActivity
+    }
+
+    override fun createViewModel(): AutoCheckInActivityViewModel {
+        return ViewModelProvider(this).get(AutoCheckInActivityViewModel::class.java)
+    }
+
+    override fun fetchData() {
+        //Fetch data
+    }
+
+    override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
+
+    }
+
+    override fun observeData() {
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initView()
+        initListener()
+    }
+
+    private fun initView() {
+        tvRoomID.text = intent.getStringExtra(Constants.Param.roomId)
+    }
+
+    private fun initListener() {
+    }
+
+
+    /* private lateinit var cameraManager: CameraManager
+     private var mCallback: CameraCallback? = null
+     private var base64List: ArrayList<String>? = null
+     private var roomId: String? = null
+     private var token: String? = null
+
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         setContentView(R.layout.activity_camera)
+         initValue()
+         initService()
+         createCameraManager()
+         askPermission()
+     }
+
+     private fun initValue() {
+         roomId = intent.getStringExtra("room_checkin")
+         tvRoomID.text = roomId
+ //        token = SharedPrefs.instance["Token", String::class.java]
+         base64List = arrayListOf()
+     }
+
+     init {
+         mCallback = object : CameraCallback {
+             override fun onFaceCapture(rect: Rect) {
+                 tvAction.text = "Đã điểm danh"*//*
                 captureFace(rect)
                 checkin(base64List!!, "CNTT3", roomId!!)
-*/
-/*                cameraManager.stopCamera()
+*//*
+*//*                cameraManager.stopCamera()
                 Handler(Looper.getMainLooper()).postDelayed({
                     //Do something after 5000ms
                     cameraManager.startCamera()
-                }, 2000)*/
-                /*  imgCheckIn.setImageBitmap(a.base64ToImage(a))
+                }, 2000)*//*
+                *//*  imgCheckIn.setImageBitmap(a.base64ToImage(a))
                   imgCheckIn.visibility = View.VISIBLE
 
                   Handler(Looper.getMainLooper()).postDelayed({
@@ -79,7 +103,7 @@ class CameraActivity : AppCompatActivity() {
                       imgCheckIn.visibility = View.INVISIBLE
                       cameraManager.startCamera()
                       a = ""
-                  }, 5000)*/
+                  }, 5000)*//*
             }
 
             override fun onFaceSizeNotify(size: FaceSize) {
@@ -122,7 +146,6 @@ class CameraActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
     }
 
@@ -139,7 +162,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun initService() {
-        service = ApiService.create()
+//        service = ApiService.create()
     }
 
     private fun createCameraManager() {
@@ -202,17 +225,17 @@ class CameraActivity : AppCompatActivity() {
                     base64List?.clear()
                     base64List?.add(resultStr)
 
-/*
+*//*
                     runOnUiThread {
                         base64List?.add(resultStr)
                         Log.i("Debug","${base64List?.size}")
                         checkin(base64List!!, "CNTT3", roomId!!)
-                    }*/
+                    }*//*
                 }
 
     }
 
-    private fun checkin(base64Str: ArrayList<String>, collection: String, roomId: String) {
+  *//*  private fun checkin(base64Str: ArrayList<String>, collection: String, roomId: String) {
         // Test
         Log.i("Debug", "${base64Str.size}  -call")
         val faceReq = FaceRequest(base64Str, collection)
@@ -246,7 +269,7 @@ class CameraActivity : AppCompatActivity() {
 
         })
     }
-
+*//*
 
     private fun setOrientationEvent() {
         val orientationEventListener = object : OrientationEventListener(this as Context) {
@@ -284,11 +307,10 @@ class CameraActivity : AppCompatActivity() {
 
 
     companion object {
-        private const val TAG = "CameraActivity"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(
                 Manifest.permission.CAMERA
         )
-    }
+    }*/
 
 }

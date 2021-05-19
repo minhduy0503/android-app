@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * Created by Dang Minh Duy on 10,May,2021
  */
-abstract class BaseApplication: AppCompatActivity() {
-    companion object{
+abstract class BaseApplication : AppCompatActivity() {
+    companion object {
         const val isProduction = false
         const val PERMISSION_REQUIRED = 0
         const val PERMISSION_NORMAL = 1
@@ -17,7 +17,7 @@ abstract class BaseApplication: AppCompatActivity() {
 
     abstract fun setActivityView()
     abstract fun setActivityName(): String
-    abstract fun onActivityCreated()
+    abstract fun onActivityCreated(savedInstanceState: Bundle?)
 
     protected var activityName = ""
     private var activityIsActive = false
@@ -28,7 +28,7 @@ abstract class BaseApplication: AppCompatActivity() {
 
         activityName = setActivityName()
         setActivityView()
-        onActivityCreated()
+        onActivityCreated(savedInstanceState)
     }
 
 }

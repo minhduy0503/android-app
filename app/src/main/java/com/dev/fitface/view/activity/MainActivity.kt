@@ -1,83 +1,168 @@
 package com.dev.fitface.view.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
-import com.dev.fitface.api.models.`object`.Campus
-import com.dev.fitface.api.models.`object`.Room
-import com.dev.fitface.view.fragments.BottomSheetFragment
+import com.dev.fitface.data.CheckInTypeData
+import com.dev.fitface.utils.AppUtils
+import com.dev.fitface.utils.Constants
+import com.dev.fitface.utils.SharedPrefs
+import com.dev.fitface.view.BaseActivity
+import com.dev.fitface.view.fragments.BottomSheetSelectionFragment
 import com.dev.fitface.view.fragments.CheckingFragment
 import com.dev.fitface.view.fragments.HomeFragment
 import com.dev.fitface.view.fragments.ProfileFragment
+import com.dev.fitface.viewmodel.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_loading.view.*
 
 
-class MainActivity : AppCompatActivity(), BottomSheetFragment.OnOptionDialogFragmentInteractionListener{
+class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnSelectionInteractionListener,
+        BottomSheetSelectionFragment.OnOptionBottomSheetInteractionListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var homeFragment: HomeFragment? = null
+    private var checkingFragment: CheckingFragment? = null
+    private var profileFragment: ProfileFragment? = null
+
+    private var typeCheckInData: List<CheckInTypeData>? = null
+
+    override fun setLoadingView(): View? {
+        return findViewById(R.id.layoutLoadingLogin)
+    }
+
+    override fun setActivityView() {
         setContentView(R.layout.activity_main)
+    }
+
+    override fun setActivityName(): String {
+        return Constants.ActivityName.mainActivity
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         setDefaultFragment(savedInstanceState)
+        initListener()
+        initData()
+    }
+
+    private fun initData() {
+        typeCheckInData = CheckInTypeData.getAllType()
+    }
+
+
+    private fun initListener() {
         nav_bar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
-
-    private fun setDefaultFragment(savedInstanceState: Bundle?){
-        if(savedInstanceState == null){
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_frame, HomeFragment.newInstance())
-                    .commit()
-        }
-    }
-
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{ item ->
-        when (item.itemId){
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
             R.id.navigation_home -> {
-                val homeFragment = HomeFragment.newInstance()
-                openFragment(homeFragment)
+                val bundle = Bundle()
+                homeFragment = HomeFragment.newInstance(bundle)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, homeFragment!!, Constants.FragmentName.homeFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_check_in -> {
-
-                val checkingFragment = CheckingFragment.newInstance()
-                openFragment(checkingFragment)
+                val bundle = Bundle()
+                checkingFragment = CheckingFragment.newInstance(bundle)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, checkingFragment!!, Constants.FragmentName.checkInFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
-                val profileFragment = ProfileFragment.newInstance()
-                openFragment(profileFragment)
+                val bundle = Bundle()
+                profileFragment = ProfileFragment.newInstance(bundle)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, profileFragment!!, Constants.FragmentName.profileFragment)
+
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
 
-    private fun openFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction
-                .replace(R.id.main_frame, fragment)
-                .commit()
+    override fun createViewModel(): MainActivityViewModel {
+        return ViewModelProvider(this).get(MainActivityViewModel::class.java)
+    }
+
+    override fun fetchData() {
+
+    }
+
+
+    override fun observeData() {
+        observerCampus()
+        observerRoom()
+    }
+
+    private fun observerRoom() {
+        viewModel.responseRoom.observe(this, Observer {
+            it?.resource?.data.let {
+                viewModel.roomByCampus.postValue(it)
+            }
+        })
+    }
+
+    private fun observerCampus() {
+        viewModel.responseCampus.observe(this, Observer {
+            it?.resource?.data.let {
+                viewModel.campus.postValue(it)
+            }
+        })
+    }
+
+    override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
+
+    }
+
+    private fun setDefaultFragment(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.main_frame, HomeFragment.newInstance(savedInstanceState))
+                    .commit()
+        }
+    }
+
+    override fun onSelection(type: String, id: String?) {
+        when (type) {
+            Constants.Obj.typeCheckIn -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.typeCheckIn)
+                bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(typeCheckInData))
+                val bottomSheetFrag = BottomSheetSelectionFragment.newInstance(bundle)
+                bottomSheetFrag.show(supportFragmentManager, Constants.FragmentName.bottomSheetFragment)
+            }
+            Constants.Obj.campus -> {
+                callApiGetCampus()
+            }
+            Constants.Obj.room -> {
+                if (id != null) {
+                    callApiGetRoom(id)
+                }
+            }
+        }
+    }
+
+    private fun callApiGetCampus() {
+        val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
+        viewModel.getCampus(token)
+    }
+
+    private fun callApiGetRoom(campusId: String) {
+        val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
+        viewModel.getRoom(token, campusId)
     }
 
     override fun onBackPressed() {
-        // Disable back press behaviour
+
     }
 
-    override fun onOptionCampusDialogFragmentInteraction(bundle: Bundle?) {
-        val data: Campus? = bundle?.getParcelable("selectedCampus")
-        val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
-        fragment.onCampusTextViewChange(data?.name)
-//        fragment.getRoomData(data?.id!!)
+    override fun onSelectedInteraction(bundle: Bundle?) {
+        checkingFragment?.updateUI(bundle)
     }
 
-    override fun onOptionRoomDialogFragmentInteraction(bundle: Bundle?) {
-        val data: Room? = bundle?.getParcelable("selectedRoom")
-        val fragment = supportFragmentManager.findFragmentById(R.id.main_frame) as CheckingFragment
-        fragment.onRoomTextViewChange(data?.name)
-        fragment.arguments = bundle
-    }
+
 
 }

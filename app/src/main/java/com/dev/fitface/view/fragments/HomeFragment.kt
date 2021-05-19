@@ -19,7 +19,10 @@ class HomeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(): HomeFragment = HomeFragment()
-        const val Tag: String = "home_frag"
+        fun newInstance(bundle: Bundle?): HomeFragment {
+            val fragment = HomeFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

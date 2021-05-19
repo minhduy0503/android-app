@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".view.activity.CameraActivity">
+    tools:context=".view.activity.AutoCheckInActivity">
 
     <ImageView
         android:id="@+id/img_lock"
@@ -68,17 +68,6 @@
 
     </com.dev.fitface.view.RoundFrameLayout>
 
-<!--    <ImageView
-        android:id="@+id/imgCheckIn"
-        android:layout_width="600px"
-        android:layout_height="600px"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>-->
-
-
     <TextView
         android:id="@+id/tvAction"
         android:layout_width="wrap_content"
@@ -99,16 +88,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAction"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/btnReport"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="@dimen/margin_30"
-        android:background="@drawable/ic_feedback"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
 
     <androidx.constraintlayout.widget.Guideline

@@ -10,30 +10,24 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
+import com.dev.fitface.api.models.room.Room
 import com.dev.fitface.interfaces.CallToAction
-import com.dev.fitface.api.models.`object`.Room
+import com.dev.fitface.utils.Constants
 
 class RoomAdapter(private val context: Context, var roomData: ArrayList<Room>?, val actionToParent: CallToAction?): RecyclerView.Adapter<RoomAdapter.RoomHolder>(){
 
     inner class RoomHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val ctrRootView: ConstraintLayout?
         private val tvOption: TextView?
-        private val imgIsChosen: ImageView?
 
         init {
             ctrRootView = itemView.findViewById(R.id.ctrRootView) as ConstraintLayout
             tvOption = itemView.findViewById(R.id.tvOption) as TextView
-            imgIsChosen = itemView.findViewById(R.id.imgOptionCheck) as ImageView
             ctrRootView.setOnClickListener(this)
         }
 
         fun bind(item: Room?){
             item?.let { room ->
-                if(room.isSelected == 1){
-                    imgIsChosen?.visibility = View.VISIBLE
-                } else {
-                    imgIsChosen?.visibility = View.INVISIBLE
-                }
                 room.name?.let {
                     tvOption?.text = it
                 }
@@ -48,8 +42,8 @@ class RoomAdapter(private val context: Context, var roomData: ArrayList<Room>?, 
             roomData?.get(position)?.isSelected = 1
             notifyDataSetChanged()
             val bundle = Bundle()
-            bundle.putString("type","Room")
-            bundle.putParcelable("selectedRoom", roomData?.get(position))
+            bundle.putString(Constants.Param.dataType, Constants.Obj.room)
+            bundle.putParcelable(Constants.Param.dataSelected, roomData?.get(position))
             actionToParent?.action(bundle)
         }
     }

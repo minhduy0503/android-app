@@ -6,48 +6,46 @@ import com.dev.fitface.api.api_utils.ApiResponse
 import com.dev.fitface.api.api_utils.AppExecutor
 import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
-import com.dev.fitface.api.models.auth.LoginInput
-import com.dev.fitface.api.models.auth.LoginResponse
-import com.dev.fitface.api.service.AuthService
+import com.dev.fitface.api.models.campus.CampusResponse
+import com.dev.fitface.api.service.CampusService
 import com.dev.fitface.utils.AppUtils
-import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
- * Created by Dang Minh Duy on 09,May,2021
+ * Created by Dang Minh Duy on 13,May,2021
  */
-class AuthRepository constructor(val context: Context, val base_url: String, val appExecutor: AppExecutor){
-    private var authService: AuthService
+class CampusRepository constructor(val context: Context, val base_url: String, val appExecutor: AppExecutor){
+    private var campusService: CampusService
     val suffix = "/api/"
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
         val callApiClient = AppUtils.createOkHttpClient(context)
 
-        authService = Retrofit.Builder()
+        campusService = Retrofit.Builder()
                 .baseUrl(base_url + suffix)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(liveDataCallAdapterFactory)
                 .client(callApiClient).build()
-                .create(AuthService::class.java)
+                .create(CampusService::class.java)
     }
 
     companion object {
-        private var INSTANCE: AuthRepository? = null
+        private var INSTANCE: CampusRepository? = null
         fun instance(context: Context, BASE_URL: String, appExecutors : AppExecutor) = INSTANCE
-                ?: AuthRepository(context, BASE_URL, appExecutors).also {
+                ?: CampusRepository(context, BASE_URL, appExecutors).also {
                     INSTANCE = it
                 }
     }
 
-    fun postLogin(input: LoginInput): LiveData<Resource<LoginResponse>> {
-        return  object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url){
-            override fun saveCallResult(item: LoginResponse) {
+    fun getCampus(token: String): LiveData<Resource<CampusResponse>> {
+        return  object : NetworkBoundResource<CampusResponse>(appExecutor, context, this.base_url){
+            override fun saveCallResult(item: CampusResponse) {
             }
 
-            override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
-                return authService.postLogin(input)
+            override fun createCall(): LiveData<ApiResponse<CampusResponse>> {
+                return campusService.getCampus(token)
             }
         }.asLiveData()
     }

@@ -1,101 +1,66 @@
 package com.dev.fitface.view.fragments
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
-import com.dev.fitface.api.ApiService
-import com.dev.fitface.api.models.`object`.Campus
-import com.dev.fitface.api.models.`object`.Room
-import com.dev.fitface.api.models.response.CampusResponse
-import com.dev.fitface.api.models.response.RoomResponse
+import com.dev.fitface.api.models.campus.Campus
+import com.dev.fitface.api.models.room.Room
+import com.dev.fitface.data.CheckInTypeData
+import com.dev.fitface.utils.AppUtils
+import com.dev.fitface.utils.Constants
 import com.dev.fitface.view.CustomToast
-import com.dev.fitface.view.activity.CameraActivity
-import com.dev.fitface.utils.SharedPrefs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.dev.fitface.view.activity.AutoCheckInActivity
+import com.dev.fitface.viewmodel.MainActivityViewModel
+import kotlinx.android.synthetic.main.fragment_checkin.*
+import java.lang.RuntimeException
 
 
-class CheckingFragment : Fragment() {
+class CheckingFragment : Fragment(), View.OnClickListener {
 
-    private var campusData: ArrayList<Campus>? = null
-    private var roomData: ArrayList<Room>? = null
-    private var tvCampus: TextView? = null
-    private var tvRoom: TextView? = null
-    private var btnStart: Button? = null
+    private var mListener: OnSelectionInteractionListener? = null
 
+    private lateinit var mCampusSubscriber: Observer<List<Campus>?>
+    private lateinit var mRoomSubscriber: Observer<List<Room>?>
+    private var mMainActivityViewModel: MainActivityViewModel? = null
 
-    private var service: ApiService = ApiService.create()
-    private var isCampusDone: Boolean? = false
-    private var isRoomDone: Boolean? = false
-    private var savedCampusId: String? = null
+    private var isCallApi: Boolean = false
+    private var idCampus: String? = null
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        bind(view)
-//        getCampusData()
-        initListener()
+    interface OnSelectionInteractionListener {
+        fun onSelection(type: String, id: String?)
     }
 
-    private fun initListener() {
-        chooseCampus()
-        chooseRoom()
-        startChecking()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnSelectionInteractionListener)
+            mListener = context
+        else
+            throw RuntimeException("$context must implement OnSelectionInteractionListener")
     }
 
-    private fun chooseCampus() {
-        tvCampus?.isEnabled = true
-        tvCampus?.setOnClickListener {
-            if (isCampusDone == true) {
-                val bundle = Bundle()
-                bundle.putString("DialogType", "Campus")
-                bundle.putParcelableArrayList("Data", campusData)
-                val bottomSheetFragment = BottomSheetFragment.newInstance(bundle)
-                bottomSheetFragment.show(fragmentManager!!, bottomSheetFragment.tag)
-            }
-        }
+    override fun onDetach() {
+        super.onDetach()
+        mListener = null
     }
 
-    private fun chooseRoom() {
-        tvRoom?.isEnabled = true
-        tvRoom?.setOnClickListener {
-            if (isRoomDone == true) {
-                val bundle = Bundle()
-                bundle.putString("DialogType", "Room")
-                bundle.putParcelableArrayList("Data", roomData)
-                val bottomSheetFragment = BottomSheetFragment.newInstance(bundle)
-                bottomSheetFragment.show(fragmentManager!!, bottomSheetFragment.tag)
-            }
-        }
-
+    override fun onDestroy() {
+        unsubscribeLiveData()
+        super.onDestroy()
     }
 
-    private fun startChecking() {
-        btnStart?.isEnabled = true
-        btnStart?.setOnClickListener {
-            if (tvCampus?.text.toString().isEmpty() || tvRoom?.text.toString().isEmpty()) {
-                CustomToast.makeText(requireContext(), "You need choose a room to check-in", 400, CustomToast.WARNING).show()
-            } else {
-                val intent = Intent(requireContext(), CameraActivity::class.java)
-                val room: Room? = this.arguments?.getParcelable("selectedRoom")
-                val roomId = room?.name
-                intent.putExtra("room_checkin", roomId)
-                startActivity(intent)
-            }
-        }
-    }
-
-    private fun bind(view: View) {
-        tvCampus = view.findViewById(R.id.tvCampus)
-        tvRoom = view.findViewById(R.id.tvRoom)
-        btnStart = view.findViewById(R.id.btnStart)
+    private fun unsubscribeLiveData() {
+        mMainActivityViewModel?.campus?.removeObserver(mCampusSubscriber)
+        mMainActivityViewModel?.roomByCampus?.removeObserver(mRoomSubscriber)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -103,80 +68,119 @@ class CheckingFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_checkin, container, false)
     }
-/*
-    private fun getCampusData() {
-        val token = SharedPrefs.instance["Token", String::class.java]
-        service.getCampus(token)?.enqueue(object : Callback<CampusResponse?> {
-            override fun onResponse(call: Call<CampusResponse?>, response: Response<CampusResponse?>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    val status = body?.status
 
-                    // Handle other code:
-                    if (response.code() != 200) {
-                        CustomToast.makeText(requireContext(), "Error", 400, CustomToast.ERROR).show()
-                    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                    // If status is 200 -> Login successfully
-                    else if (status == 200) {
-                        // Get campus:
-                        campusData = body.data
-                        isCampusDone = true
-                    }
+        // After View created -> Init others
+        initLiveData()
+        initListener()
+    }
+
+    private fun initLiveData() {
+        activity?.let {
+            mMainActivityViewModel = ViewModelProvider(it).get(MainActivityViewModel::class.java)
+        }
+        subscriberLiveData()
+    }
+
+    private fun subscriberLiveData() {
+        mCampusSubscriber = Observer {
+            it?.let {
+                Log.i("Debug", "-- ${it}")
+                if (isCallApi) {
+                    val bundle = Bundle()
+                    bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.campus)
+                    bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(it))
+                    val bottomSheetFrag = BottomSheetSelectionFragment.newInstance(bundle)
+                    bottomSheetFrag.show(fragmentManager!!, Constants.FragmentName.bottomSheetFragment)
+                    isCallApi = false
                 }
             }
+        }
 
-            override fun onFailure(call: Call<CampusResponse?>, t: Throwable) {
-                CustomToast.makeText(requireContext(), "Error", 400, CustomToast.ERROR).show()
-            }
+        mMainActivityViewModel?.campus?.observe(viewLifecycleOwner, mCampusSubscriber)
 
-        })
-    }*/
-
-/*
-    fun getRoomData(campusId: String) {
-        savedCampusId = campusId
-        val token = SharedPrefs.instance["Token", String::class.java]
-        service.getRoom(token, campusId)?.enqueue(object : Callback<RoomResponse?> {
-            override fun onResponse(call: Call<RoomResponse?>, response: Response<RoomResponse?>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    val status = body?.status
-
-                    // Handle other code:
-                    if (response.code() != 200) {
-                        CustomToast.makeText(requireContext(), "Error", 400, CustomToast.ERROR).show()
-                    }
-
-                    // If status is 200 -> Login successfully
-                    else if (status == 200) {
-                        // Get room:
-                        roomData = body.data
-                        isRoomDone = true
-                    }
+        mRoomSubscriber = Observer {
+            it?.let {
+                Log.i("Debug", "-- ${it}")
+                if (isCallApi) {
+                    val bundle = Bundle()
+                    bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.room)
+                    bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(it))
+                    val bottomSheetFrag = BottomSheetSelectionFragment.newInstance(bundle)
+                    bottomSheetFrag.show(fragmentManager!!, Constants.FragmentName.bottomSheetFragment)
+                    isCallApi = false
                 }
             }
+        }
 
-            override fun onFailure(call: Call<RoomResponse?>, t: Throwable) {
-                CustomToast.makeText(requireContext(), "Error", 400, CustomToast.ERROR).show()
+        mMainActivityViewModel?.roomByCampus?.observe(viewLifecycleOwner, mRoomSubscriber)
+    }
+
+    private fun initListener() {
+        tvTypeCheckIn.setOnClickListener(this)
+        tvCampus.setOnClickListener(this)
+        tvRoom.setOnClickListener(this)
+        btnStart.setOnClickListener(this)
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.tvTypeCheckIn -> {
+                isCallApi = true
+                mListener?.onSelection(Constants.Obj.typeCheckIn, null)
             }
-
-        })
+            R.id.tvCampus -> {
+                isCallApi = true
+                mListener?.onSelection(Constants.Obj.campus, null)
+            }
+            R.id.tvRoom -> {
+                if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank()) {
+                    isCallApi = true
+                    mListener?.onSelection(Constants.Obj.room, idCampus)
+                }
+            }
+            R.id.btnStart -> {
+                if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank() && tvRoom.text.isNotBlank()) {
+                    startAutomaticallyCheckIn()
+                }
+            }
+        }
     }
-*/
 
-    fun onCampusTextViewChange(campus: String?) {
-        tvCampus?.text = campus
+
+    private fun startAutomaticallyCheckIn() {
+        val intent = Intent(context, AutoCheckInActivity::class.java)
+        intent.putExtra(Constants.Param.roomId, tvRoom.text.toString().trim())
+        startActivity(intent)
     }
 
-    fun onRoomTextViewChange(room: String?) {
-        tvRoom?.text = room
+    fun updateUI(bundle: Bundle?) {
+        when (bundle?.getString(Constants.Param.dataType)) {
+            Constants.Obj.campus -> {
+                val data: Campus = bundle.getParcelable(Constants.Param.dataSelected)!!
+                tvCampus.text = data.name
+                idCampus = data.id
+            }
+            Constants.Obj.room -> {
+                val data: Room = bundle.getParcelable(Constants.Param.dataSelected)!!
+                tvRoom.text = data.name
+            }
+            Constants.Obj.typeCheckIn -> {
+                val data: CheckInTypeData = bundle.getParcelable(Constants.Param.dataSelected)!!
+                tvTypeCheckIn.text = data.name
+            }
+        }
     }
-
 
     companion object {
         @JvmStatic
-        fun newInstance(): CheckingFragment = CheckingFragment()
+        fun newInstance(bundle: Bundle?): CheckingFragment {
+            val fragment = CheckingFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
-
 }

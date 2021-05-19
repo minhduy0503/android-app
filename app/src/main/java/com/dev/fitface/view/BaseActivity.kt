@@ -1,7 +1,6 @@
 package com.dev.fitface.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.dev.fitface.api.api_utils.ApiStatus
 import com.dev.fitface.api.api_utils.Resource
@@ -48,7 +47,6 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
 //                }
                 //-------------------
                 handleError(processResponse(apiStatus)?.status ?: -1, message, bundle)
-                Log.i("Debug"," -> ${processResponse(apiStatus)} -- $message -- $bundle")
             }
         }
     }
@@ -60,7 +58,7 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
         return null
     }
 
-    override fun onActivityCreated() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
         loadingView = setLoadingView()
         viewModel = createViewModel()
         viewModel?.apiStatus?.observe(this,
