@@ -27,7 +27,7 @@ class CameraManager(
         private val lifecycleOwner: LifecycleOwner,
         private val graphicOverlay: GraphicOverlay,
         private val mActivityResultCallback: CameraCallback?,
-        private val type: Int
+        type: Int
 ) {
 
     companion object {
@@ -64,7 +64,6 @@ class CameraManager(
     }
 
     private fun initBackCamera() {
-
     }
 
     private fun initFrontCamera() {
@@ -79,6 +78,7 @@ class CameraManager(
 
             override fun onFaceLocated(faceRect: Rect) {
                 mActivityResultCallback?.onFaceCapture(faceRect)
+                cameraProvider?.unbind(imageAnalyzer)
             }
 
             override fun onFaceOutside() {
@@ -133,7 +133,6 @@ class CameraManager(
                 val delta = detector.scaleFactor
                 camera?.cameraControl?.setZoomRatio(currentZoomRatio * delta)
                 return true//        fragment.getRoomData(data?.id!!)
-
             }
         }
         val scaleGestureDetector = ScaleGestureDetector(context, listener)
@@ -170,9 +169,9 @@ class CameraManager(
                                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                                     .build()
 
-                    if (Constants.CameraMode.manual == 0){
+                   /* if (Constants.CameraMode.manual == 0){
                         setUpPinchToZoom()
-                    }
+                    }*/
                     setCameraConfig(cameraProvider, cameraSelector)
 
                          /* Do something better than
@@ -184,7 +183,7 @@ class CameraManager(
     }
 
     fun stopCamera(){
-        cameraProvider?.unbindAll()
+        cameraProvider?.unbind(imageAnalyzer)
     }
 
     fun isHorizontalMode(): Boolean {

@@ -21,4 +21,6 @@ data class User(
         var shortname: String?,
         var token: String?,
         var role: String?,
+        var isAdmin: Boolean?,
+        var userpictureurl: String?
 ):Parcelable

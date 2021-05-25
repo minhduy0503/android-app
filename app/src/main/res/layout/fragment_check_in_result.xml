@@ -52,8 +52,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileStudent"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
             android:src="@drawable/ic_student"
             app:civ_border_width="1dp"
             app:civ_border_color="@color/white"
@@ -188,22 +188,37 @@
             android:layout_height="0dp"
             android:background="@drawable/bgr_button_error"
             app:layout_constraintLeft_toLeftOf="@+id/imgReport"
-            app:layout_constraintTop_toTopOf="@id/imgReport"
-            app:layout_constraintRight_toRightOf="@id/imgReport"
-            app:layout_constraintBottom_toBottomOf="@id/imgReport"/>
+            app:layout_constraintTop_toTopOf="@id/tvReport"
+            app:layout_constraintRight_toRightOf="@id/tvReport"
+            app:layout_constraintBottom_toBottomOf="@id/tvReport"/>
 
         <ImageView
             android:id="@+id/imgReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_warning"
-            android:padding="@dimen/dimen_20"
-            android:layout_marginTop="@dimen/margin_30"
-            android:layout_marginBottom="@dimen/margin_30"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:paddingHorizontal="@dimen/padding_8"
+            android:layout_marginVertical="@dimen/margin_32"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@id/leftLine"
+            app:layout_constraintRight_toLeftOf="@id/tvReport"
             app:layout_constraintTop_toBottomOf="@+id/btnRetry"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:textColor="@color/white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="@dimen/dimen_16"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@id/imgReport"
+            app:layout_constraintRight_toRightOf="@id/rightLine"
+            app:layout_constraintTop_toTopOf="@id/imgReport"
+            app:layout_constraintBottom_toBottomOf="@id/imgReport"/>
 
 
         <androidx.constraintlayout.widget.Guideline

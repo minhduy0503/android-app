@@ -8,44 +8,40 @@
     tools:context=".view.activity.AutoCheckInActivity">
 
     <ImageView
-        android:id="@+id/img_lock"
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_28"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topGuideline" />
+
+    <ImageView
+        android:id="@+id/btnLock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_28"
         android:src="@drawable/ic_unlock"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRoomID"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvCoursesName" />
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-    <TextView
-        android:id="@+id/tvCoursesName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check in"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="@dimen/text_36"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topGuideline" />
 
     <TextView
         android:id="@+id/tvRoomID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:text="Room ID"
-        android:textStyle="bold"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="@dimen/text_24"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCoursesName" />
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-    <com.dev.fitface.view.RoundFrameLayout
+    <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,15 +54,16 @@
             android:id="@+id/cameraView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:scaleType="fillCenter" />
+            app:scaleType="fillCenter">
 
-        <com.dev.fitface.camerax.GraphicOverlay
-            android:id="@+id/graphicOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <com.dev.fitface.camerax.GraphicOverlay
+                android:id="@+id/graphicOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.camera.view.PreviewView>
 
 
-    </com.dev.fitface.view.RoundFrameLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tvAction"
@@ -75,17 +72,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_26"
         app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_30"
-        android:layout_marginTop="@dimen/margin_14"
-        app:layout_constraintTop_toBottomOf="@+id/tvAction"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -102,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.1" />
 
 
 

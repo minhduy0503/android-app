@@ -1,4 +1,4 @@
-package com.dev.fitface.view
+package com.dev.fitface.view.customview
 
 import android.content.Context
 import android.view.Gravity

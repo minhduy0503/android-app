@@ -45,6 +45,8 @@ class Constants {
             const val dataSrc = "Data Source"
             const val dataSelected = "SelectedData"
             const val roomId = "RoomID"
+            const val retry = "Retry"
+            const val report = "Report"
         }
     }
 
@@ -60,6 +62,7 @@ class Constants {
             const val campus = "Campus"
             const val room = "Room"
             const val typeCheckIn ="TypeCheckIn"
+            const val course = "Course"
         }
     }
 

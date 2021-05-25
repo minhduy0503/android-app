@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.utils.Constants
 
 
-class CampusAdapter(private val context: Context, var campusData: ArrayList<Campus>?, val actionToParent: CallToAction?): RecyclerView.Adapter<CampusAdapter.CampusHolder>(){
+class CampusAdapter(val context: Context, var campusData: ArrayList<Campus>?, val actionToParent: CallToAction?): RecyclerView.Adapter<CampusAdapter.CampusHolder>(){
 
     inner class CampusHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val ctrRootView: ConstraintLayout?

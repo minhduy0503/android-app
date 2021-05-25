@@ -53,13 +53,13 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
         bottom = (centerY + maxFrameRadius).toInt()
     }
 
-    // Init min Rect to limit the range of detection
+/*    // Init min Rect to limit the range of detection
     private val minRect = Rect().apply {
         left = (centerX - minFrameRadius).toInt()
         top = (centerY - minFrameRadius).toInt()
         right = (centerX + minFrameRadius).toInt()
         bottom = (centerY + minFrameRadius).toInt()
-    }
+    }*/
 
     private val detector = FaceDetection.getClient(realtimeOpts)
 
@@ -143,6 +143,10 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
 
         // Calculate coordinate of face bounding box:
         val realFaceRect = translateCoordinate(faceRect)
+        Log.i("Debug","-- Face Max: ${frameRect.left} - ${frameRect.top} - ${frameRect.right} - ${frameRect.bottom}")
+
+        Log.i("Debug","-- Face Real: ${realFaceRect.left} - ${realFaceRect.top} - ${realFaceRect.right} - ${realFaceRect.bottom}")
+
         // Check: frameRect contains realFaceRect ?
         return frameRect.contains(realFaceRect)
     }
@@ -204,7 +208,7 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
 
     companion object {
         private const val TAG = "FaceDetectorProcessor"
-        private const val EYE_OPEN_PROBABILITY = 0.8F
+        private const val EYE_OPEN_PROBABILITY = 0.4F
     }
 
 }

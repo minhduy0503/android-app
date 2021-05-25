@@ -68,7 +68,7 @@ class AppUtils {
         }
 
         fun addFragmentWithAnimLeft(fragmentTransaction: FragmentTransaction, container: Int, fragment: Fragment, tag: String) {
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, 0, 0)
             fragmentTransaction.replace(container, fragment, tag)
             fragmentTransaction.commit()
         }

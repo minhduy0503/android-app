@@ -28,12 +28,12 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL_API", "\"https://de4ebb951128.ngrok.io\""
+            buildConfigField "String", "BASE_URL_API", "\"http://20.198.250.152\""
         }
 
         release {
             minifyEnabled false
-            buildConfigField "String", "BASE_URL_API", "\"https://www.abc.com\""
+            buildConfigField "String", "BASE_URL_API", "\"http://20.198.250.152\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -13,8 +13,8 @@ fun Image.imageToBitmap(): Bitmap? {
     return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
 }
 
-fun String.base64ToImage(base64Str: String): Bitmap{
-    val imageBytes = Base64.decode(base64Str, Base64.DEFAULT)
+fun String.base64ToImage(): Bitmap{
+    val imageBytes = Base64.decode(this, Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 }
 

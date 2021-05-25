@@ -1,6 +1,7 @@
 package com.dev.fitface.view.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,8 +21,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_loading.view.*
 
 
-class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnSelectionInteractionListener,
-        BottomSheetSelectionFragment.OnOptionBottomSheetInteractionListener {
+class MainActivity : BaseActivity<MainActivityViewModel>(),
+        CheckingFragment.OnSelectionInteractionListener,
+        BottomSheetSelectionFragment.OnOptionBottomSheetInteractionListener,
+        HomeFragment.OnHomeFragmentInteractionListener {
 
     private var homeFragment: HomeFragment? = null
     private var checkingFragment: CheckingFragment? = null
@@ -43,13 +46,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initData()
         setDefaultFragment(savedInstanceState)
         initListener()
-        initData()
     }
 
     private fun initData() {
         typeCheckInData = CheckInTypeData.getAllType()
+        callApiGetTeacherSchedules()
     }
 
 
@@ -92,8 +96,17 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
 
 
     override fun observeData() {
+        observerCourses()
         observerCampus()
         observerRoom()
+    }
+
+    private fun observerCourses() {
+        viewModel.responseCourses.observe(this, Observer {
+            it?.resource?.data.let {
+                viewModel.courses.postValue(it)
+            }
+        })
     }
 
     private fun observerRoom() {
@@ -110,6 +123,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
                 viewModel.campus.postValue(it)
             }
         })
+
+
+
+
     }
 
     override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
@@ -117,12 +134,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
     }
 
     private fun setDefaultFragment(savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_frame, HomeFragment.newInstance(savedInstanceState))
-                    .commit()
-        }
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_frame, HomeFragment.newInstance(savedInstanceState))
+                .commit()
     }
 
     override fun onSelection(type: String, id: String?) {
@@ -145,6 +160,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
         }
     }
 
+    private fun callApiGetTeacherSchedules() {
+        val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
+        viewModel.getTeacherSchedules(token)
+    }
+
     private fun callApiGetCampus() {
         val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
         viewModel.getCampus(token)
@@ -156,13 +176,16 @@ class MainActivity : BaseActivity<MainActivityViewModel>(), CheckingFragment.OnS
     }
 
     override fun onBackPressed() {
-
+        // Disable back press button and gesture
     }
 
     override fun onSelectedInteraction(bundle: Bundle?) {
         checkingFragment?.updateUI(bundle)
     }
 
+    override fun onHomeFragmentInteraction(bundle: Bundle) {
+
+    }
 
 
 }

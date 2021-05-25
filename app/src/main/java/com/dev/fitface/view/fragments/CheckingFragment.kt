@@ -15,13 +15,13 @@ import com.dev.fitface.R
 import com.dev.fitface.api.models.campus.Campus
 import com.dev.fitface.api.models.room.Room
 import com.dev.fitface.data.CheckInTypeData
-import com.dev.fitface.utils.AppUtils
 import com.dev.fitface.utils.Constants
-import com.dev.fitface.view.CustomToast
 import com.dev.fitface.view.activity.AutoCheckInActivity
+import com.dev.fitface.view.activity.ManualCheckInActivity
 import com.dev.fitface.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
 import java.lang.RuntimeException
+import kotlin.collections.ArrayList
 
 
 class CheckingFragment : Fragment(), View.OnClickListener {
@@ -87,7 +87,6 @@ class CheckingFragment : Fragment(), View.OnClickListener {
     private fun subscriberLiveData() {
         mCampusSubscriber = Observer {
             it?.let {
-                Log.i("Debug", "-- ${it}")
                 if (isCallApi) {
                     val bundle = Bundle()
                     bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.campus)
@@ -103,7 +102,6 @@ class CheckingFragment : Fragment(), View.OnClickListener {
 
         mRoomSubscriber = Observer {
             it?.let {
-                Log.i("Debug", "-- ${it}")
                 if (isCallApi) {
                     val bundle = Bundle()
                     bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.room)
@@ -125,6 +123,7 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         btnStart.setOnClickListener(this)
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -137,24 +136,44 @@ class CheckingFragment : Fragment(), View.OnClickListener {
                 mListener?.onSelection(Constants.Obj.campus, null)
             }
             R.id.tvRoom -> {
-                if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank()) {
+                if (tvCampus.text.isNotBlank()) {
                     isCallApi = true
                     mListener?.onSelection(Constants.Obj.room, idCampus)
+                    btnStart.background = resources.getDrawable(R.drawable.bgr_button_active)
                 }
             }
             R.id.btnStart -> {
                 if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank() && tvRoom.text.isNotBlank()) {
                     startAutomaticallyCheckIn()
                 }
+/*                val textToSpeech = object {
+                    val value: TextToSpeech get() = inner
+                    private val inner = TextToSpeech(
+                            context
+                    ){
+                        value.language = Locale("vi")
+                        value.speak("103", TextToSpeech.QUEUE_FLUSH,null, null)
+                    }
+                }.value*/
             }
         }
     }
 
 
     private fun startAutomaticallyCheckIn() {
-        val intent = Intent(context, AutoCheckInActivity::class.java)
-        intent.putExtra(Constants.Param.roomId, tvRoom.text.toString().trim())
-        startActivity(intent)
+        when (tvTypeCheckIn.text){
+            Constants.CheckInType.auto -> {
+                val intent = Intent(context, AutoCheckInActivity::class.java)
+                intent.putExtra(Constants.Param.roomId, tvRoom.text.toString())
+                startActivity(intent)
+            }
+            Constants.CheckInType.manual -> {
+                val intent = Intent(context, ManualCheckInActivity::class.java)
+                intent.putExtra(Constants.Param.roomId, tvRoom.text.toString())
+                startActivity(intent)
+            }
+        }
+
     }
 
     fun updateUI(bundle: Bundle?) {
