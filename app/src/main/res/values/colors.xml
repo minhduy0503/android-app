@@ -16,5 +16,9 @@
     <color name="red">#FF3333</color>
     <color name="black_opacity">#7D000000</color>
     <color name="blue_line_50">#8016489F</color>
+    <color name="green_kelly">#339C5E</color>
+    <color name="red_error">#FF0000</color>
+    <color name="yellow">#FFF600</color>
+    <color name="grey">#57595D</color>
 
 </resources>

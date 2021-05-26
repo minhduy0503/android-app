@@ -21,12 +21,11 @@ class AutoCheckInActivityViewModel constructor(application: Application) : BaseV
     }
 
     val faceResponse = MediatorLiveData<Resource<FaceResponse>>()
-    fun getCampus(roomId: String, token: String, input: FaceRequest) {
-        faceResponse.addSource(faceRepository.postCheckIn(roomId, token, input)) { newData ->
+    fun postCheckIn(token: String, id: Int, input: FaceRequest) {
+        faceResponse.addSource(faceRepository.postCheckIn(token, id, input)) { newData ->
             setResultData<Resource<FaceResponse>>(newData)?.let {
                 faceResponse.value = it
             }
-
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.dev.fitface.view.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -10,17 +11,23 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
+import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.base64ToImage
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_check_in_result.*
+import java.lang.RuntimeException
 import java.util.*
 
 class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     override fun getTheme(): Int = R.style.BottomSheetMenuTheme
 
-    interface OnResultDialogInteraction {
+    private var mListener: OnResultCheckInFragmentInteractionListener? = null
+    private lateinit var timer: CountDownTimer
+    private var base64Str: String? = null
+
+    interface OnResultCheckInFragmentInteractionListener {
         fun onResultInteraction(bundle: Bundle?)
     }
 
@@ -31,6 +38,19 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_check_in_result, container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnResultCheckInFragmentInteractionListener)
+            mListener = context
+        else
+            throw RuntimeException("$context must implement OnResultCheckInFragmentInteractionListener")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener = null
     }
 
     override fun onDestroy() {
@@ -51,12 +71,13 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
 
     private fun countDownTimer() {
         var count = 5
-        val timer = object: CountDownTimer(5000, 1000) {
+        timer = object: CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                tvTimer.text = "${count --}"
+                tvTimer.text = "${--count}"
             }
 
             override fun onFinish() {
+                // auto call api
 
             }
         }
@@ -80,6 +101,7 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
     private fun subscribeLiveData() {
         mFaceStrSubscriber = Observer {
             it?.let {
+                base64Str = it
                 val bitmap = it.base64ToImage()
                 profileStudent.setImageBitmap(bitmap)
             }
@@ -96,19 +118,30 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
     override fun onClick(v: View?) {
         when (v?.id){
             R.id.btnConfirm -> {
-
+                val bundle = Bundle()
+                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.confirm)
+                bundle.putString(Constants.Obj.faceStr, base64Str)
+                mListener?.onResultInteraction(bundle)
             }
 
             R.id.btnRetry -> {
-
-            }
-
-            R.id.btnClose -> {
-                dialog?.dismiss()
+                val bundle = Bundle()
+                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.retry)
+                mListener?.onResultInteraction(bundle)
             }
 
             R.id.btnReport -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.report)
+                bundle.putString(Constants.Param.confirm, base64Str)
+            }
 
+            R.id.btnClose -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.close)
+                tvTimer.text = "0"
+                timer.cancel()
+                dialog?.dismiss()
             }
         }
     }

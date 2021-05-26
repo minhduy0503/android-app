@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
+import com.dev.fitface.api.models.face.FaceRequest
 import com.dev.fitface.camerax.CameraManager
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.utils.*
@@ -28,10 +29,11 @@ import kotlinx.android.synthetic.main.activity_auto_check_in.*
 import java.io.ByteArrayOutputStream
 
 
-class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), View.OnClickListener {
+class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckInResultFragment.OnResultCheckInFragmentInteractionListener ,View.OnClickListener {
 
     private lateinit var cameraManager: CameraManager
     private var mCallback: CameraCallback? = null
+    private var token: String? = null
 
     override fun setLoadingView(): View? {
         return null
@@ -58,7 +60,15 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), View.O
     }
 
     override fun observeData() {
+        observeFaceReponseCheckIn()
+    }
 
+    private fun observeFaceReponseCheckIn() {
+        viewModel.faceResponse.observe(this, Observer {
+            it?.resource?.data?.let {
+
+            }
+        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -82,6 +92,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), View.O
     }
 
     private fun initValue() {
+        token = SharedPrefs.instance[Constants.Param.token, String::class.java]
 
         mCallback = object : CameraCallback {
             override fun onFaceCapture(rect: Rect) {
@@ -260,6 +271,21 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), View.O
 
             R.id.btnLock -> {
 
+            }
+        }
+    }
+
+    override fun onResultInteraction(bundle: Bundle?) {
+        val req = bundle?.getString(Constants.FragmentName.autoCheckInResultFragment)
+        when (req){
+            Constants.Param.confirm -> {
+                val data = bundle.getString(Constants.Obj.faceStr)!!
+                val roomId:Int  = 1
+                var param = listOf(data)
+                val faceReq = FaceRequest()
+                faceReq.collection = "CNTT"
+                faceReq.images = param
+                viewModel.postCheckIn(token!!,roomId,faceReq)
             }
         }
     }

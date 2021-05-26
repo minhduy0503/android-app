@@ -17,7 +17,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.CourseDetailActivity"></activity>
+        <activity android:name=".view.activity.StudentDetailActivity"></activity>
+        <activity android:name=".view.activity.CourseDetailActivity" />
         <activity android:name=".view.activity.ManualCheckInActivity" />
         <activity android:name=".view.activity.SplashActivity" />
         <activity android:name=".view.activity.AutoCheckInActivity" />

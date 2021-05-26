@@ -5,20 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".view.activity.CourseDetailActivity">
+    tools:context=".view.activity.StudentDetailActivity">
 
     <TextView
-        android:id="@+id/tvCourseName"
+        android:id="@+id/tvStudentId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:layout_marginLeft="@dimen/margin_16"
         android:textStyle="bold"
-        android:text="Courses Name"
+        android:text="1712378"
         android:textColor="@color/white"
         android:textSize="@dimen/text_36"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/spacer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text=" - "
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_36"
+        app:layout_constraintTop_toTopOf="@id/tvStudentId"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStudentId"
+        app:layout_constraintLeft_toRightOf="@id/tvStudentId"/>
+
+    <TextView
+        android:id="@+id/tvStudentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Dang Minh Duy"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_36"
+        app:layout_constraintTop_toTopOf="@id/tvStudentId"
+        app:layout_constraintBottom_toBottomOf="@id/tvStudentId"
+        app:layout_constraintLeft_toRightOf="@id/spacer"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCourses"
@@ -26,13 +50,11 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_32"
         android:layout_marginBottom="@dimen/margin_16"
-        app:layout_constraintTop_toBottomOf="@id/tvCourseName"
+        app:layout_constraintTop_toBottomOf="@id/tvStudentName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:listitem="@layout/item_student_in_course"
-        app:spanCount="2"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"/>
+        tools:listitem="@layout/item_student_in_session_detail"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

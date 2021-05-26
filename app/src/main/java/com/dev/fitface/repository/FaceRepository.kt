@@ -43,13 +43,13 @@ class FaceRepository constructor(val context: Context, val base_url: String, val
                 }
     }
 
-    fun postCheckIn(roomId: String, token: String, input: FaceRequest): LiveData<Resource<FaceResponse>> {
-        return  object : NetworkBoundResource<FaceResponse>(appExecutor, context, this.base_url){
+    fun postCheckIn(token: String, id: Int, input: FaceRequest): LiveData<Resource<FaceResponse>> {
+        return object : NetworkBoundResource<FaceResponse>(appExecutor, context, this.base_url){
             override fun saveCallResult(item: FaceResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<FaceResponse>> {
-                return faceService.postCheckIn(roomId, token, input)
+                return faceService.postCheckIn(id, token, input)
             }
         }.asLiveData()
     }

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_16"
+    android:layout_marginVertical="@dimen/margin_8"
+    android:background="@drawable/bgr_rounded_corner">
+
+    <ImageView
+        android:id="@+id/imgSessionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:src="@drawable/ic_chronometer"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSessionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:text="22/05/2021"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgSessionTime"
+        app:layout_constraintLeft_toRightOf="@id/imgSessionTime"
+        app:layout_constraintTop_toTopOf="@id/imgSessionTime" />
+
+    <ImageView
+        android:id="@+id/imgCampus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:src="@drawable/ic_campus"
+        app:layout_constraintLeft_toLeftOf="@id/imgSessionTime"
+        app:layout_constraintTop_toBottomOf="@id/imgSessionTime" />
+
+    <TextView
+        android:id="@+id/tvCampusName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nguyen Van Cu"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgCampus"
+        app:layout_constraintLeft_toLeftOf="@id/tvSessionTime"
+        app:layout_constraintTop_toTopOf="@id/imgCampus" />
+
+    <ImageView
+        android:id="@+id/imgClassroomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:src="@drawable/ic_classroom_color"
+        app:layout_constraintLeft_toLeftOf="@id/imgCampus"
+        app:layout_constraintTop_toBottomOf="@id/imgCampus"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvClassroomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E304"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgClassroomName"
+        app:layout_constraintLeft_toLeftOf="@id/tvSessionTime"
+        app:layout_constraintTop_toTopOf="@id/imgClassroomName" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="tvSessionTime,tvCampusName,tvClassroomName" />
+
+    <ImageView
+        android:id="@+id/imgTimeIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_in"
+        android:layout_marginLeft="@dimen/margin_32"
+        app:layout_constraintTop_toTopOf="@id/imgSessionTime"
+        app:layout_constraintBottom_toBottomOf="@id/imgSessionTime"
+        app:layout_constraintLeft_toRightOf="@id/barrier"/>
+
+    <TextView
+        android:id="@+id/tvTimeIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:text="10:00am"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgTimeIn"
+        app:layout_constraintLeft_toRightOf="@id/imgTimeIn"
+        app:layout_constraintTop_toTopOf="@id/imgTimeIn" />
+
+    <ImageView
+        android:id="@+id/imgTimeOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_out"
+        app:layout_constraintTop_toBottomOf="@id/imgTimeIn"
+        app:layout_constraintLeft_toLeftOf="@id/imgTimeIn"
+        app:layout_constraintTop_toTopOf="@id/imgCampus"
+        app:layout_constraintBottom_toBottomOf="@id/imgCampus"/>
+
+    <TextView
+        android:id="@+id/tvTimeOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:text="11:00am"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgTimeOut"
+        app:layout_constraintLeft_toRightOf="@id/imgTimeOut"
+        app:layout_constraintTop_toTopOf="@id/imgTimeOut" />
+
+    <ImageView
+        android:id="@+id/imgStatusCheckIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_checked"
+        app:layout_constraintTop_toBottomOf="@id/imgTimeIn"
+        app:layout_constraintLeft_toLeftOf="@id/imgTimeIn"
+        app:layout_constraintTop_toTopOf="@id/imgClassroomName"
+        app:layout_constraintBottom_toBottomOf="@id/imgClassroomName"/>
+
+    <TextView
+        android:id="@+id/tvCheckInStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:text="On Time"
+        android:textColor="@color/green_kelly"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgStatusCheckIn"
+        app:layout_constraintLeft_toRightOf="@id/imgStatusCheckIn"
+        app:layout_constraintTop_toTopOf="@id/imgStatusCheckIn" />
+
+    <ImageView
+        android:id="@+id/btnEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        android:layout_marginRight="@dimen/margin_16"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
