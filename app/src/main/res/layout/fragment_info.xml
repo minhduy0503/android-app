@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_16"
+        android:background="@drawable/bgr_white_rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_popup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_32"
+            android:layout_marginEnd="@dimen/margin_24"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_18"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btnClose"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Thông báo" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_24"
+            android:background="@color/bg_light_grey"
+            app:layout_constraintLeft_toLeftOf="@+id/txtTitle"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:textColor="@color/text_grey_popup"
+            android:textSize="@dimen/text_14"
+            app:layout_constraintLeft_toLeftOf="@+id/line1"
+            app:layout_constraintRight_toRightOf="@+id/line1"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            tools:text="Nội dung thông báo" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.827" />
+
+        <TextView
+            android:id="@+id/btnPositive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_32"
+            android:layout_marginEnd="@dimen/margin_32"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:background="@drawable/bgr_button_active"
+            android:paddingStart="@dimen/dimen_40"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingEnd="@dimen/dimen_40"
+            android:paddingBottom="@dimen/margin_10"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_14"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtContent"
+            tools:text="Hành động" />
+
+        <TextView
+            android:id="@+id/btnNegative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgr_rounded_corner"
+            app:layout_constraintTop_toTopOf="@+id/btnPositive"
+            app:layout_constraintBottom_toBottomOf="@+id/btnPositive"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btnPositive"
+            tools:text="Huỷ bỏ"
+            android:gravity="center_horizontal"
+            tools:textColor="@color/grey"
+            android:textSize="@dimen/text_14"
+            android:textStyle="bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

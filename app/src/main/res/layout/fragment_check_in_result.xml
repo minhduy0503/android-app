@@ -18,18 +18,22 @@
 
         <TextView
             android:id="@+id/tvCheckInTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
+            android:fontFamily="sans-serif"
             android:text="Check In Confirmation"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_28"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="28dp"
+            android:autoSizeMaxTextSize="40dp"
+            android:autoSizeStepGranularity="2dp"
             android:textStyle="normal|bold"
-            android:layout_marginBottom="@dimen/margin_30"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgClose"
@@ -37,7 +41,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close"
             android:layout_marginRight="@dimen/margin_24"
-            app:layout_constraintTop_toTopOf="@+id/tvTitleBottomSheet"
+            app:layout_constraintTop_toTopOf="@+id/tvCheckInTitle"
             app:layout_constraintBottom_toBottomOf="@id/tvCheckInTitle"
             app:layout_constraintRight_toRightOf="parent"/>
 

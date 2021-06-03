@@ -22,7 +22,7 @@ data class ReportDataByCourseID(
         var t: Int?,
         var v: Int?,
         var reports: List<ReportByStudent>
-)
+) : Parcelable
 
 @Parcelize
 data class ReportByStudent(

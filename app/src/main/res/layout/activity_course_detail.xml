@@ -7,32 +7,179 @@
     android:background="@color/background"
     tools:context=".view.activity.CourseDetailActivity">
 
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/dimen_40"
+        android:layout_height="@dimen/dimen_40"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBack"
+        app:layout_constraintLeft_toLeftOf="@+id/imgBack"
+        app:layout_constraintRight_toRightOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="@+id/imgBack" />
+
+
     <TextView
         android:id="@+id/tvCourseName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginLeft="@dimen/margin_16"
-        android:textStyle="bold"
-        android:text="Courses Name"
+        android:layout_marginLeft="@dimen/margin_12"
+        android:fontFamily="sans-serif-medium"
+        android:text="Môn học"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_36"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:textSize="@dimen/text_26"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintLeft_toRightOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCourses"
-        android:layout_width="0dp"
+    <Space
+        android:id="@+id/spaceBottomHeader"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="@+id/optionLayout" />
+
+    <View
+        android:id="@+id/bgrBelowHeader"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_32"
-        android:layout_marginBottom="@dimen/margin_16"
-        app:layout_constraintTop_toBottomOf="@id/tvCourseName"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/bg_light_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/optionLayout"
+        app:layout_constraintTop_toBottomOf="@+id/spaceBottomHeader" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/optionLayout"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/margin_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:listitem="@layout/item_student_in_course"
-        app:spanCount="2"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
+        app:layout_constraintWidth_max="wrap">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/radius_24"
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.75">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/courseFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tvFilterByStudent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_32"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:lines="1"
+                    android:text="Sinh viên"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/text_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/tvFilterBySession"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/btnFilterByStudent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/tvFilterByStudent"
+                    app:layout_constraintRight_toRightOf="@id/tvFilterByStudent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFilterBySession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_32"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:lines="1"
+                    android:text="Buổi học"
+                    android:textColor="@color/text_title_gray"
+                    android:textSize="@dimen/text_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/tvFilterByStudent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/btnFilterBySession"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/tvFilterBySession"
+                    app:layout_constraintRight_toRightOf="@id/tvFilterBySession"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/lineUnderTitle"
+                    android:layout_width="@dimen/dimen_32"
+                    android:layout_height="4dp"
+                    android:layout_marginBottom="@dimen/margin_4"
+                    android:background="@color/orange"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/tvFilterByStudent"
+                    app:layout_constraintRight_toRightOf="@id/tvFilterByStudent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPaperFilter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/bg_light_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bgrBelowHeader">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentDataContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/loadingProgressBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+
+        </LinearLayout>
+
+    </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
