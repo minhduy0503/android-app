@@ -26,4 +26,5 @@
     <color name="text_title_gray">#AAAAAA</color>
     <color name="bg_light_blur">#F3F6FF</color>
     <color name="bg_toast">#0F1F56</color>
+    <color name="field_green">#60b922</color>
 </resources>

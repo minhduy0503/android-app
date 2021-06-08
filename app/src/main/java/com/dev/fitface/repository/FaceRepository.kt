@@ -51,7 +51,4 @@ class FaceRepository constructor(val context: Context, val base_url: String, val
             }
         }.asLiveData()
     }
-
-
-
 }

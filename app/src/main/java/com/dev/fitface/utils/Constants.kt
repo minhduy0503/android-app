@@ -61,6 +61,8 @@ class Constants {
             const val dataSrc = "Data Source"
             const val dataSelected = "SelectedData"
             const val roomId = "RoomID"
+            const val roomName = "RoomName"
+            const val campusName = "CampusName"
             const val retry = "Retry"
             const val report = "Report"
             const val confirm = "Confirm"

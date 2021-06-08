@@ -14,9 +14,9 @@ interface FaceService {
     @Headers("Content-Type: application/json")
     @POST("checkin/{id}")
     fun postCheckIn(
-            @Path("id") roomId: Int,
-            @Query("token") token: String,
-            @Body bodyReq: FaceRequest
+        @Path("id") roomId: Int,
+        @Query("token") token: String,
+        @Body bodyReq: FaceRequest
     ): LiveData<ApiResponse<FaceResponse>>
 
 }

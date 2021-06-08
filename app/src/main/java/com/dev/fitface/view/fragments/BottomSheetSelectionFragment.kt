@@ -21,13 +21,13 @@ import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 
 class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
-    interface OnOptionBottomSheetInteractionListener {
-        fun onSelectedInteraction(bundle: Bundle?)
+    interface OnBottomSheetSelectionFragmentInteractionListener {
+        fun onBottomSheetSelectionFragmentInteraction(bundle: Bundle?)
     }
 
     private var mDialogType: String? = null
     private var mCallFromChild: CallToAction? = null
-    private var mListener: OnOptionBottomSheetInteractionListener? = null
+    private var mListener: OnBottomSheetSelectionFragmentInteractionListener? = null
 
     private lateinit var dataCampus: ArrayList<Campus>
     private lateinit var dataRoom: ArrayList<Room>
@@ -37,10 +37,10 @@ class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickLi
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnOptionBottomSheetInteractionListener)
+        if (context is OnBottomSheetSelectionFragmentInteractionListener)
             mListener = context
         else
-            throw RuntimeException("$context must implement OnOptionBottomSheetInteractionListener")
+            throw RuntimeException("$context must implement OnBottomSheetSelectionFragmentInteractionListener")
     }
 
     override fun onDetach() {
@@ -111,7 +111,7 @@ class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickLi
 
         mCallFromChild = object : CallToAction {
             override fun action(bundle: Bundle?) {
-                mListener?.onSelectedInteraction(bundle)
+                mListener?.onBottomSheetSelectionFragmentInteraction(bundle)
                 dialog?.dismiss()
             }
         }

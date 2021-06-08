@@ -1,6 +1,5 @@
 package com.dev.fitface.view.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
+import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.base64ToImage
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,6 +25,7 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
     private var mListener: OnCheckInReportFragmentInteractionListener? = null
     private lateinit var mFaceStrSubscriber: Observer<String?>
     private var mFaceViewModel: AutoCheckInActivityViewModel? = null
+    private lateinit var timer: CountDownTimer
 
     override fun getTheme(): Int = R.style.BottomSheetMenuTheme
 
@@ -79,7 +80,6 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
                 profileStudent.setImageBitmap(bitmap)
             }
         }
-
         mFaceViewModel?.faceStr?.observe(viewLifecycleOwner, mFaceStrSubscriber)
     }
 
@@ -91,7 +91,7 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
 
     private fun initCountDownTimer() {
         var count = 5
-        val timer = object: CountDownTimer(5000, 1000) {
+        timer = object: CountDownTimer(5000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 tvConfirm.text = "${count--}"
             }
@@ -99,7 +99,10 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
             override fun onFinish() {
                 // auto call api
                 tvConfirm.text = "Đồng ý"
-
+                val bundle = Bundle()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.confirm )
+                mListener?.onCheckInReportFragmentInteraction(bundle)
+                dialog?.dismiss()
             }
         }
         timer.start()
@@ -115,8 +118,26 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
     }
 
     override fun onClick(v: View?) {
+        timer.cancel()
         when (v?.id) {
             R.id.btnClose -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.close )
+                mListener?.onCheckInReportFragmentInteraction(bundle)
+                dialog?.dismiss()
+            }
+
+            R.id.btnConfirm -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.confirm )
+                mListener?.onCheckInReportFragmentInteraction(bundle)
+                dialog?.dismiss()
+            }
+
+            R.id.btnRetry -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.retry )
+                mListener?.onCheckInReportFragmentInteraction(bundle)
                 dialog?.dismiss()
             }
         }

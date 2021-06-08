@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import java.util.ArrayList
+import java.util.*
 
 @Suppress("DEPRECATION")
 class ViewPaperAdapter(manager: FragmentManager): FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

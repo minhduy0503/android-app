@@ -52,6 +52,7 @@
     <dimen name="text_34">34sp</dimen>
     <dimen name="text_36">36sp</dimen>
 
+    <dimen name="dimen_2">2dp</dimen>
     <dimen name="dimen_12">12dp</dimen>
     <dimen name="dimen_14">14dp</dimen>
     <dimen name="dimen_16">16dp</dimen>

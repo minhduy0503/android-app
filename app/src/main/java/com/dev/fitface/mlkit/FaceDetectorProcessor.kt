@@ -130,7 +130,7 @@ class FaceDetectorProcessor(
     }
 
     override fun onFailure(e: Exception) {
-        callback?.onNoFace()
+        callback?.onFaceOutside()
     }
 
     private fun translateCoordinate(faceRect: Rect): Rect {

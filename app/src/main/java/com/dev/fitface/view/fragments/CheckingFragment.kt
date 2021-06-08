@@ -2,7 +2,6 @@ package com.dev.fitface.view.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +14,13 @@ import com.dev.fitface.api.models.campus.Campus
 import com.dev.fitface.api.models.room.Room
 import com.dev.fitface.data.CheckInTypeData
 import com.dev.fitface.utils.Constants
-import com.dev.fitface.view.activity.AutoCheckInActivity
-import com.dev.fitface.view.activity.ManualCheckInActivity
 import com.dev.fitface.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
 
 
 class CheckingFragment : Fragment(), View.OnClickListener {
 
-    private var mListener: OnSelectionInteractionListener? = null
+    private var mListener: OnCheckInFragmentInteractionListener? = null
 
     private lateinit var mCampusSubscriber: Observer<List<Campus>?>
     private lateinit var mRoomSubscriber: Observer<List<Room>?>
@@ -32,17 +29,18 @@ class CheckingFragment : Fragment(), View.OnClickListener {
     private var isCallApi: Boolean = false
     private var idCampus: String? = null
 
-    interface OnSelectionInteractionListener {
-        fun onSelection(type: String, id: String?)
+    interface OnCheckInFragmentInteractionListener {
+        fun onCheckInFragmentInteraction(type: String, id: String?)
+        fun onStartCheckIn(type: String)
     }
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnSelectionInteractionListener)
+        if (context is OnCheckInFragmentInteractionListener)
             mListener = context
         else
-            throw RuntimeException("$context must implement OnSelectionInteractionListener")
+            throw RuntimeException("$context must implement OnCheckInFragmentInteractionListener")
     }
 
     override fun onDetach() {
@@ -60,8 +58,10 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         mMainActivityViewModel?.roomByCampus?.removeObserver(mRoomSubscriber)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_checkin, container, false)
     }
@@ -81,6 +81,7 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         subscriberLiveData()
     }
 
+    @Suppress("DEPRECATION")
     private fun subscriberLiveData() {
         mCampusSubscriber = Observer {
             it?.let {
@@ -89,7 +90,10 @@ class CheckingFragment : Fragment(), View.OnClickListener {
                     bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.campus)
                     bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(it))
                     val bottomSheetFrag = BottomSheetSelectionFragment.newInstance(bundle)
-                    bottomSheetFrag.show(fragmentManager!!, Constants.FragmentName.bottomSheetFragment)
+                    bottomSheetFrag.show(
+                        requireFragmentManager(),
+                        Constants.FragmentName.bottomSheetFragment
+                    )
                     isCallApi = false
                 }
             }
@@ -104,7 +108,10 @@ class CheckingFragment : Fragment(), View.OnClickListener {
                     bundle.putString(Constants.Param.typeBottomSheet, Constants.Obj.room)
                     bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(it))
                     val bottomSheetFrag = BottomSheetSelectionFragment.newInstance(bundle)
-                    bottomSheetFrag.show(fragmentManager!!, Constants.FragmentName.bottomSheetFragment)
+                    bottomSheetFrag.show(
+                        requireFragmentManager(),
+                        Constants.FragmentName.bottomSheetFragment
+                    )
                     isCallApi = false
                 }
             }
@@ -126,16 +133,16 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.tvTypeCheckIn -> {
                 isCallApi = true
-                mListener?.onSelection(Constants.Obj.typeCheckIn, null)
+                mListener?.onCheckInFragmentInteraction(Constants.Obj.typeCheckIn, null)
             }
             R.id.tvCampus -> {
                 isCallApi = true
-                mListener?.onSelection(Constants.Obj.campus, null)
+                mListener?.onCheckInFragmentInteraction(Constants.Obj.campus, null)
             }
             R.id.tvRoom -> {
                 if (tvCampus.text.isNotBlank()) {
                     isCallApi = true
-                    mListener?.onSelection(Constants.Obj.room, idCampus)
+                    mListener?.onCheckInFragmentInteraction(Constants.Obj.room, idCampus)
                     btnStart.background = resources.getDrawable(R.drawable.bgr_button_active)
                 }
             }
@@ -143,31 +150,18 @@ class CheckingFragment : Fragment(), View.OnClickListener {
                 if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank() && tvRoom.text.isNotBlank()) {
                     startAutomaticallyCheckIn()
                 }
-/*                val textToSpeech = object {
-                    val value: TextToSpeech get() = inner
-                    private val inner = TextToSpeech(
-                            context
-                    ){
-                        value.language = Locale("vi")
-                        value.speak("103", TextToSpeech.QUEUE_FLUSH,null, null)
-                    }
-                }.value*/
             }
         }
     }
 
 
     private fun startAutomaticallyCheckIn() {
-        when (tvTypeCheckIn.text){
+        when (tvTypeCheckIn.text) {
             Constants.CheckInType.auto -> {
-                val intent = Intent(context, AutoCheckInActivity::class.java)
-                intent.putExtra(Constants.Param.roomId, tvRoom.text.toString())
-                startActivity(intent)
+                mListener?.onStartCheckIn(Constants.CheckInType.auto)
             }
             Constants.CheckInType.manual -> {
-                val intent = Intent(context, ManualCheckInActivity::class.java)
-                intent.putExtra(Constants.Param.roomId, tvRoom.text.toString())
-                startActivity(intent)
+                mListener?.onStartCheckIn(Constants.CheckInType.manual)
             }
         }
 

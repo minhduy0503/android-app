@@ -8,16 +8,41 @@
     tools:context=".view.activity.AutoCheckInActivity">
 
     <ImageView
-        android:id="@+id/btnBack"
+        android:id="@+id/imgBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginTop="52dp"
         android:src="@drawable/ic_left_arrow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <View
+        android:id="@+id/btnBack"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintTop_toTopOf="@+id/imgBack"
+        app:layout_constraintRight_toRightOf="@id/imgBack"
+        app:layout_constraintBottom_toBottomOf="@id/imgBack"
+        app:layout_constraintLeft_toLeftOf="@id/imgBack"/>
+
+    <TextView
+        android:id="@+id/tvActivityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_36"
+        android:fontFamily="sans-serif-medium"
+        android:text="Điểm danh"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topGuideline" />
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
 
     <ImageView
-        android:id="@+id/btnLock"
+        android:id="@+id/imgLock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/margin_16"
@@ -26,20 +51,57 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
+    <View
+        android:id="@+id/btnLock"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintLeft_toLeftOf="@id/imgLock"
+        app:layout_constraintTop_toTopOf="@id/imgLock"
+        app:layout_constraintRight_toRightOf="@id/imgLock"
+        app:layout_constraintBottom_toBottomOf="@id/imgLock"/>
 
     <TextView
-        android:id="@+id/tvRoomID"
+        android:id="@+id/tvCampus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Room ID"
+        android:layout_marginTop="@dimen/margin_16"
+        android:fontFamily="sans-serif-medium"
+        android:text="Cơ sở"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="@dimen/text_24"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        android:textSize="@dimen/text_26"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/spacer"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
+
+    <TextView
+        android:id="@+id/spacer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text=" - "
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_26"
+        app:layout_constraintBottom_toBottomOf="@id/tvCampus"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/tvCampus"
+        app:layout_constraintRight_toLeftOf="@id/tvRoom"
+        app:layout_constraintTop_toTopOf="@id/tvCampus" />
+
+    <TextView
+        android:id="@+id/tvRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="Phòng học"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_26"
+        app:layout_constraintBottom_toBottomOf="@id/tvCampus"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/spacer"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+        app:layout_constraintTop_toTopOf="@id/tvCampus" />
+
 
     <com.dev.fitface.view.customview.RoundFrameLayout
         android:id="@+id/main_frame"
@@ -67,10 +129,13 @@
 
     <TextView
         android:id="@+id/tvAction"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_26"
+        android:fontFamily="sans-serif-medium"
+        android:lines="2"
+        android:textAlignment="center"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/text_30"
         app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -81,14 +146,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.85" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/topGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
 
 
 
