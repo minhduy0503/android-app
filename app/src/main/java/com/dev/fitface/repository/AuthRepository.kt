@@ -10,7 +10,6 @@ import com.dev.fitface.api.models.auth.LoginInput
 import com.dev.fitface.api.models.auth.LoginResponse
 import com.dev.fitface.api.service.AuthService
 import com.dev.fitface.utils.AppUtils
-import com.squareup.moshi.Moshi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 

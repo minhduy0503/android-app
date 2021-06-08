@@ -2,6 +2,7 @@ package com.dev.fitface.view
 
 import android.os.Bundle
 import android.view.View
+import com.dev.fitface.BaseAppCompatActivity
 import com.dev.fitface.api.api_utils.ApiStatus
 import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.BaseResponse
@@ -10,7 +11,7 @@ import com.dev.fitface.viewmodel.BaseViewModel
 /**
  * Created by Dang Minh Duy on 10,May,2021
  */
-abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
+abstract class BaseActivity<ViewModel : BaseViewModel> : BaseAppCompatActivity() {
 
     //Live data
     lateinit var viewModel: ViewModel
@@ -30,7 +31,12 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
         loadingView?.visibility = View.VISIBLE
     }
 
-    private fun initViewBaseOnApiStatus(status: ApiStatus, apiStatus: Resource<Any>?, message: String?, bundle: Bundle?) {
+    private fun initViewBaseOnApiStatus(
+        status: ApiStatus,
+        apiStatus: Resource<Any>?,
+        message: String?,
+        bundle: Bundle?
+    ) {
         when (status) {
             ApiStatus.LOADING -> {
                 showProgressView()
@@ -40,12 +46,6 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
             }
             ApiStatus.ERROR -> {
                 hideProgressView()
-                //-------------------
-                //không phải chỗ nào cũng toast, nếu cần thiết toast thì xử lý trong handleError
-//                if(bundle?.getBoolean(Constants.BundleParam.notShowMessage, false) != true) {
-//                    toastError(message)
-//                }
-                //-------------------
                 handleError(processResponse(apiStatus)?.status ?: -1, message, bundle)
             }
         }
@@ -61,10 +61,15 @@ abstract class BaseActivity<ViewModel : BaseViewModel> : BaseApplication() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         loadingView = setLoadingView()
         viewModel = createViewModel()
-        viewModel?.apiStatus?.observe(this,
-                { status ->
-                    initViewBaseOnApiStatus(status.status, viewModel.apiStatus.value, status.message, status.bundle)
-                }
+        viewModel.apiStatus.observe(this,
+            { status ->
+                initViewBaseOnApiStatus(
+                    status.status,
+                    viewModel.apiStatus.value,
+                    status.message,
+                    status.bundle
+                )
+            }
         )
         observeData()
         fetchData()

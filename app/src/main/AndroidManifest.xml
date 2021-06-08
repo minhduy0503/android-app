@@ -19,17 +19,17 @@
         tools:targetApi="m">
         <activity android:name=".view.activity.StudentDetailActivity"></activity>
         <activity android:name=".view.activity.CourseDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.activity.ManualCheckInActivity" />
         <activity android:name=".view.activity.SplashActivity" />
         <activity android:name=".view.activity.AutoCheckInActivity" />
         <activity android:name=".view.activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".view.activity.MainActivity">
 

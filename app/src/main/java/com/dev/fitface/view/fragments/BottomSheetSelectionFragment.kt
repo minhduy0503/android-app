@@ -17,7 +17,6 @@ import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.utils.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
-import java.lang.RuntimeException
 
 
 class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickListener {
@@ -69,14 +68,14 @@ class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickLi
         when (mDialogType) {
             Constants.Obj.campus -> {
                 tvTitleBottomSheet.text = resources.getString(R.string.campus_selection)
-                var campusAdapter = CampusAdapter(context!!, dataCampus, mCallFromChild)
+                val campusAdapter = CampusAdapter(requireContext(), dataCampus, mCallFromChild)
                 rvOption.layoutManager = LinearLayoutManager(context)
                 rvOption.setHasFixedSize(true)
                 rvOption.adapter = campusAdapter
             }
             Constants.Obj.room -> {
                 tvTitleBottomSheet.text = resources.getString(R.string.room_selection)
-                var roomAdapter = RoomAdapter(context!!, dataRoom, mCallFromChild)
+                val roomAdapter = RoomAdapter(requireContext(), dataRoom, mCallFromChild)
                 rvOption.layoutManager = LinearLayoutManager(context)
                 rvOption.setHasFixedSize(true)
                 rvOption.adapter = roomAdapter
@@ -84,7 +83,7 @@ class BottomSheetSelectionFragment : BottomSheetDialogFragment(), View.OnClickLi
             }
             Constants.Obj.typeCheckIn -> {
                 tvTitleBottomSheet.text = resources.getString(R.string.type_selection)
-                var typeAdapter = TypeCheckInAdapter(context!!, dataType, mCallFromChild)
+                val typeAdapter = TypeCheckInAdapter(requireContext(), dataType, mCallFromChild)
                 rvOption.layoutManager = LinearLayoutManager(context)
                 rvOption.setHasFixedSize(true)
                 rvOption.adapter = typeAdapter

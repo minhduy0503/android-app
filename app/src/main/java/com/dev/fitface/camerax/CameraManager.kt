@@ -21,13 +21,13 @@ import com.dev.fitface.utils.FaceSize
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraManager(
-        private val context: Context,
-        private val finderView: PreviewView,
-        private val lifecycleOwner: LifecycleOwner,
-        private val graphicOverlay: GraphicOverlay,
-        private val mActivityResultCallback: CameraCallback?,
-        type: Int
+class   CameraManager(
+    private val context: Context,
+    private val finderView: PreviewView,
+    private val lifecycleOwner: LifecycleOwner,
+    private val graphicOverlay: GraphicOverlay,
+    private val mActivityResultCallback: CameraCallback?,
+    type: Int
 ) {
 
     companion object {
@@ -46,12 +46,13 @@ class CameraManager(
 
 
     var rotation: Float = 0f
-    private var cameraSelectorOption = if (type == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+    private var cameraSelectorOption =
+        if (type == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
 
 
     init {
         createNewExecutor()
-        when(type){
+        when (type) {
             Constants.CameraMode.automatic -> {
                 initFrontCamera()
             }
@@ -105,20 +106,20 @@ class CameraManager(
     }
 
     private fun setCameraConfig(
-            cameraProvider: ProcessCameraProvider?,
-            cameraSelector: CameraSelector
+        cameraProvider: ProcessCameraProvider?,
+        cameraSelector: CameraSelector
     ) {
         try {
             cameraProvider?.unbindAll()
             camera = cameraProvider?.bindToLifecycle(
-                    lifecycleOwner,
-                    cameraSelector,
-                    preview,
-                    imageCapture,
-                    imageAnalyzer
+                lifecycleOwner,
+                cameraSelector,
+                preview,
+                imageCapture,
+                imageAnalyzer
             )
             preview?.setSurfaceProvider(
-                    finderView.createSurfaceProvider()
+                finderView.createSurfaceProvider()
             )
         } catch (e: Exception) {
             Log.e(TAG, "Use case binding failed", e)
@@ -147,42 +148,45 @@ class CameraManager(
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
-                Runnable {
-                    cameraProvider = cameraProviderFuture.get()
-                    preview = Preview.Builder().build()
-                    metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+            Runnable {
+                cameraProvider = cameraProviderFuture.get()
+                preview = Preview.Builder().build()
+                metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
 
-                    imageAnalyzer = ImageAnalysis.Builder()
-                            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                            .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
-                            .build()
-                            .also {
-                                it.setAnalyzer(cameraExecutor, FaceDetectorProcessor(graphicOverlay, mCallback))
-                            }
+                imageAnalyzer = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
+                    .build()
+                    .also {
+                        it.setAnalyzer(
+                            cameraExecutor,
+                            FaceDetectorProcessor(graphicOverlay, mCallback)
+                        )
+                    }
 
-                    val cameraSelector = CameraSelector.Builder()
-                            .requireLensFacing(cameraSelectorOption)
-                            .build()
+                val cameraSelector = CameraSelector.Builder()
+                    .requireLensFacing(cameraSelectorOption)
+                    .build()
 
-                    imageCapture =
-                            ImageCapture.Builder()
-                                    .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
-                                    .build()
+                imageCapture =
+                    ImageCapture.Builder()
+                        .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
+                        .build()
 
-                   /* if (Constants.CameraMode.manual == 0){
-                        setUpPinchToZoom()
-                    }*/
-                    setCameraConfig(cameraProvider, cameraSelector)
+                /* if (Constants.CameraMode.manual == 0){
+                     setUpPinchToZoom()
+                 }*/
+                setCameraConfig(cameraProvider, cameraSelector)
 
-                         /* Do something better than
-                    SharedPrefs.instance.put("widthScreen", metrics.widthPixels)
-                    SharedPrefs.instance.put("heightScreen", metrics.heightPixels)*/
+                /* Do something better than
+           SharedPrefs.instance.put("widthScreen", metrics.widthPixels)
+           SharedPrefs.instance.put("heightScreen", metrics.heightPixels)*/
 
-                }, ContextCompat.getMainExecutor(context)
+            }, ContextCompat.getMainExecutor(context)
         )
     }
 
-    fun stopCamera(){
+    fun stopCamera() {
         cameraProvider?.unbind(imageAnalyzer)
     }
 

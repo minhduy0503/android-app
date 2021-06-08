@@ -37,14 +37,14 @@ class AppUtils {
             return interceptor
         }
 
-        fun <T> startActivityWithResultCode(beginActivity: AppCompatActivity,
-                                            finishActivity: Class<T>, resultCode: Int?, bundle: Bundle?) {
+        fun <T> startActivityWithBundle(beginActivity: AppCompatActivity,
+                                            finishActivity: Class<T>, bundle: Bundle?) {
             val intentAcitivity = Intent(beginActivity, finishActivity)
             bundle?.let {
                 intentAcitivity.putExtras(it)
             }
-            beginActivity.startActivityForResult(intentAcitivity, resultCode ?: 0)
-            beginActivity?.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            beginActivity.startActivity(intentAcitivity)
+            beginActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         fun <T> startActivityWithNameAndClearTask(activity: AppCompatActivity, desActivity: Class<T>) {
@@ -68,9 +68,14 @@ class AppUtils {
         }
 
         fun addFragmentWithAnimLeft(fragmentTransaction: FragmentTransaction, container: Int, fragment: Fragment, tag: String) {
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, 0, 0)
+          /*  fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, 0, 0)
             fragmentTransaction.replace(container, fragment, tag)
-            fragmentTransaction.commit()
+            fragmentTransaction.commit()*/
+            fragmentTransaction
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                    R.anim.slide_in_left, R.anim.slide_out_right)
+                .replace(R.id.fragmentContainerView, fragment)
+                .commit()
         }
     }
 

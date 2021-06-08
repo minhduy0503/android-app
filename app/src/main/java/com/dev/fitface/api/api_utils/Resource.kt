@@ -20,6 +20,5 @@ data class Resource<out T>(val status: ApiStatus, val resource: T?, val message:
         fun <T> loading(data: T?): Resource<T> {
             return Resource(ApiStatus.LOADING, data, null, null, null)
         }
-
     }
 }

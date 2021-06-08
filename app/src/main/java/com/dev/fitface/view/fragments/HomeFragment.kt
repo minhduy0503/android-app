@@ -2,7 +2,6 @@ package com.dev.fitface.view.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev.fitface.R
 import com.dev.fitface.adapter.CourseAdapter
 import com.dev.fitface.api.models.course.Course
-import com.dev.fitface.utils.Constants
-import com.dev.fitface.utils.SharedPrefs
+import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.RuntimeException
 
 class HomeFragment : Fragment() {
 
     private var mListener: OnHomeFragmentInteractionListener? = null
     private var mContext: Context? = null
+    private var mCallFromChild: CallToAction? = null
+
 
     private lateinit var mCoursesSubscriber: Observer<List<Course>?>
     private var mMainActivityViewModel: MainActivityViewModel? =null
@@ -64,8 +62,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initValue()
         initLiveData()
         intiListener()
+    }
+
+    private fun initValue() {
+        mCallFromChild = object : CallToAction{
+            override fun action(bundle: Bundle?) {
+                bundle?.let {
+                    mListener?.onHomeFragmentInteraction(it)
+                }
+            }
+
+        }
     }
 
 
@@ -85,7 +95,7 @@ class HomeFragment : Fragment() {
         mCoursesSubscriber = Observer { data ->
             data?.let {
                 mContext?.let { context ->
-                    var courseAdapter = CourseAdapter(context, ArrayList(data), null )
+                    var courseAdapter = CourseAdapter(context, ArrayList(data), mCallFromChild )
                     rvCourses.layoutManager = GridLayoutManager(context, 2)
                     rvCourses.setHasFixedSize(true)
                     rvCourses.adapter = courseAdapter

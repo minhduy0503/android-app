@@ -4,16 +4,16 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="Khóa học"/>
 
     <item
         android:id="@+id/navigation_check_in"
-        android:icon="@drawable/ic_check_in"
-        android:title="Check in"/>
+        android:icon="@drawable/ic_tick"
+        android:title="Điểm danh"/>
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_profile"
-        android:title="Profile"/>
+        android:icon="@drawable/ic_settings"
+        android:title="Cài đặt"/>
 
 </menu>

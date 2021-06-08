@@ -14,7 +14,7 @@
     <color name="orange_inactive">#BFFF8C00</color>
     <color name="dim_bg">#00000000</color>
     <color name="red">#FF3333</color>
-    <color name="black_opacity">#7D000000</color>
+    <color name="black_opacity">#80000000</color>
     <color name="blue_line_50">#8016489F</color>
     <color name="green_kelly">#339C5E</color>
     <color name="red_error">#FF0000</color>
@@ -24,6 +24,6 @@
     <color name="text_grey_popup">#666666</color>
     <color name="blue_primary_color">#4564ED</color>
     <color name="text_title_gray">#AAAAAA</color>
-    <color name="bg_light_blue">#F3F6FF</color>
-
+    <color name="bg_light_blur">#F3F6FF</color>
+    <color name="bg_toast">#0F1F56</color>
 </resources>

@@ -1,7 +1,7 @@
 package com.dev.fitface.view.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.dev.fitface.R
 
 class StudentDetailActivity : AppCompatActivity() {

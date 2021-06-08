@@ -18,7 +18,7 @@ class FaceContourGraphic(
     private val boxPaint: Paint
 
     init {
-        val selectedColor = Color.WHITE
+        val selectedColor = Color.RED
 
         facePositionPaint = Paint()
         facePositionPaint.color = selectedColor
@@ -64,7 +64,6 @@ class FaceContourGraphic(
                 face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
-        // Debug
 
         val contours = face.allContours
 

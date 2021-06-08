@@ -12,23 +12,24 @@
         android:id="@+id/tvSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check In"
-        android:textSize="@dimen/text_30"
+        android:layout_marginTop="52dp"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:text="Điểm danh"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="@+id/topLine"
-        app:layout_constraintLeft_toLeftOf="@+id/leftLine"
-        app:layout_constraintRight_toRightOf="@id/rightLine"/>
+        android:textSize="@dimen/text_36"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <TextView
         android:id="@+id/tvTypeCheckIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Type"
+        android:hint="Chọn hình thức điểm danh"
         android:textSize="@dimen/text_20"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/text_title_gray"
         android:background="@drawable/bgr_edittext"
         android:drawableEnd="@drawable/ic_down_arrow"
         android:padding="@dimen/padding_16"
@@ -41,10 +42,10 @@
         android:id="@+id/tvCampus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Campus"
+        android:hint="Chọn cơ sở"
         android:textSize="@dimen/text_20"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/text_title_gray"
         android:background="@drawable/bgr_edittext"
         android:drawableEnd="@drawable/ic_down_arrow"
         android:layout_marginTop="@dimen/margin_20"
@@ -58,10 +59,10 @@
         android:id="@+id/tvRoom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Room"
+        android:hint="Chọn phòng học"
         android:textSize="@dimen/text_20"
         android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/text_title_gray"
         android:background="@drawable/bgr_edittext"
         android:drawableEnd="@drawable/ic_down_arrow"
         android:layout_marginTop="@dimen/margin_20"
@@ -76,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:background="@drawable/bgr_button_inactive"
-        android:text="Start"
+        android:text="Điểm danh"
         android:textColor="@color/white"
         android:textSize="@dimen/text_20"
         app:layout_constraintHorizontal_bias="1.0"
@@ -84,12 +85,6 @@
         app:layout_constraintRight_toRightOf="@id/rightLine"
         app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/topLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomLine"

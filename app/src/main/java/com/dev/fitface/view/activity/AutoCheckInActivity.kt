@@ -22,14 +22,16 @@ import com.dev.fitface.camerax.CameraManager
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.utils.*
 import com.dev.fitface.view.BaseActivity
-import com.dev.fitface.view.customview.CustomToast
+import com.dev.fitface.view.fragments.CheckInReportFragment
 import com.dev.fitface.view.fragments.CheckInResultFragment
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import kotlinx.android.synthetic.main.activity_auto_check_in.*
 import java.io.ByteArrayOutputStream
 
 
-class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckInResultFragment.OnResultCheckInFragmentInteractionListener ,View.OnClickListener {
+class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
+    CheckInResultFragment.OnResultCheckInFragmentInteractionListener,
+    CheckInReportFragment.OnCheckInReportFragmentInteractionListener,View.OnClickListener {
 
     private lateinit var cameraManager: CameraManager
     private var mCallback: CameraCallback? = null
@@ -60,15 +62,15 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckI
     }
 
     override fun observeData() {
-        observeFaceReponseCheckIn()
+        observeFaceResponseCheckIn()
     }
 
-    private fun observeFaceReponseCheckIn() {
-        viewModel.faceResponse.observe(this, Observer {
+    private fun observeFaceResponseCheckIn() {
+       /* viewModel.faceResponse.observe(this, Observer {
             it?.resource?.data?.let {
 
             }
-        })
+        })*/
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -96,15 +98,15 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckI
 
         mCallback = object : CameraCallback {
             override fun onFaceCapture(rect: Rect) {
-                tvAction.text = "Đã điểm danh"
+                tvAction.text = "Đang xử lí"
                 captureFace(rect)
                 viewModel.faceStr?.observe(this@AutoCheckInActivity, Observer {
                     // Send to fragment
                     it?.let {
                         val bundle = Bundle()
-                        val fragment = CheckInResultFragment.newInstance(bundle)
+                        val fragment = CheckInReportFragment.newInstance(bundle)
                         fragment.isCancelable = false
-                        fragment.show(supportFragmentManager, Constants.FragmentName.autoCheckInResultFragment)
+                        fragment.show(supportFragmentManager, Constants.FragmentName.checkInReportFragment)
                     }
                 })
             }
@@ -245,12 +247,13 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckI
             requestCode: Int, permissions: Array<String>, grantResults:
             IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 cameraManager.startCamera()
             } else {
-                CustomToast.makeText(this, "Permissions not granted by the user.", CustomToast.ERROR, CustomToast.SHORT)
-                        .show()
+/*                ToastMessage.makeText(this, "Permissions not granted by the user.", CustomToast.ERROR, CustomToast.SHORT)
+                        .show()*/
                 finish()
             }
         }
@@ -276,7 +279,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckI
     }
 
     override fun onResultInteraction(bundle: Bundle?) {
-        val req = bundle?.getString(Constants.FragmentName.autoCheckInResultFragment)
+/*        val req = bundle?.getString(Constants.FragmentName.autoCheckInResultFragment)
         when (req){
             Constants.Param.confirm -> {
                 val data = bundle.getString(Constants.Obj.faceStr)!!
@@ -287,7 +290,11 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(), CheckI
                 faceReq.images = param
                 viewModel.postCheckIn(token!!,roomId,faceReq)
             }
-        }
+        }*/
+    }
+
+    override fun onCheckInReportFragmentInteraction(bundle: Bundle) {
+
     }
 
     /* private lateinit var cameraManager: CameraManager

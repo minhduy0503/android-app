@@ -33,7 +33,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     private var typeCheckInData: List<CheckInTypeData>? = null
 
     override fun setLoadingView(): View? {
-        return findViewById(R.id.layoutLoadingLogin)
+        return findViewById(R.id.layoutLoading)
     }
 
     override fun setActivityView() {
@@ -66,19 +66,19 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
             R.id.navigation_home -> {
                 val bundle = Bundle()
                 homeFragment = HomeFragment.newInstance(bundle)
-                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, homeFragment!!, Constants.FragmentName.homeFragment)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.fragmentContainerView, homeFragment!!, Constants.FragmentName.homeFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_check_in -> {
                 val bundle = Bundle()
                 checkingFragment = CheckingFragment.newInstance(bundle)
-                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, checkingFragment!!, Constants.FragmentName.checkInFragment)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.fragmentContainerView, checkingFragment!!, Constants.FragmentName.checkInFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {
                 val bundle = Bundle()
                 profileFragment = ProfileFragment.newInstance(bundle)
-                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.main_frame, profileFragment!!, Constants.FragmentName.profileFragment)
+                AppUtils.addFragmentWithAnimLeft(supportFragmentManager.beginTransaction(), R.id.fragmentContainerView, profileFragment!!, Constants.FragmentName.profileFragment)
 
                 return@OnNavigationItemSelectedListener true
             }
@@ -136,7 +136,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     private fun setDefaultFragment(savedInstanceState: Bundle?) {
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.main_frame, HomeFragment.newInstance(savedInstanceState))
+                .replace(R.id.fragmentContainerView, HomeFragment.newInstance(savedInstanceState))
                 .commit()
     }
 
@@ -184,7 +184,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     }
 
     override fun onHomeFragmentInteraction(bundle: Bundle) {
-
+        AppUtils.startActivityWithBundle(this, CourseDetailActivity::class.java, bundle)
     }
 
 

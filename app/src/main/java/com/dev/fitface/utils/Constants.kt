@@ -34,6 +34,7 @@ class Constants {
             const val mainActivity = "MainActivity"
             const val autoCheckInActivity = "AutoCheckInActivity"
             const val manualCheckInActivity = "ManualCheckInActivity"
+            const val courseDetailActivity = "CourseDetailActivity"
 
         }
     }
@@ -44,7 +45,10 @@ class Constants {
             const val checkInFragment = "CheckInFragment"
             const val profileFragment = "ProfileFragment"
             const val bottomSheetFragment = "BottomSheetFragment"
-            const val autoCheckInResultFragment = "AutoCheckInResultFragment"
+            const val studentInCourseFragment = "StudentInCourseFragment"
+            const val sessionInCourseFragment = "SessionInCourseFragment"
+            const val checkInResultFragment = "CheckInResultFragment"
+            const val checkInReportFragment = "CheckInReportFragment"
 
         }
     }
@@ -61,6 +65,7 @@ class Constants {
             const val report = "Report"
             const val confirm = "Confirm"
             const val close = "Close"
+            const val course = "Course"
         }
     }
 

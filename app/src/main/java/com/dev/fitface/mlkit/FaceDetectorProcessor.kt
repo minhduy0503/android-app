@@ -18,13 +18,16 @@ import com.google.mlkit.vision.face.FaceDetectorOptions
 import kotlin.math.min
 import kotlin.math.pow
 
-class FaceDetectorProcessor(private val view: GraphicOverlay, private val callback: FaceResultCallback?) :
-        BaseImageAnalyzer<List<Face>>() {
+class FaceDetectorProcessor(
+    private val view: GraphicOverlay,
+    private val callback: FaceResultCallback?
+) :
+    BaseImageAnalyzer<List<Face>>() {
 
     private val realtimeOpts = FaceDetectorOptions.Builder()
-            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .build()
+        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+        .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+        .build()
 
     /*    private val widthScreen = SharedPrefs.instance["widthScreen", Int::class.java]
         private val heightScreen = SharedPrefs.instance["heightScreen", Int::class.java]*/
@@ -143,9 +146,6 @@ class FaceDetectorProcessor(private val view: GraphicOverlay, private val callba
 
         // Calculate coordinate of face bounding box:
         val realFaceRect = translateCoordinate(faceRect)
-        Log.i("Debug","-- Face Max: ${frameRect.left} - ${frameRect.top} - ${frameRect.right} - ${frameRect.bottom}")
-
-        Log.i("Debug","-- Face Real: ${realFaceRect.left} - ${realFaceRect.top} - ${realFaceRect.right} - ${realFaceRect.bottom}")
 
         // Check: frameRect contains realFaceRect ?
         return frameRect.contains(realFaceRect)

@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/main_frame"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
@@ -26,7 +26,7 @@
         app:menu="@menu/nav_menu" />
 
     <include
-        android:id="@+id/layoutLoadingLogin"
+        android:id="@+id/layoutLoading"
         layout="@layout/fragment_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

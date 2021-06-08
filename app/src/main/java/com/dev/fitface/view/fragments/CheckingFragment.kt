@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,6 @@ import com.dev.fitface.view.activity.AutoCheckInActivity
 import com.dev.fitface.view.activity.ManualCheckInActivity
 import com.dev.fitface.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_checkin.*
-import java.lang.RuntimeException
-import kotlin.collections.ArrayList
 
 
 class CheckingFragment : Fragment(), View.OnClickListener {

@@ -19,8 +19,8 @@
 
     <View
         android:id="@+id/btnBack"
-        android:layout_width="@dimen/dimen_40"
-        android:layout_height="@dimen/dimen_40"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgBack"
         app:layout_constraintLeft_toLeftOf="@+id/imgBack"
         app:layout_constraintRight_toRightOf="@+id/imgBack"
@@ -29,16 +29,20 @@
 
     <TextView
         android:id="@+id/tvCourseName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_12"
+        android:layout_marginStart="@dimen/margin_14"
+        android:layout_marginEnd="@dimen/margin_24"
         android:fontFamily="sans-serif-medium"
         android:text="Môn học"
         android:textColor="@color/white"
         android:textSize="@dimen/text_26"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"
         app:layout_constraintLeft_toRightOf="@id/btnBack"
-        app:layout_constraintTop_toTopOf="@id/btnBack" />
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <Space
         android:id="@+id/spaceBottomHeader"
@@ -50,7 +54,7 @@
         android:id="@+id/bgrBelowHeader"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/bg_light_blue"
+        android:background="@color/bg_light_blur"
         app:layout_constraintBottom_toBottomOf="@+id/optionLayout"
         app:layout_constraintTop_toBottomOf="@+id/spaceBottomHeader" />
 
@@ -58,7 +62,7 @@
         android:id="@+id/optionLayout"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_32"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCourseName"
@@ -129,7 +133,7 @@
 
                 <View
                     android:id="@+id/lineUnderTitle"
-                    android:layout_width="@dimen/dimen_32"
+                    android:layout_width="0dp"
                     android:layout_height="4dp"
                     android:layout_marginBottom="@dimen/margin_4"
                     android:background="@color/orange"
@@ -147,7 +151,7 @@
         android:id="@+id/viewPaperFilter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/bg_light_blue"
+        android:background="@color/bg_light_blur"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bgrBelowHeader">
 
@@ -159,7 +163,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/loadingProgressBar"
@@ -181,5 +185,24 @@
         </LinearLayout>
 
     </androidx.viewpager.widget.ViewPager>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bgrBelowHeader"
+        tools:listitem="@layout/item_session_in_course"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <include
+        android:id="@+id/layoutLoading"
+        layout="@layout/fragment_loading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

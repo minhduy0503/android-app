@@ -7,12 +7,12 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by Dang Minh Duy on 27,May,2021
  */
-class ReportByCourseIDResponse : BaseResponse() {
-    var data: List<ReportDataByCourseID>? = null
+class ReportCheckInResponse : BaseResponse() {
+    var data: List<ReportCheckIn>? = null
 }
 
 @Parcelize
-data class ReportDataByCourseID(
+data class ReportCheckIn(
         var studentid: Int?,
         var name: String?,
         var email: String?,
@@ -21,11 +21,11 @@ data class ReportDataByCourseID(
         var b: Int?,
         var t: Int?,
         var v: Int?,
-        var reports: List<ReportByStudent>
+        var reports: List<CheckInInfo>
 ) : Parcelable
 
 @Parcelize
-data class ReportByStudent(
+data class CheckInInfo(
         var sessionid: Int?,
         var lesson: Int?,
         var room: String?,

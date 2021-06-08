@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.face.FaceRequest
 import com.dev.fitface.api.models.face.FaceResponse
-import com.dev.fitface.api.models.room.Room
 import com.dev.fitface.repository.FaceRepository
 
 /**

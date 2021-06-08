@@ -14,7 +14,8 @@ import com.dev.fitface.utils.AppUtils
 import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.SharedPrefs
 import com.dev.fitface.view.BaseActivity
-import com.dev.fitface.view.fragments.CheckInResultFragment
+import com.dev.fitface.view.customview.ToastMessage
+import com.dev.fitface.view.fragments.CheckInReportFragment
 import com.dev.fitface.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -34,7 +35,7 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
     }
 
     override fun setLoadingView(): View? {
-        return findViewById(R.id.layoutLoadingLogin)
+        return findViewById(R.id.layoutLoading)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,7 +59,8 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                tv_errorUsername.visibility = if (tv_errorUsername.visibility == View.VISIBLE && s.isNullOrBlank()) View.VISIBLE else View.INVISIBLE
+                tv_errorUsername.visibility =
+                    if (tv_errorUsername.visibility == View.VISIBLE && s.isNullOrBlank()) View.VISIBLE else View.INVISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -73,7 +75,8 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                tv_errorPassword.visibility = if (tv_errorPassword.visibility == View.VISIBLE && s.isNullOrBlank()) View.VISIBLE else View.INVISIBLE
+                tv_errorPassword.visibility =
+                    if (tv_errorPassword.visibility == View.VISIBLE && s.isNullOrBlank()) View.VISIBLE else View.INVISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -95,7 +98,12 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
     }
 
     override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
-
+        ToastMessage.makeText(
+            this,
+            " Đăng nhập không thành công",
+            ToastMessage.SHORT,
+            ToastMessage.Type.ERROR.type
+        ).show()
     }
 
     override fun observeData() {
@@ -105,6 +113,12 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
     private fun observeLogin() {
         viewModel.responseLogin.observe(this, Observer {
             it.resource?.data.let { user ->
+                ToastMessage.makeText(
+                    this,
+                    " Đăng nhập thành công",
+                    ToastMessage.SHORT,
+                    ToastMessage.Type.SUCCESS.type
+                ).show()
                 SharedPrefs.instance.put("Token", user?.token)
                 AppUtils.startActivityWithNameAndClearTask(this, MainActivity::class.java)
             }

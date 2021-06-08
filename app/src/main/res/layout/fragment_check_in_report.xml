@@ -1,14 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dim_bg"
     tools:context=".view.fragments.CheckInReportFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgr_bottom_sheet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_popup"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCheckInTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:fontFamily="sans-serif-medium"
+            android:text="Xác nhận thông tin điểm danh"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_22"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileStudent"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="36dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_student"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="1dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCheckInTitle" />
+
+        <View
+            android:id="@+id/btnConfirm"
+            android:layout_width="160dp"
+            android:layout_height="0dp"
+            android:background="@drawable/success_shape"
+            app:layout_constraintBottom_toBottomOf="@id/tvConfirm"
+            app:layout_constraintLeft_toLeftOf="@id/imgTickDone"
+            app:layout_constraintRight_toRightOf="@id/tvConfirm"
+            app:layout_constraintTop_toTopOf="@id/tvConfirm" />
+
+        <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:paddingVertical="@dimen/dimen_16"
+            android:paddingHorizontal="@dimen/dimen_14"
+            android:text="Đồng ý"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@id/imgTickDone"
+            app:layout_constraintRight_toLeftOf="@id/middleLine"
+            app:layout_constraintTop_toBottomOf="@id/profileStudent" />
+
+
+        <ImageView
+            android:id="@+id/imgTickDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:src="@drawable/ic_tick_done"
+            app:layout_constraintBottom_toBottomOf="@id/tvConfirm"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tvConfirm"
+            app:layout_constraintTop_toTopOf="@+id/tvConfirm" />
+
+
+        <View
+            android:id="@+id/btnRetry"
+            android:layout_width="160dp"
+            android:layout_height="0dp"
+            android:background="@drawable/warning_shape"
+            app:layout_constraintBottom_toBottomOf="@id/tvRetry"
+            app:layout_constraintLeft_toLeftOf="@id/imgRetry"
+            app:layout_constraintRight_toRightOf="@id/tvRetry"
+            app:layout_constraintTop_toTopOf="@id/tvRetry" />
+
+
+        <TextView
+            android:id="@+id/tvRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dimen_12"
+            android:paddingVertical="@dimen/dimen_16"
+            android:text="Thử lại"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintBottom_toBottomOf="@id/tvConfirm"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toRightOf="@id/imgRetry"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvConfirm" />
+
+        <ImageView
+            android:id="@+id/imgRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:src="@drawable/ic_reload"
+            app:layout_constraintBottom_toBottomOf="@id/tvConfirm"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@id/middleLine"
+            app:layout_constraintRight_toLeftOf="@id/tvRetry"
+            app:layout_constraintTop_toTopOf="@+id/tvConfirm" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/grConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tvConfirm, imgTickDone, btnConfirm" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/grRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tvRetry, imgRetry, btnRetry" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

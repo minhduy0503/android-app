@@ -7,6 +7,7 @@ import com.dev.fitface.api.api_utils.AppExecutor
 import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.course.CourseResponse
+import com.dev.fitface.api.models.report.ReportCheckInResponse
 import com.dev.fitface.api.service.CourseService
 import com.dev.fitface.utils.AppUtils
 import retrofit2.Retrofit
@@ -15,7 +16,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 /**
  * Created by Dang Minh Duy on 25,May,2021
  */
-class CourseRepository constructor(val context: Context, val base_url: String, val appExecutor: AppExecutor) {
+class CourseRepository constructor(
+    val context: Context,
+    val base_url: String,
+    val appExecutor: AppExecutor
+) {
 
     private var courseService: CourseService
     val suffix = "/api/"
@@ -25,23 +30,23 @@ class CourseRepository constructor(val context: Context, val base_url: String, v
         val callApiClient = AppUtils.createOkHttpClient(context)
 
         courseService = Retrofit.Builder()
-                .baseUrl(base_url + suffix)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(liveDataCallAdapterFactory)
-                .client(callApiClient).build()
-                .create(CourseService::class.java)
+            .baseUrl(base_url + suffix)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(liveDataCallAdapterFactory)
+            .client(callApiClient).build()
+            .create(CourseService::class.java)
     }
 
-    companion object{
+    companion object {
         private var INSTANCE: CourseRepository? = null
-        fun instance(context: Context, BASE_URL: String, appExecutors : AppExecutor) = INSTANCE
-                ?: CourseRepository(context, BASE_URL, appExecutors).also {
-                    INSTANCE = it
-                }
+        fun instance(context: Context, BASE_URL: String, appExecutors: AppExecutor) = INSTANCE
+            ?: CourseRepository(context, BASE_URL, appExecutors).also {
+                INSTANCE = it
+            }
     }
 
-    fun getTeacherSchedules(token: String): LiveData<Resource<CourseResponse>>{
-        return  object : NetworkBoundResource<CourseResponse>(appExecutor, context, this.base_url){
+    fun getTeacherSchedules(token: String): LiveData<Resource<CourseResponse>> {
+        return object : NetworkBoundResource<CourseResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: CourseResponse) {
             }
 
@@ -51,4 +56,16 @@ class CourseRepository constructor(val context: Context, val base_url: String, v
         }.asLiveData()
     }
 
+    fun getReportByCourseId(id: String, token: String): LiveData<Resource<ReportCheckInResponse>> {
+        return object :
+            NetworkBoundResource<ReportCheckInResponse>(appExecutor, context, this.base_url) {
+            override fun saveCallResult(item: ReportCheckInResponse) {
+
+            }
+
+            override fun createCall(): LiveData<ApiResponse<ReportCheckInResponse>> {
+                return courseService.getReportByCourseId(id, token)
+            }
+        }.asLiveData()
+    }
 }

@@ -13,14 +13,14 @@ class LoginResponse : BaseResponse() {
 
 @Parcelize
 data class User(
-        var id: Int?,
-        var username: String?,
-        var firstname: String?,
-        var lastname: String?,
-        var roleid: Int?,
-        var shortname: String?,
-        var token: String?,
-        var role: String?,
-        var isAdmin: Boolean?,
-        var userpictureurl: String?
-):Parcelable
+    var id: Int?,
+    var username: String?,
+    var firstname: String?,
+    var lastname: String?,
+    var roleid: Int?,
+    var shortname: String?,
+    var token: String?,
+    var role: String?,
+    var isAdmin: Boolean?,
+    var userpictureurl: String?
+) : Parcelable

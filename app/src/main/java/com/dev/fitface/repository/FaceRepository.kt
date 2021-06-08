@@ -6,10 +6,8 @@ import com.dev.fitface.api.api_utils.ApiResponse
 import com.dev.fitface.api.api_utils.AppExecutor
 import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
-import com.dev.fitface.api.models.campus.CampusResponse
 import com.dev.fitface.api.models.face.FaceRequest
 import com.dev.fitface.api.models.face.FaceResponse
-import com.dev.fitface.api.service.CampusService
 import com.dev.fitface.api.service.FaceService
 import com.dev.fitface.utils.AppUtils
 import retrofit2.Retrofit

@@ -8,9 +8,9 @@
     android:padding="@dimen/margin_24">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bgr_white_rounded"
+        android:background="@drawable/bgr_toast"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,27 +21,29 @@
         android:paddingRight="@dimen/dimen_36">
 
         <ImageView
-            android:id="@+id/imgSuccess"
+            android:id="@+id/imgType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_correct"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/txtSuccess"
+            app:layout_constraintRight_toLeftOf="@+id/tvMessage"
             app:layout_constraintHorizontal_chainStyle="packed"
             />
 
         <TextView
-            android:id="@+id/txtSuccess"
+            android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/imgSuccess"
+            app:layout_constraintLeft_toRightOf="@+id/imgType"
             android:text="Thành công"
-            android:textColor="@color/text_grey_popup"
+            android:textSize="@dimen/text_16"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/white"
             android:layout_marginStart="@dimen/margin_12"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

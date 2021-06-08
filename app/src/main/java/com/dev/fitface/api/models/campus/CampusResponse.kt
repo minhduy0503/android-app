@@ -2,7 +2,6 @@ package com.dev.fitface.api.models.campus
 
 import android.os.Parcelable
 import com.dev.fitface.api.models.BaseResponse
-import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 /**

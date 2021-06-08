@@ -12,7 +12,6 @@ import com.dev.fitface.R
 import com.dev.fitface.api.models.course.Course
 import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.utils.Constants
-import kotlinx.android.synthetic.main.item_course.view.*
 
 /**
  * Created by Dang Minh Duy on 25,May,2021

@@ -1,4 +1,4 @@
-package com.dev.fitface.view
+package com.dev.fitface
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * Created by Dang Minh Duy on 10,May,2021
  */
-abstract class BaseApplication : AppCompatActivity() {
+abstract class BaseAppCompatActivity : AppCompatActivity() {
     companion object {
         const val isProduction = false
         const val PERMISSION_REQUIRED = 0

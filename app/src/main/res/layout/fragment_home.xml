@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:layout_marginLeft="@dimen/margin_16"
-        android:text="Courses Overview"
+        android:text="Khóa học"
         android:textColor="@color/white"
         android:textSize="@dimen/text_36"
         android:fontFamily="sans-serif-medium"
@@ -27,14 +27,41 @@
         android:layout_marginTop="@dimen/margin_32"
         android:layout_marginBottom="@dimen/margin_16"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCourseOverview"
-        app:layout_constraintVertical_bias="0.0"
         app:spanCount="2"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/item_course" />
 
+    <TextView
+        android:id="@+id/tvNoCourses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không tìm thấy khóa học nào"
+        android:textColor="@color/text_title_gray"
+        android:textSize="@dimen/text_26"
+        android:fontFamily="sans-serif-black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imgNoCourses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_no_book"
+        android:layout_marginBottom="@dimen/margin_16"
+        app:layout_constraintBottom_toTopOf="@+id/tvNoCourses"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grNoCourses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="imgNoCourses, tvNoCourses"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

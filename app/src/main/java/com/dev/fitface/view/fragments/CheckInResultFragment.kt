@@ -3,11 +3,9 @@ package com.dev.fitface.view.fragments
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
@@ -16,8 +14,6 @@ import com.dev.fitface.utils.base64ToImage
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_check_in_result.*
-import java.lang.RuntimeException
-import java.util.*
 
 class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
@@ -78,7 +74,6 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
 
             override fun onFinish() {
                 // auto call api
-
             }
         }
         timer.start()
@@ -119,26 +114,26 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
         when (v?.id){
             R.id.btnConfirm -> {
                 val bundle = Bundle()
-                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.confirm)
+//                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.confirm)
                 bundle.putString(Constants.Obj.faceStr, base64Str)
                 mListener?.onResultInteraction(bundle)
             }
 
             R.id.btnRetry -> {
                 val bundle = Bundle()
-                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.retry)
+//                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.retry)
                 mListener?.onResultInteraction(bundle)
             }
 
             R.id.btnReport -> {
                 val bundle = Bundle()
-                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.report)
+//                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.report)
                 bundle.putString(Constants.Param.confirm, base64Str)
             }
 
             R.id.btnClose -> {
                 val bundle = Bundle()
-                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.close)
+//                bundle.putString(Constants.FragmentName.autoCheckInResultFragment, Constants.Param.close)
                 tvTimer.text = "0"
                 timer.cancel()
                 dialog?.dismiss()
