@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_16"
+    android:layout_marginVertical="@dimen/margin_8"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_grey_popup"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvSessionDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_4"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="11/06/2021"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imgCampus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_16"
+        android:src="@drawable/ic_campus"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imgClassroomName"
+        app:layout_constraintTop_toBottomOf="@id/timeLayout"/>
+
+    <TextView
+        android:id="@+id/tvCampusName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Nguyen Van Cu"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        app:layout_constraintBottom_toBottomOf="@id/imgCampus"
+        app:layout_constraintLeft_toRightOf="@id/imgCampus"
+        app:layout_constraintTop_toTopOf="@id/imgCampus" />
+
+    <ImageView
+        android:id="@+id/imgClassroomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_8"
+        android:src="@drawable/ic_classroom_color"
+        app:layout_constraintTop_toBottomOf="@id/imgCampus"
+        app:layout_constraintLeft_toLeftOf="@id/imgCampus"
+        app:layout_constraintBottom_toTopOf="@id/imgDuration"/>
+
+    <TextView
+        android:id="@+id/tvClassroomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="E304"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        app:layout_constraintBottom_toBottomOf="@id/imgClassroomName"
+        app:layout_constraintLeft_toLeftOf="@id/tvCampusName"
+        app:layout_constraintTop_toTopOf="@id/imgClassroomName" />
+
+
+    <ImageView
+        android:id="@+id/imgDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chronometer"
+        android:layout_marginVertical="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/imgCampus"
+        app:layout_constraintTop_toBottomOf="@id/imgClassroomName"/>
+
+    <TextView
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1h20"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@id/tvCampusName"
+        app:layout_constraintBottom_toBottomOf="@id/imgDuration"
+        app:layout_constraintLeft_toRightOf="@id/imgDuration"
+        app:layout_constraintTop_toTopOf="@id/imgDuration" />
+
+
+    <ImageView
+        android:id="@+id/imgEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_32"
+        android:src="@drawable/ic_right_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeLayout" />
+
+    <View
+        android:id="@+id/btnEdit"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="@id/imgEdit"
+        app:layout_constraintLeft_toLeftOf="@id/imgEdit"
+        app:layout_constraintRight_toRightOf="@id/imgEdit"
+        app:layout_constraintTop_toTopOf="@+id/imgEdit" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

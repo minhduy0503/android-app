@@ -1,34 +1,28 @@
 package com.dev.fitface.view.fragments
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.dev.fitface.R
+import com.dev.fitface.utils.Constants
+import kotlinx.android.synthetic.main.fragment_report.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ReportFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ReportFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class ReportFragment : DialogFragment(), View.OnClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    override fun getTheme(): Int = R.style.DialogCorners
+
+    interface OnReportFragmentInteractionListener {
+        fun onReportFragmentInteraction(bundle: Bundle)
     }
+
+    private var mListener: OnReportFragmentInteractionListener? = null
+    private var mistakenStudentId: String? = null
+    private var newStudentId: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +32,68 @@ class ReportFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_report, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnReportFragmentInteractionListener) {
+            mListener = context
+        } else {
+            throw RuntimeException("$context must implement OnReportFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mListener = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initValue()
+        initView()
+        initListener()
+    }
+
+    private fun initListener() {
+        btnClose.setOnClickListener(this)
+        btnConfirm.setOnClickListener(this)
+        edtStudentId.setOnClickListener(this)
+    }
+
+    private fun initView() {
+        tvStudentCheckInResult.text = mistakenStudentId
+    }
+
+    private fun initValue() {
+        arguments?.let {
+            mistakenStudentId = it.getString(Constants.Param.studentId, "")
+        }
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ReportFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ReportFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(bundle: Bundle): ReportFragment {
+            val fragment = ReportFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btnClose -> {
+                val bundle = Bundle()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.close)
+                mListener?.onReportFragmentInteraction(bundle)
             }
+
+            R.id.btnConfirm -> {
+                val bundle = Bundle()
+                newStudentId = edtStudentId.text.toString()
+                bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.confirm)
+                bundle.putString(Constants.Param.studentId, newStudentId)
+                mListener?.onReportFragmentInteraction(bundle)
+            }
+        }
+        dialog?.dismiss()
     }
 }

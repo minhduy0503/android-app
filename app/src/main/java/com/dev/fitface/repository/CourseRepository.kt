@@ -7,9 +7,10 @@ import com.dev.fitface.api.api_utils.AppExecutor
 import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.course.CourseResponse
-import com.dev.fitface.api.models.report.ReportCheckInResponse
 import com.dev.fitface.api.service.CourseService
 import com.dev.fitface.utils.AppUtils
+import com.dev.fitface.utils.Constants
+import com.dev.fitface.utils.SharedPrefs
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -24,6 +25,8 @@ class CourseRepository constructor(
 
     private var courseService: CourseService
     val suffix = "/api/"
+    val moodle = SharedPrefs.instance[Constants.Param.collection, String::class.java] ?: ""
+    val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
@@ -45,26 +48,13 @@ class CourseRepository constructor(
             }
     }
 
-    fun getTeacherSchedules(token: String): LiveData<Resource<CourseResponse>> {
+    fun getTeacherSchedules(): LiveData<Resource<CourseResponse>> {
         return object : NetworkBoundResource<CourseResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: CourseResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<CourseResponse>> {
-                return courseService.getTeacherSchedules(token)
-            }
-        }.asLiveData()
-    }
-
-    fun getReportByCourseId(id: String, token: String): LiveData<Resource<ReportCheckInResponse>> {
-        return object :
-            NetworkBoundResource<ReportCheckInResponse>(appExecutor, context, this.base_url) {
-            override fun saveCallResult(item: ReportCheckInResponse) {
-
-            }
-
-            override fun createCall(): LiveData<ApiResponse<ReportCheckInResponse>> {
-                return courseService.getReportByCourseId(id, token)
+                return courseService.getTeacherSchedules(moodle, token)
             }
         }.asLiveData()
     }

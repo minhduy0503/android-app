@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
         mCoursesSubscriber = Observer { data ->
             data?.let {
                 mContext?.let { context ->
-                    var courseAdapter = CourseAdapter(context, ArrayList(data), mCallFromChild )
+                    val courseAdapter = CourseAdapter(context, ArrayList(data), mCallFromChild )
                     rvCourses.layoutManager = GridLayoutManager(context, 2)
                     rvCourses.setHasFixedSize(true)
                     rvCourses.adapter = courseAdapter

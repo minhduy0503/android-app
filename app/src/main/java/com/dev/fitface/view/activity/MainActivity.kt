@@ -10,7 +10,6 @@ import com.dev.fitface.api.models.room.Room
 import com.dev.fitface.data.CheckInTypeData
 import com.dev.fitface.utils.AppUtils
 import com.dev.fitface.utils.Constants
-import com.dev.fitface.utils.SharedPrefs
 import com.dev.fitface.view.BaseActivity
 import com.dev.fitface.view.fragments.BottomSheetSelectionFragment
 import com.dev.fitface.view.fragments.CheckingFragment
@@ -32,7 +31,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     private var profileFragment: ProfileFragment? = null
 
     private var typeCheckInData: List<CheckInTypeData>? = null
-    private lateinit var token: String
     private var roomId: Int? = null
     private var roomName: String? = null
     private var campusName: String? = null
@@ -57,7 +55,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     }
 
     private fun initValue() {
-        token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
         typeCheckInData = CheckInTypeData.getAllType()
         callApiGetTeacherSchedules()
     }
@@ -145,21 +142,19 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
                 viewModel.campus.postValue(data)
             }
         })
-
-
     }
 
 
     private fun callApiGetTeacherSchedules() {
-        viewModel.getTeacherSchedules(token)
+        viewModel.getTeacherSchedules()
     }
 
     private fun callApiGetCampus() {
-        viewModel.getCampus(token)
+        viewModel.getCampus()
     }
 
     private fun callApiGetRoom(campusId: String) {
-        viewModel.getRoom(token, campusId)
+        viewModel.getRoom(campusId)
     }
 
 

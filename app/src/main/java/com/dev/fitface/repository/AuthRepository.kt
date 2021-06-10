@@ -10,6 +10,8 @@ import com.dev.fitface.api.models.auth.LoginInput
 import com.dev.fitface.api.models.auth.LoginResponse
 import com.dev.fitface.api.service.AuthService
 import com.dev.fitface.utils.AppUtils
+import com.dev.fitface.utils.Constants
+import com.dev.fitface.utils.SharedPrefs
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -19,6 +21,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class AuthRepository constructor(val context: Context, val base_url: String, val appExecutor: AppExecutor){
     private var authService: AuthService
     val suffix = "/api/"
+    val moodle = SharedPrefs.instance[Constants.Param.collection, String::class.java] ?: ""
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
@@ -46,7 +49,7 @@ class AuthRepository constructor(val context: Context, val base_url: String, val
             }
 
             override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
-                return authService.postLogin(input)
+                return authService.postLogin(moodle,input)
             }
         }.asLiveData()
     }

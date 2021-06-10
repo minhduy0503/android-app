@@ -1,22 +1,15 @@
 package com.dev.fitface.view.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dev.fitface.R
-import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.face.Face
-import com.dev.fitface.api.models.face.FaceResponse
 import com.dev.fitface.utils.Constants
-import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_check_in_result.*
 
@@ -32,10 +25,6 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
     interface OnResultCheckInFragmentInteractionListener {
         fun onCheckInResultFragmentInteraction(bundle: Bundle?)
     }
-
-    private lateinit var mFaceResponseSubscriber: Observer<Resource<FaceResponse?>>
-    private lateinit var mFaceStrSubscriber: Observer<String?>
-    private var mAutoCheckInActivityViewModel: AutoCheckInActivityViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,21 +47,11 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
         mListener = null
     }
 
-    override fun onDestroy() {
-        unsubscribeLiveData()
-        super.onDestroy()
-    }
-
-    private fun unsubscribeLiveData() {
-        mAutoCheckInActivityViewModel?.faceResponse?.removeObserver(mFaceResponseSubscriber)
-        mAutoCheckInActivityViewModel?.faceStr?.removeObserver(mFaceStrSubscriber)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initValue()
         initView()
-        initLiveData()
         initListener()
         countDownTimer(time = 5)
     }
@@ -88,10 +67,10 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
             grStudentInfo.visibility = View.VISIBLE
             tvStudentId.text = response?.get(0)?.username
             tvStudentName.text = "${response?.get(0)?.firstname} ${response?.get(0)?.lastname}"
-            Glide.with(profileStudent)
-                .load(stsData.avatar)
+            Glide.with(this)
+                .load(stsData.userpictureurl)
                 .centerCrop()
-                .placeholder(R.drawable.ic_user_placeholder)
+                .error(R.drawable.ic_user_placeholder)
                 .into(profileStudent)
         } else {
             grStudentInfo.visibility = View.INVISIBLE
@@ -148,32 +127,6 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
         btnClose.setOnClickListener(this)
     }
 
-    private fun initLiveData() {
-        activity?.let {
-            mAutoCheckInActivityViewModel =
-                ViewModelProvider(it).get(AutoCheckInActivityViewModel::class.java)
-        }
-        subscribeLiveData()
-    }
-
-    private fun subscribeLiveData() {
-        mFaceResponseSubscriber = Observer {
-            it?.let {
-                // TODO:: Something
-            }
-        }
-        mAutoCheckInActivityViewModel?.faceResponse?.observe(
-            viewLifecycleOwner,
-            mFaceResponseSubscriber
-        )
-
-        mFaceStrSubscriber = Observer {
-            it?.let {
-                // TODO:: Something
-            }
-        }
-        mAutoCheckInActivityViewModel?.faceStr?.observe(viewLifecycleOwner, mFaceStrSubscriber)
-    }
 
     companion object {
         @JvmStatic
@@ -196,6 +149,7 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
             R.id.btnReport -> {
                 val bundle = Bundle()
                 bundle.putString(Constants.ActivityName.autoCheckInActivity, Constants.Param.report)
+                bundle.putString(Constants.Param.studentId, response?.get(0)?.username)
                 mListener?.onCheckInResultFragmentInteraction(bundle)
             }
 

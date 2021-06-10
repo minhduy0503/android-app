@@ -9,6 +9,8 @@ import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.campus.CampusResponse
 import com.dev.fitface.api.service.CampusService
 import com.dev.fitface.utils.AppUtils
+import com.dev.fitface.utils.Constants
+import com.dev.fitface.utils.SharedPrefs
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -18,6 +20,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class CampusRepository constructor(val context: Context, val base_url: String, val appExecutor: AppExecutor){
     private var campusService: CampusService
     val suffix = "/api/"
+    val moodle = SharedPrefs.instance[Constants.Param.collection, String::class.java] ?: ""
+    val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
@@ -39,13 +43,13 @@ class CampusRepository constructor(val context: Context, val base_url: String, v
                 }
     }
 
-    fun getCampus(token: String): LiveData<Resource<CampusResponse>> {
+    fun getCampus(): LiveData<Resource<CampusResponse>> {
         return  object : NetworkBoundResource<CampusResponse>(appExecutor, context, this.base_url){
             override fun saveCallResult(item: CampusResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<CampusResponse>> {
-                return campusService.getCampus(token)
+                return campusService.getCampus(moodle,token)
             }
         }.asLiveData()
     }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:id="@+id/collectionLayout"
+    tools:context=".view.activity.CollectionActivity">
+
+    <TextView
+        android:id="@+id/tvCollection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_32"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:maxLines="1"
+        android:text="Hãy nhập địa chỉ Moodle của trường"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_26"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline2" />
+
+    <EditText
+        android:id="@+id/edtCollection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgr_edittext"
+        android:drawableStart="@drawable/ic_url"
+        android:drawablePadding="@dimen/padding_16"
+        android:hint="http or https://"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_marginTop="@dimen/margin_32"
+        android:padding="@dimen/padding_16"
+        android:textColor="@color/white"
+        android:textColorHint="@color/text_title_gray"
+        android:textSize="@dimen/text_20"
+        app:layout_constraintLeft_toLeftOf="@id/tvCollection"
+        app:layout_constraintRight_toRightOf="@id/tvCollection"
+        app:layout_constraintTop_toBottomOf="@id/tvCollection"/>
+
+    <TextView
+        android:id="@+id/tvErrorCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_4"
+        android:layout_marginStart="@dimen/margin_16"
+        android:text="Vui lòng nhập địa chỉ Moodle"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_16"
+        android:textStyle="italic"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/edtCollection"
+        app:layout_constraintTop_toBottomOf="@+id/edtCollection" />
+
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_40"
+        android:background="@drawable/bgr_button_active"
+        android:text="Xác nhận"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_20"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@id/edtCollection"
+        app:layout_constraintRight_toRightOf="@id/edtCollection"
+        app:layout_constraintTop_toBottomOf="@+id/edtCollection" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

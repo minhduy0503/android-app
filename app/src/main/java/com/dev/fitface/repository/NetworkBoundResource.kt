@@ -41,9 +41,10 @@ abstract class NetworkBoundResource<Result>
                         saveCallResult(processData)
                     }
                     if(processData is BaseResponse){
-                        if (processData.status == 200){
-                            setValue(Resource.success(processData,response.headers))
-                        }
+                        setValue(Resource.success(processData,response.headers))
+/*                        if (processData.status == 200){
+
+                        }*/
                     }
                 }
 

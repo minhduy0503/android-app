@@ -2,7 +2,7 @@ package com.dev.fitface.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.dev.fitface.BuildConfig
 import com.dev.fitface.api.api_utils.ApiStatus
 import com.dev.fitface.api.api_utils.AppExecutor
@@ -13,7 +13,7 @@ import com.dev.fitface.api.api_utils.Resource
  */
 abstract class BaseViewModel constructor(application: Application): AndroidViewModel(application){
 
-    var apiStatus = MutableLiveData<Resource<Any>>()
+    var apiStatus = MediatorLiveData<Resource<Any>>()
     var appExecutor: AppExecutor
     var BASE_URL: String = ""
 

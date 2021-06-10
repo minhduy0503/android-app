@@ -14,6 +14,7 @@ class ReportCheckInResponse : BaseResponse() {
 @Parcelize
 data class ReportCheckIn(
         var studentid: Int?,
+        var username: String?,
         var name: String?,
         var email: String?,
         var count: Int?,
@@ -21,6 +22,7 @@ data class ReportCheckIn(
         var b: Int?,
         var t: Int?,
         var v: Int?,
+        var presentStatusid: Int?,
         var reports: List<CheckInInfo>
 ) : Parcelable
 

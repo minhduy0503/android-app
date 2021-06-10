@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.dev.fitface.api.api_utils.ApiResponse
 import com.dev.fitface.api.models.room.RoomResponse
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Query
 
 /**
@@ -12,5 +13,9 @@ import retrofit2.http.Query
 interface RoomService {
 
     @GET("rooms")
-    fun getRoom(@Query("token") token: String, @Query("campus") campus: String): LiveData<ApiResponse<RoomResponse>>
+    fun getRoom(
+        @Header("moodle") moodle: String,
+        @Header("token") token: String,
+        @Query("campus") campus: String
+    ): LiveData<ApiResponse<RoomResponse>>
 }

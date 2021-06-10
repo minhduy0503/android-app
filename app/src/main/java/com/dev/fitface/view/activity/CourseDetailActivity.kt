@@ -16,7 +16,10 @@ import com.dev.fitface.view.fragments.StudentInCourseFragment
 import com.dev.fitface.viewmodel.CourseDetailActivityViewModel
 import kotlinx.android.synthetic.main.activity_course_detail.*
 
-class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View.OnClickListener {
+class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(),
+    StudentInCourseFragment.OnStudentInCourseFragmentInteractionListener,
+    SessionInCourseFragment.OnSessionInCourseFragmentInteractionListener,
+    View.OnClickListener {
 
     private var mPageAdapter: ViewPaperAdapter? = null
     private var studentInCourseFragment: StudentInCourseFragment? = null
@@ -91,6 +94,7 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View
     }
 
     private fun selectFirstTab() {
+        callApiGetReportByStudent()
         val constraintSet = ConstraintSet()
         constraintSet.clone(courseFilter)
         constraintSet.connect(
@@ -124,6 +128,7 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View
     }
 
     private fun selectSecondTab() {
+        callApiGetReportBySession()
         val constraintSet = ConstraintSet()
         constraintSet.clone(courseFilter)
         constraintSet.connect(
@@ -165,6 +170,14 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View
         }
     }
 
+    private fun callApiGetReportByStudent() {
+        courseId?.let { viewModel.getReportByCourseId(it) }
+    }
+
+    private fun callApiGetReportBySession() {
+        courseId?.let { viewModel.getSessionByCourseId(it) }
+    }
+
 
     override fun createViewModel(): CourseDetailActivityViewModel {
         return ViewModelProvider(this).get(CourseDetailActivityViewModel::class.java)
@@ -184,7 +197,25 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View
 
 
     override fun observeData() {
+        observerReportByCourseId()
+        observerSessionByCourseId()
+    }
 
+    private fun observerSessionByCourseId() {
+        viewModel.responseSessionByCourseId.observe(this, {
+            it?.resource?.data?.let { data ->
+                val a = Bundle()
+                viewModel.session.postValue(data)
+            }
+        })
+    }
+
+    private fun observerReportByCourseId() {
+        viewModel.responseReportByCourseId.observe(this, {
+            it?.resource?.data?.let { data ->
+                viewModel.report.postValue(data)
+            }
+        })
     }
 
 
@@ -220,6 +251,14 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(), View
                 selectTab(1)
             }
         }
+    }
+
+    override fun onStudentInCourseInteraction(bundle: Bundle) {
+
+    }
+
+    override fun onSessionInCourseInteraction(bundle: Bundle) {
+
     }
 
 }

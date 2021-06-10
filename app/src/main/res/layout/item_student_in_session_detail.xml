@@ -4,24 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/margin_16"
-    android:layout_marginVertical="@dimen/margin_8"
-    android:background="@drawable/bgr_rounded_corner">
+    android:background="@drawable/bgr_rounded_corner"
+    android:layout_marginVertical="@dimen/margin_8">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bgr_custom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/tvTimeSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22/05/2021"
+            android:paddingVertical="@dimen/margin_4"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_20"
+            android:fontFamily="sans-serif-condensed-medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imgSessionTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
-        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
         android:src="@drawable/ic_chronometer"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/timeLayout" />
 
     <TextView
         android:id="@+id/tvSessionTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="22/05/2021"
         android:textColor="@color/black"
         android:textSize="@dimen/text_20"
@@ -86,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_check_in"
-        android:layout_marginLeft="@dimen/margin_32"
+        android:layout_marginStart="@dimen/margin_32"
         app:layout_constraintTop_toTopOf="@id/imgSessionTime"
         app:layout_constraintBottom_toBottomOf="@id/imgSessionTime"
         app:layout_constraintLeft_toRightOf="@id/barrier"/>
@@ -95,7 +120,7 @@
         android:id="@+id/tvTimeIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="10:00am"
         android:textColor="@color/black"
         android:textSize="@dimen/text_20"
@@ -118,7 +143,7 @@
         android:id="@+id/tvTimeOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="11:00am"
         android:textColor="@color/black"
         android:textSize="@dimen/text_20"
@@ -141,7 +166,7 @@
         android:id="@+id/tvCheckInStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="On Time"
         android:textColor="@color/green_kelly"
         android:textSize="@dimen/text_20"
@@ -155,7 +180,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_edit"
-        android:layout_marginRight="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

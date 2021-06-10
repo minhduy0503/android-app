@@ -49,6 +49,7 @@ class Constants {
             const val sessionInCourseFragment = "SessionInCourseFragment"
             const val checkInResultFragment = "CheckInResultFragment"
             const val checkInReportFragment = "CheckInReportFragment"
+            const val reportFragment = "ReportFragment"
 
         }
     }
@@ -63,11 +64,13 @@ class Constants {
             const val roomId = "RoomID"
             const val roomName = "RoomName"
             const val campusName = "CampusName"
+            const val studentId = "StudentId"
             const val retry = "Retry"
             const val report = "Report"
             const val confirm = "Confirm"
             const val close = "Close"
             const val course = "Course"
+            const val collection = "Collection"
         }
     }
 
@@ -85,7 +88,8 @@ class Constants {
             const val typeCheckIn ="TypeCheckIn"
             const val course = "Course"
             const val faceStr = "FaceString64"
-
+            const val report = "Report"
+            const val session = "Session"
         }
     }
 

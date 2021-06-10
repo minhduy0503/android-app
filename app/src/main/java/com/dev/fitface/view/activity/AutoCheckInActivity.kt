@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
 import com.dev.fitface.api.models.face.FaceRequest
+import com.dev.fitface.api.models.feedback.FeedbackRequest
 import com.dev.fitface.camerax.CameraManager
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.utils.*
@@ -25,6 +26,7 @@ import com.dev.fitface.view.BaseActivity
 import com.dev.fitface.view.customview.ToastMessage
 import com.dev.fitface.view.fragments.CheckInReportFragment
 import com.dev.fitface.view.fragments.CheckInResultFragment
+import com.dev.fitface.view.fragments.ReportFragment
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
 import kotlinx.android.synthetic.main.activity_auto_check_in.*
 import java.io.ByteArrayOutputStream
@@ -32,14 +34,17 @@ import java.io.ByteArrayOutputStream
 
 class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     CheckInResultFragment.OnResultCheckInFragmentInteractionListener,
-    CheckInReportFragment.OnCheckInReportFragmentInteractionListener, View.OnClickListener {
+    CheckInReportFragment.OnCheckInReportFragmentInteractionListener,
+    ReportFragment.OnReportFragmentInteractionListener, View.OnClickListener {
 
     private lateinit var cameraManager: CameraManager
     private var mCallback: CameraCallback? = null
-    private var token: String? = null
     private var roomId: Int? = null
     private var roomName: String? = null
     private var campusName: String? = null
+    private var studentTakenId: String? = null
+
+    private var isDone: Boolean? = null
 
     override fun setLoadingView(): View? {
         return null
@@ -62,16 +67,30 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     }
 
     override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
-
+        hideProgressView()
     }
 
     override fun observeData() {
         observeFaceResponseCheckIn()
         observeFaceStr()
+        observeFeedback()
+    }
+
+    private fun observeFeedback() {
+        viewModel.feedbackResponse.observe(this, Observer{
+            /*when(it.resource?.status){
+                200 -> {
+                    ToastMessage.makeText(this, "Khiếu nại thành công", ToastMessage.SHORT, ToastMessage.Type.SUCCESS.type).show()
+                }
+                else -> {
+                    ToastMessage.makeText(this, "Khiếu nại thất bại",ToastMessage.SHORT, ToastMessage.Type.ERROR.type).show()
+                }
+            }*/
+        })
     }
 
     private fun observeFaceStr() {
-        viewModel.faceStr?.observe(this, Observer {
+        viewModel.faceStr?.observe(this, {
             // Send to fragment
             it?.let {
                 val bundle = Bundle()
@@ -117,7 +136,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     }
 
     private fun initValue() {
-        token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
         roomId = intent.getIntExtra(Constants.Param.roomId, -1)
         roomName = intent.getStringExtra(Constants.Param.roomName)
         campusName = intent.getStringExtra(Constants.Param.campusName)
@@ -230,7 +248,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             }
     }
 
-
     private fun setOrientationEvent() {
         val orientationEventListener = object : OrientationEventListener(this as Context) {
             override fun onOrientationChanged(orientation: Int) {
@@ -276,8 +293,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                     "Permissions not granted by the user.",
                     ToastMessage.Type.ERROR.type,
                     ToastMessage.SHORT
-                )
-                    .show()
+                ).show()
                 finish()
             }
         }
@@ -305,13 +321,17 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     override fun onCheckInResultFragmentInteraction(bundle: Bundle?) {
         when (bundle?.getString(Constants.ActivityName.autoCheckInActivity)) {
             Constants.Param.confirm,
-            Constants.Param.close-> {
+            Constants.Param.close -> {
                 cameraManager.startCamera()
-
             }
 
             Constants.Param.report -> {
-                // TODO: Something
+                studentTakenId = bundle.getString(Constants.Param.studentId)
+                val bundle = Bundle()
+                bundle.putString(Constants.Param.studentId, studentTakenId)
+                val fragment = ReportFragment.newInstance(bundle)
+                fragment.isCancelable = false
+                fragment.show(supportFragmentManager, Constants.FragmentName.reportFragment)
             }
         }
         tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
@@ -323,12 +343,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                 // Call api
                 callApiPostCheckIn()
             }
-
-            Constants.Param.retry -> {
-
-                cameraManager.startCamera()
-            }
-
+            Constants.Param.retry,
             Constants.Param.close -> {
                 cameraManager.startCamera()
             }
@@ -336,12 +351,36 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
     }
 
+
+    override fun onReportFragmentInteraction(bundle: Bundle) {
+        when (bundle.getString(Constants.ActivityName.autoCheckInActivity)) {
+            Constants.Param.close -> {
+                cameraManager.startCamera()
+            }
+            Constants.Param.confirm -> {
+                val feedBackStudentId = bundle.getString(Constants.Param.studentId) ?: ""
+                callApiPostFeedback(feedBackStudentId)
+                cameraManager.startCamera()
+            }
+        }
+    }
+
     private fun callApiPostCheckIn() {
         val faceStr = viewModel.faceStr?.value
         val input = FaceRequest()
         input.images = listOf(faceStr)
         input.collection = "CNTT3"
-        viewModel.postCheckIn(token!!, roomId!!, input)
+        viewModel.postCheckIn(roomId!!, input)
     }
 
+    private fun callApiPostFeedback(studentId: String) {
+        val feedbackReq = FeedbackRequest()
+        feedbackReq.collection = "CNTT3"
+        feedbackReq.image = viewModel.faceStr?.value
+        feedbackReq.description = "Missing in face"
+        feedbackReq.roomid = roomId
+        feedbackReq.userbetaken = studentTakenId
+        feedbackReq.usertaken = studentId
+        viewModel.postFeedback(feedbackReq)
+    }
 }
