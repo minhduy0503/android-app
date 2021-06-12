@@ -70,7 +70,7 @@ class CheckInResultFragment : BottomSheetDialogFragment(), View.OnClickListener 
             Glide.with(this)
                 .load(stsData.userpictureurl)
                 .centerCrop()
-                .error(R.drawable.ic_user_placeholder)
+                .error(R.drawable.ic_user_avtar)
                 .into(profileStudent)
         } else {
             grStudentInfo.visibility = View.INVISIBLE

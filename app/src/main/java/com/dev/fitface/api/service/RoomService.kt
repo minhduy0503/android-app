@@ -15,7 +15,7 @@ interface RoomService {
     @GET("rooms")
     fun getRoom(
         @Header("moodle") moodle: String,
-        @Header("token") token: String,
+        @Header("Authorization") token: String,
         @Query("campus") campus: String
     ): LiveData<ApiResponse<RoomResponse>>
 }

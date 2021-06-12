@@ -6,9 +6,9 @@
     <string name="lt">Linh Trung</string>
     <string name="campus_type">Campus</string>
     <string name="room_type">Room</string>
-    <string name="campus_selection">Choose a campus</string>
-    <string name="room_selection">Choose a room</string>
-    <string name="type_selection">Choose a type of check in</string>
-    <string name="error_username">* Username is incorrect</string>
-    <string name="error_pwd">* Password is required</string>
+    <string name="campus_selection">Chọn cơ sở</string>
+    <string name="room_selection">Chọn phòng học</string>
+    <string name="type_selection">Chọn hình thức điểm danh</string>
+    <string name="error_username">* Tên đăng nhập không chính x</string>
+    <string name="error_pwd">* Mật khẩu chưa chính xác</string>
 </resources>

@@ -108,7 +108,7 @@ class SessionInCourseFragment : Fragment() {
         @JvmStatic
         fun newInstance(bundle: Bundle) =
             SessionInCourseFragment().apply {
-                arguments = Bundle()
+                arguments = bundle
             }
     }
 }

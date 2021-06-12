@@ -1,5 +1,6 @@
 package com.dev.fitface.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -80,33 +81,45 @@ class AppUtils {
             fragment: Fragment,
             tag: String
         ) {
-            /*  fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, 0, 0)
-              fragmentTransaction.replace(container, fragment, tag)
-              fragmentTransaction.commit()*/
             fragmentTransaction
                 .setCustomAnimations(
                     R.anim.slide_in_right, R.anim.slide_out_left,
                     R.anim.slide_in_left, R.anim.slide_out_right
                 )
-                .replace(R.id.fragmentContainerView, fragment)
+                .addToBackStack(tag)
+                .replace(container, fragment)
                 .commit()
         }
 
-        fun getHourAndMinute(time: Long): String {
-            val stamp: Long = time.times(1000L)
-            val date = Date(stamp)
-            val timeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-            val timeStr: String = timeFormat.format(date)
-            return timeStr.substring(11, timeStr.length)
+        fun finishActivityWithAnim(activity: Activity, intent: Intent?) {
+            activity.setResult(Activity.RESULT_OK, intent)
+            activity.finish()
+            activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
+
+        fun getHourAndMinute(time: Long?): String {
+            time?.let {
+                val stamp: Long = time.times(1000L)
+                val date = Date(stamp)
+                val timeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                val timeStr: String = timeFormat.format(date)
+                return timeStr.substring(11, timeStr.length)
+            }
+            return ""
         }
 
         fun getCurrentTime(): Long{
             return System.currentTimeMillis()
         }
 
-        fun isInProgress(time: Long, limit: Int): Boolean{
-            val diff = getCurrentTime() - time.times(1000)
-            return diff <= limit.times(1000)
+        fun isInProgress(time: Long, limit: Long): Boolean{
+            val diff = getCurrentTime() - time.times(1000L)
+            return diff <= (limit.times(1000L)) && diff >= 0
+        }
+
+        fun isInProgressBetweenTimes(time1: Long, time2: Long): Boolean{
+            val diff = time1 - time2
+            return diff in 0..1800000
         }
 
         fun isInFuture(time: Long): Boolean{
@@ -121,10 +134,20 @@ class AppUtils {
             return timeStr.substring(0, 10)
         }
 
-        fun getDuration(time: Int): String {
-            val hour = time.div(3600)
-            val minute = time.rem(3600).div(60)
-            return "${hour}h ${minute}'"
+        fun getDuration(time: Long?): String? {
+            if(time != null){
+                val hour = time?.div(3600)
+                val minute = time?.rem(3600)?.div(60)
+                return "${hour}h ${minute}'"
+            }
+            return ""
+        }
+
+        fun getTime(time: Long): String {
+            val stamp: Long = time.times(1000L)
+            val date = Date(stamp)
+            val timeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            return timeFormat.format(date)
         }
     }
 

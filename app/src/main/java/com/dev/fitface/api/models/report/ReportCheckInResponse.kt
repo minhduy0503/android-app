@@ -35,5 +35,5 @@ data class CheckInInfo(
         var timein: Long?,
         var timeout: Long?,
         var statusid: Int?,
-        var sessdata: Long?
+        var sessdate: Long?
 ) : Parcelable

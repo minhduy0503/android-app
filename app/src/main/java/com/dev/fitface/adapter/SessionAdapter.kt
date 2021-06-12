@@ -1,5 +1,6 @@
 package com.dev.fitface.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
 import com.dev.fitface.api.models.report.Session
@@ -28,19 +30,20 @@ class SessionAdapter(
         private val tvCampusName: TextView? = itemView.findViewById(R.id.tvCampusName)
         private val tvClassroomName: TextView? = itemView.findViewById(R.id.tvClassroomName)
         private val tvDuration: TextView? = itemView.findViewById(R.id.tvDuration)
-        private val btnEdit: View? = itemView.findViewById(R.id.btnEdit)
+        private val btnViewMore: View? = itemView.findViewById(R.id.btnEdit)
 
         fun bind(item: Session?) {
             item.let {
                 if(AppUtils.isInProgress(it?.sessdate!!, (it.duration!!))){
-                    timeLayout?.setBackgroundResource(R.color.green_kelly)
+                    timeLayout?.setBackgroundResource(R.drawable.bgr_custom_present)
                 } else {
-                    timeLayout?.setBackgroundResource(R.color.text_grey_popup)
+                    timeLayout?.setBackgroundResource(R.drawable.bgr_custom_past)
                 }
-                tvSessionDate?.text = AppUtils.getDate(it?.sessdate!!)
+                tvSessionDate?.text = AppUtils.getTime(it.sessdate!!)
                 tvCampusName?.text = "Cơ sở: ${it.campus}"
                 tvClassroomName?.text = "Phòng học: ${it.room}"
                 tvDuration?.text = "Thời lượng: ${AppUtils.getDuration(it.duration!!)}"
+                btnViewMore?.setOnClickListener(this)
             }
         }
 

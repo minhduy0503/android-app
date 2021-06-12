@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dim_bg"
+    tools:context=".view.fragments.EditCheckInFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgr_bottom_sheet"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tvTitleBottomSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="Cập nhật điểm danh"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_28"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/imgClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_popup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <View
+            android:id="@+id/btnClose"
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_40"
+            app:layout_constraintTop_toTopOf="@+id/imgClose"
+            app:layout_constraintLeft_toLeftOf="@+id/imgClose"
+            app:layout_constraintRight_toRightOf="@id/imgClose"
+            app:layout_constraintBottom_toBottomOf="@id/imgClose"/>
+
+        <ImageView
+            android:id="@+id/imgPositive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_32"
+            android:src="@drawable/ic_checked"
+            app:layout_constraintLeft_toLeftOf="@id/leftLine"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleBottomSheet"/>
+
+        <TextView
+            android:id="@+id/tvPositive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:text="Có mặt"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintBottom_toBottomOf="@id/imgPositive"
+            app:layout_constraintLeft_toRightOf="@id/imgPositive"
+            app:layout_constraintTop_toTopOf="@id/imgPositive" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPos"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"
+            android:background="@drawable/selection_check_box"
+            app:layout_constraintTop_toTopOf="@id/imgPositive"
+            app:layout_constraintBottom_toBottomOf="@id/imgPositive"
+            app:layout_constraintRight_toRightOf="@id/rightLine"/>
+
+        <ImageView
+            android:id="@+id/imgOvertime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_overtime"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintLeft_toLeftOf="@id/imgPositive"
+            app:layout_constraintTop_toBottomOf="@id/imgPositive"/>
+
+        <TextView
+            android:id="@+id/tvOvertime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trễ học"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintTop_toTopOf="@id/imgOvertime"
+            app:layout_constraintBottom_toBottomOf="@id/imgOvertime"
+            app:layout_constraintLeft_toLeftOf="@id/tvPositive"
+            app:layout_constraintTop_toBottomOf="@id/tvPositive"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxOver"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"
+            android:background="@drawable/selection_check_box"
+            app:layout_constraintTop_toTopOf="@id/imgOvertime"
+            app:layout_constraintBottom_toBottomOf="@id/imgOvertime"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPos"
+            app:layout_constraintRight_toRightOf="@id/checkBoxPos"/>
+
+        <ImageView
+            android:id="@+id/imgAbsent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_absent"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintLeft_toLeftOf="@id/imgPositive"
+            app:layout_constraintTop_toBottomOf="@id/imgOvertime" />
+
+        <TextView
+            android:id="@+id/tvAbsent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vắng học"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintTop_toTopOf="@id/imgAbsent"
+            app:layout_constraintBottom_toBottomOf="@id/imgAbsent"
+            app:layout_constraintLeft_toLeftOf="@id/tvPositive"
+            app:layout_constraintTop_toBottomOf="@id/tvPositive"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxAbsent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"
+            android:background="@drawable/selection_check_box"
+            app:layout_constraintTop_toTopOf="@id/imgAbsent"
+            app:layout_constraintBottom_toBottomOf="@id/imgAbsent"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPos"
+            app:layout_constraintRight_toRightOf="@id/checkBoxPos"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgr_button_active"
+            android:text="Xác nhận"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_20"
+            android:layout_marginTop="@dimen/margin_38"
+            android:layout_marginBottom="@dimen/margin_32"
+            app:layout_constraintLeft_toLeftOf="@id/leftLine"
+            app:layout_constraintRight_toRightOf="@id/rightLine"
+            app:layout_constraintTop_toBottomOf="@+id/imgAbsent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

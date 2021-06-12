@@ -6,8 +6,8 @@ import com.dev.fitface.api.api_utils.ApiResponse
 import com.dev.fitface.api.api_utils.AppExecutor
 import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
-import com.dev.fitface.api.models.report.ReportCheckInResponse
-import com.dev.fitface.api.models.report.SessionReportResponse
+import com.dev.fitface.api.models.auth.LoginResponse
+import com.dev.fitface.api.models.report.*
 import com.dev.fitface.api.service.ReportService
 import com.dev.fitface.utils.AppUtils
 import com.dev.fitface.utils.Constants
@@ -68,6 +68,36 @@ class ReportRepository  constructor(
         }.asLiveData()
     }
 
+    fun getSessionByStudentId(username: Int, courseid: Int): LiveData<Resource<SessionReportByStudentIdResponse>> {
+        return object : NetworkBoundResource<SessionReportByStudentIdResponse>(appExecutor, context, this.base_url) {
+            override fun saveCallResult(item: SessionReportByStudentIdResponse) {
+            }
 
+            override fun createCall(): LiveData<ApiResponse<SessionReportByStudentIdResponse>> {
+                return reportService.getSessionByStudentId(moodle, token, username, courseid)
+            }
+        }.asLiveData()
+    }
 
+    fun getStudentInfo(username: String): LiveData<Resource<LoginResponse>> {
+        return  object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url){
+            override fun saveCallResult(item: LoginResponse) {
+            }
+
+            override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
+                return reportService.getStudentInfo(token, moodle,username)
+            }
+        }.asLiveData()
+    }
+
+    fun postUpdateAttendanceLog(sessionId: String, input: UpdateLogRequest): LiveData<Resource<UpdateLogResponse>> {
+        return  object : NetworkBoundResource<UpdateLogResponse>(appExecutor, context, this.base_url){
+            override fun saveCallResult(item: UpdateLogResponse) {
+            }
+
+            override fun createCall(): LiveData<ApiResponse<UpdateLogResponse>> {
+                return reportService.postUpdateAttendanceLog(token, moodle, sessionId, input)
+            }
+        }.asLiveData()
+    }
 }

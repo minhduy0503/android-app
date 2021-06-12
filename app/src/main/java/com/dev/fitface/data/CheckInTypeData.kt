@@ -10,8 +10,8 @@ import kotlinx.android.parcel.Parcelize
 class CheckInTypeData(var id: Int, var name: String, var isSelected: Int? = 0) : Parcelable {
     companion object {
         fun getAllType(): ArrayList<CheckInTypeData> {
-            val auto = CheckInTypeData(0, "Automatic", 0)
-            val manu = CheckInTypeData(1, "Manual", 0)
+            val auto = CheckInTypeData(0, "Tự động", 0)
+            val manu = CheckInTypeData(1, "Thủ công", 0)
             return arrayListOf(auto, manu)
         }
     }

@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/margin_16"
     android:layout_marginVertical="@dimen/margin_8"
-    android:background="@color/white">
+    android:background="@drawable/bgr_white_rounded">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/text_grey_popup"
+        android:background="@drawable/bgr_custom_past"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -114,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@id/timeLayout" />
 
     <View
-        android:id="@+id/btnEdit"
+        android:id="@+id/btnViewMore"
         android:layout_width="52dp"
         android:layout_height="52dp"
         app:layout_constraintBottom_toBottomOf="@id/imgEdit"

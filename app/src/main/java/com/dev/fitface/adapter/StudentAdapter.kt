@@ -64,7 +64,7 @@ class StudentAdapter(
                         imgStatusCheckInNow?.setBackgroundResource(R.color.red_error)
                     }
                     else -> {
-                        imgStatusCheckInNow?.setBackgroundResource(R.color.grey)
+                        imgStatusCheckInNow?.setBackgroundResource(R.color.text_title_gray)
                     }
                 }
             }

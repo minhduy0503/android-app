@@ -78,14 +78,16 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
 
     private fun observeFeedback() {
         viewModel.feedbackResponse.observe(this, Observer{
-            /*when(it.resource?.status){
+            when(it.resource?.status){
                 200 -> {
                     ToastMessage.makeText(this, "Khiếu nại thành công", ToastMessage.SHORT, ToastMessage.Type.SUCCESS.type).show()
+                    cameraManager.startCamera()
                 }
                 else -> {
                     ToastMessage.makeText(this, "Khiếu nại thất bại",ToastMessage.SHORT, ToastMessage.Type.ERROR.type).show()
+                    cameraManager.startCamera()
                 }
-            }*/
+            }
         })
     }
 

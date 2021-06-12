@@ -50,6 +50,7 @@ class Constants {
             const val checkInResultFragment = "CheckInResultFragment"
             const val checkInReportFragment = "CheckInReportFragment"
             const val reportFragment = "ReportFragment"
+            const val studentInCourseDetailFragment = "StudentInCourseDetailFragment"
 
         }
     }
@@ -71,13 +72,18 @@ class Constants {
             const val close = "Close"
             const val course = "Course"
             const val collection = "Collection"
+            const val checkInStatus = "CheckInStatus"
+            const val sessionId = "SessionId"
+            const val timeIn = "TimeIn"
+            const val timeOut = "TimeOut"
+
         }
     }
 
     class CheckInType{
         companion object{
-            const val auto = "Automatic"
-            const val manual = "Manual"
+            const val auto = "Tự động"
+            const val manual = "Thủ công"
         }
     }
 

@@ -111,7 +111,7 @@ class StudentInCourseFragment : Fragment() {
         @JvmStatic
         fun newInstance(bundle: Bundle) =
             StudentInCourseFragment().apply {
-                arguments = Bundle()
+                arguments = bundle
             }
     }
 }

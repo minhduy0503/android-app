@@ -69,6 +69,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
             when (item.itemId) {
                 R.id.navigation_home -> {
                     val bundle = Bundle()
+                    callApiGetTeacherSchedules()
                     homeFragment = HomeFragment.newInstance(bundle)
                     AppUtils.addFragmentWithAnimLeft(
                         supportFragmentManager.beginTransaction(),

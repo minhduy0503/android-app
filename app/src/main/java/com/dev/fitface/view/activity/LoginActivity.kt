@@ -15,11 +15,12 @@ import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.SharedPrefs
 import com.dev.fitface.view.BaseActivity
 import com.dev.fitface.view.customview.ToastMessage
+import com.dev.fitface.view.fragments.EditCheckInFragment
 import com.dev.fitface.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListener {
+class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListener{
 
     private var isValidUsername: Boolean = false
     private var isValidPassword: Boolean = false
