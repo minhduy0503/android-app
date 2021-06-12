@@ -2,12 +2,16 @@ package com.dev.fitface.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.view.KeyEvent
 import android.view.OrientationEventListener
 import android.view.View
 import androidx.camera.core.ImageCapture
@@ -45,6 +49,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     private var studentTakenId: String? = null
 
     private var isDone: Boolean? = null
+    private val currentApiVersion = 0
 
     override fun setLoadingView(): View? {
         return null
@@ -69,6 +74,17 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     override fun handleError(statusCode: Int?, message: String?, bundle: Bundle?) {
         hideProgressView()
     }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
+    }
+
 
     override fun observeData() {
         observeFaceResponseCheckIn()
@@ -117,6 +133,8 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         })
     }
 
+
+    @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initValue()
@@ -124,6 +142,20 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         initListener()
         initCameraManager()
         askPermission()
+
+        val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
+            window.decorView.systemUiVisibility = flags
+            val decorView = window.decorView
+            decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+                if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                    decorView.systemUiVisibility = flags
+                }
+            }
+        }
     }
 
     private fun initCameraManager() {
@@ -308,6 +340,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         )
     }
 
+    @Suppress("DEPRECATION")
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnBack -> {
@@ -315,7 +348,8 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             }
 
             R.id.btnLock -> {
-
+                val intent = Intent(this, PasscodeActivity::class.java)
+                startActivityForResult(intent, 1)
             }
         }
     }
@@ -384,5 +418,67 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         feedbackReq.userbetaken = studentTakenId
         feedbackReq.usertaken = studentId
         viewModel.postFeedback(feedbackReq)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        @Suppress("DEPRECATION")
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1) {
+
+            // resultCode được set bởi DetailActivity
+            // RESULT_OK chỉ ra rằng kết quả này đã thành công
+            if(resultCode == Activity.RESULT_OK) {
+                // Nhận dữ liệu từ Intent trả về
+                when(data?.getStringExtra(Constants.ActivityName.autoCheckInActivity)){
+                    "Ok" -> {
+                        if (btnBack.isEnabled){
+                            btnBack.isEnabled = false
+                            ToastMessage.makeText(
+                                this,
+                                "Khóa thành công",
+                                ToastMessage.SHORT,
+                                ToastMessage.Type.SUCCESS.type
+                            ).show()
+                            imgLock.setImageResource(R.drawable.ic_lock)
+                        } else {
+                            btnBack.isEnabled = true
+                            ToastMessage.makeText(
+                                this,
+                                "Mở khóa thành công",
+                                ToastMessage.SHORT,
+                                ToastMessage.Type.SUCCESS.type
+                            ).show()
+                            imgLock.setImageResource(R.drawable.ic_unlock)
+                        }
+
+                    }
+                    "Saved" -> {
+                        btnBack.isEnabled = false
+                        ToastMessage.makeText(
+                            this,
+                            "Thiết lập khóa thành công",
+                            ToastMessage.SHORT,
+                            ToastMessage.Type.SUCCESS.type
+                        ).show()
+                        imgLock.setImageResource(R.drawable.ic_lock)
+                    }
+                }
+
+            } else {
+                ToastMessage.makeText(
+                    this,
+                    "Thiết lập khóa không thành công",
+                    ToastMessage.SHORT,
+                    ToastMessage.Type.ERROR.type
+                ).show()
+            }
+        }
+    }
+
+
+    override fun onBackPressed() {
+        if (btnBack.isEnabled){
+            super.onBackPressed()
+        }
     }
 }

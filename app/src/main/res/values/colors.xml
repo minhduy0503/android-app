@@ -29,4 +29,5 @@
     <color name="bg_toast">#0F1F56</color>
     <color name="field_green">#60b922</color>
     <color name="skin">#E0AC69</color>
+    <color name="bg_gray_keyboard">#D4D7DD</color>
 </resources>

@@ -364,6 +364,8 @@ class CourseDetailActivity : BaseActivity<CourseDetailActivityViewModel>(),
                 callApiPostUpdateLog(sessionId.toString(), req)
             }
         }
+        callApiGetReportByStudent()
+        callApiGetReportBySession()
     }
 
 }

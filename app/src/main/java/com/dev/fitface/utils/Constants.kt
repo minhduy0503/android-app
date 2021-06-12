@@ -76,6 +76,8 @@ class Constants {
             const val sessionId = "SessionId"
             const val timeIn = "TimeIn"
             const val timeOut = "TimeOut"
+            const val passCode = "Passcode"
+
 
         }
     }
