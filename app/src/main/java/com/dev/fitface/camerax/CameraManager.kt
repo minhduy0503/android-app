@@ -1,6 +1,5 @@
 package com.dev.fitface.camerax
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.util.DisplayMetrics

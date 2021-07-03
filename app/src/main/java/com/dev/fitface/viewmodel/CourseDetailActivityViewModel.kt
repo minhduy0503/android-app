@@ -7,14 +7,14 @@ import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.auth.LoginResponse
 import com.dev.fitface.api.models.auth.User
 import com.dev.fitface.api.models.report.*
-import com.dev.fitface.repository.ReportRepository
+import com.dev.fitface.repository.MoodleRepository
 import com.dev.fitface.utils.AppUtils
 
 class CourseDetailActivityViewModel constructor(application: Application) :
     BaseViewModel(application) {
 
-    private val reportRepository: ReportRepository =
-        ReportRepository.instance(application, BASE_URL, appExecutor)
+    private val moodleRepository: MoodleRepository =
+        MoodleRepository.instance(application, BASE_URL, appExecutor)
 
     var report: MediatorLiveData<List<ReportCheckIn>?> =
         MediatorLiveData<List<ReportCheckIn>?>().also {
@@ -35,7 +35,7 @@ class CourseDetailActivityViewModel constructor(application: Application) :
 
     val responseReportByCourseId = MediatorLiveData<Resource<ReportCheckInResponse>>()
     fun getReportByCourseId(id: Int) {
-        responseReportByCourseId.addSource(reportRepository.getReportByCourseId(id)) { newData ->
+        responseReportByCourseId.addSource(moodleRepository.getReportByCourseId(id)) { newData ->
             setResultData<Resource<ReportCheckInResponse>>(newData)?.let {
                 responseReportByCourseId.value = it
             }
@@ -44,7 +44,7 @@ class CourseDetailActivityViewModel constructor(application: Application) :
 
     val responseSessionByCourseId = MediatorLiveData<Resource<SessionReportResponse>>()
     fun getSessionByCourseId(id: Int) {
-        responseSessionByCourseId.addSource(reportRepository.getSessionByCourseId(id)) { newData ->
+        responseSessionByCourseId.addSource(moodleRepository.getSessionByCourseId(id)) { newData ->
             setResultData<Resource<SessionReportResponse>>(newData)?.let {
                 orderSessionReportByCourseId(it)
                 responseSessionByCourseId.value = it
@@ -54,7 +54,7 @@ class CourseDetailActivityViewModel constructor(application: Application) :
 
     val responseSessionByStudentId = MediatorLiveData<Resource<SessionReportByStudentIdResponse>>()
     fun getSessionByStudentId(username: Int, id: Int) {
-        responseSessionByCourseId.addSource(reportRepository.getSessionByStudentId(username, id)) { newData ->
+        responseSessionByCourseId.addSource(moodleRepository.getSessionByStudentId(username, id)) { newData ->
             setResultData<Resource<SessionReportByStudentIdResponse>>(newData)?.let {
 //                orderSessionReportByStudentId(it)
                 responseSessionByStudentId.value = it
@@ -65,7 +65,7 @@ class CourseDetailActivityViewModel constructor(application: Application) :
 
     val responseStudentInfo = MediatorLiveData<Resource<LoginResponse>>()
     fun getStudentInfo(username: String) {
-        responseStudentInfo.addSource(reportRepository.getStudentInfo(username)) { newData ->
+        responseStudentInfo.addSource(moodleRepository.getStudentInfo(username)) { newData ->
             setResultData<Resource<LoginResponse>>(newData)?.let {
                 responseStudentInfo.value = it
             }
@@ -74,7 +74,7 @@ class CourseDetailActivityViewModel constructor(application: Application) :
 
     val responseUpdateLog = MediatorLiveData<Resource<UpdateLogResponse>>()
     fun postUpdateAttendanceLog(sessionId: String, input: UpdateLogRequest) {
-        responseStudentInfo.addSource(reportRepository.postUpdateAttendanceLog(sessionId, input)) { newData ->
+        responseStudentInfo.addSource(moodleRepository.postUpdateAttendanceLog(sessionId, input)) { newData ->
             setResultData<Resource<UpdateLogResponse>>(newData)?.let {
                 responseUpdateLog.value = it
             }

@@ -3,7 +3,6 @@ package com.dev.fitface.mlkit
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
-import android.media.Image
 import android.util.Log
 import com.dev.fitface.camerax.BaseImageAnalyzer
 import com.dev.fitface.camerax.GraphicOverlay

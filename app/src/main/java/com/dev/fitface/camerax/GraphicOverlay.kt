@@ -9,7 +9,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.camera.core.CameraSelector
-import com.dev.fitface.utils.Constants
 import kotlin.math.ceil
 
 open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :

@@ -2,13 +2,10 @@ package com.dev.fitface.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
-import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -28,7 +25,6 @@ import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.utils.*
 import com.dev.fitface.view.BaseActivity
 import com.dev.fitface.view.customview.ToastMessage
-import com.dev.fitface.view.fragments.CheckInReportFragment
 import com.dev.fitface.view.fragments.CheckInResultFragment
 import com.dev.fitface.view.fragments.ReportFragment
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel
@@ -94,14 +90,24 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     }
 
     private fun observeFeedback() {
-        viewModel.feedbackResponse.observe(this, Observer{
-            when(it.resource?.status){
+        viewModel.feedbackResponse.observe(this, Observer {
+            when (it.resource?.status) {
                 200 -> {
-                    ToastMessage.makeText(this, "Khiếu nại thành công", ToastMessage.SHORT, ToastMessage.Type.SUCCESS.type).show()
+                    ToastMessage.makeText(
+                        this,
+                        "Khiếu nại thành công",
+                        ToastMessage.SHORT,
+                        ToastMessage.Type.SUCCESS.type
+                    ).show()
                     cameraManager.startCamera()
                 }
                 else -> {
-                    ToastMessage.makeText(this, "Khiếu nại thất bại",ToastMessage.SHORT, ToastMessage.Type.ERROR.type).show()
+                    ToastMessage.makeText(
+                        this,
+                        "Khiếu nại thất bại",
+                        ToastMessage.SHORT,
+                        ToastMessage.Type.ERROR.type
+                    ).show()
                     cameraManager.startCamera()
                 }
             }
@@ -133,28 +139,27 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             }
         })
     }
-
+    
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initListener()
         initValue()
         initView()
-        initListener()
         initCameraManager()
         askPermission()
-
-      /*  val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
-            window.decorView.systemUiVisibility = flags
-            val decorView = window.decorView
-            decorView.setOnSystemUiVisibilityChangeListener { visibility ->
-                if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                    decorView.systemUiVisibility = flags
-                }
-            }
-        }*/
+        /*  val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                  View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                  View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                  View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+          if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
+              window.decorView.systemUiVisibility = flags
+              val decorView = window.decorView
+              decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+                  if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                      decorView.systemUiVisibility = flags
+                  }
+              }
+          }*/
     }
 
     private fun initCameraManager() {
@@ -177,7 +182,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             override fun onFaceCapture(rect: Rect) {
                 tvAction.text = "Đang xử lí"
                 captureFace(rect)
-                Log.i("Debug","OK")
+                Log.i("Debug", "OK")
 //                cameraManager.stopCamera()
             }
 
@@ -232,7 +237,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
 
     private fun initListener() {
         btnBack.setOnClickListener(this)
-        btnLock.setOnClickListener(this)
     }
 
     private fun captureFace(faceRect: Rect) {
@@ -340,20 +344,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         )
     }
 
-    @Suppress("DEPRECATION")
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btnBack -> {
-                super.onBackPressed()
-            }
-
-            R.id.btnLock -> {
-                val intent = Intent(this, PasscodeActivity::class.java)
-                startActivityForResult(intent, 1)
-            }
-        }
-    }
-
     override fun onCheckInResultFragmentInteraction(bundle: Bundle?) {
         when (bundle?.getString(Constants.ActivityName.autoCheckInActivity)) {
             Constants.Param.confirm,
@@ -412,7 +402,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
 
     private fun callApiPostFeedback(studentId: String) {
         val feedbackReq = FeedbackRequest()
-        feedbackReq.collection = "CNTT3"
         feedbackReq.image = viewModel.faceStr?.value
         feedbackReq.description = "Missing in face"
         feedbackReq.roomid = roomId
@@ -421,65 +410,70 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         viewModel.postFeedback(feedbackReq)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        @Suppress("DEPRECATION")
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1) {
-
-            // resultCode được set bởi DetailActivity
-            // RESULT_OK chỉ ra rằng kết quả này đã thành công
-            if(resultCode == Activity.RESULT_OK) {
-                // Nhận dữ liệu từ Intent trả về
-                when(data?.getStringExtra(Constants.ActivityName.autoCheckInActivity)){
-                    "Ok" -> {
-                        if (btnBack.isEnabled){
-                            btnBack.isEnabled = false
-                            ToastMessage.makeText(
-                                this,
-                                "Khóa thành công",
-                                ToastMessage.SHORT,
-                                ToastMessage.Type.SUCCESS.type
-                            ).show()
-                            imgLock.setImageResource(R.drawable.ic_lock)
-                        } else {
-                            btnBack.isEnabled = true
-                            ToastMessage.makeText(
-                                this,
-                                "Mở khóa thành công",
-                                ToastMessage.SHORT,
-                                ToastMessage.Type.SUCCESS.type
-                            ).show()
-                            imgLock.setImageResource(R.drawable.ic_unlock)
-                        }
-
-                    }
-                    "Saved" -> {
-                        btnBack.isEnabled = false
-                        ToastMessage.makeText(
-                            this,
-                            "Thiết lập khóa thành công",
-                            ToastMessage.SHORT,
-                            ToastMessage.Type.SUCCESS.type
-                        ).show()
-                        imgLock.setImageResource(R.drawable.ic_lock)
-                    }
-                }
-
-            } else {
-                ToastMessage.makeText(
-                    this,
-                    "Thiết lập khóa không thành công",
-                    ToastMessage.SHORT,
-                    ToastMessage.Type.ERROR.type
-                ).show()
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btnBack -> {
+                Log.i("Debug", "as")
+                super.onBackPressed()
             }
         }
+
     }
 
+    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         @Suppress("DEPRECATION")
+         super.onActivityResult(requestCode, resultCode, data)
+         if(requestCode == 1) {
 
-    override fun onBackPressed() {
-        if (btnBack.isEnabled){
-            super.onBackPressed()
-        }
-    }
+             // resultCode được set bởi DetailActivity
+             // RESULT_OK chỉ ra rằng kết quả này đã thành công
+             if(resultCode == Activity.RESULT_OK) {
+                 // Nhận dữ liệu từ Intent trả về
+                 when(data?.getStringExtra(Constants.ActivityName.autoCheckInActivity)){
+                     "Ok" -> {
+                         if (btnBack.isEnabled){
+                             btnBack.isEnabled = false
+                             ToastMessage.makeText(
+                                 this,
+                                 "Khóa thành công",
+                                 ToastMessage.SHORT,
+                                 ToastMessage.Type.SUCCESS.type
+                             ).show()
+                             imgLock.setImageResource(R.drawable.ic_lock)
+                         } else {
+                             btnBack.isEnabled = true
+                             ToastMessage.makeText(
+                                 this,
+                                 "Mở khóa thành công",
+                                 ToastMessage.SHORT,
+                                 ToastMessage.Type.SUCCESS.type
+                             ).show()
+                             imgLock.setImageResource(R.drawable.ic_unlock)
+                         }
+
+                     }
+                     "Saved" -> {
+                         btnBack.isEnabled = false
+                         ToastMessage.makeText(
+                             this,
+                             "Thiết lập khóa thành công",
+                             ToastMessage.SHORT,
+                             ToastMessage.Type.SUCCESS.type
+                         ).show()
+                         imgLock.setImageResource(R.drawable.ic_lock)
+                     }
+                 }
+
+             } else {
+                 ToastMessage.makeText(
+                     this,
+                     "Thiết lập khóa không thành công",
+                     ToastMessage.SHORT,
+                     ToastMessage.Type.ERROR.type
+                 ).show()
+             }
+         }
+     }
+ */
+
 }

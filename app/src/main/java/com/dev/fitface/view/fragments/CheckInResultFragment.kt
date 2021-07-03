@@ -1,7 +1,6 @@
 package com.dev.fitface.view.fragments
 
 import android.content.Context
-import android.database.Observable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -9,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.dev.fitface.R
-import com.dev.fitface.api.models.face.Face
 import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.base64ToImage
 import com.dev.fitface.viewmodel.AutoCheckInActivityViewModel

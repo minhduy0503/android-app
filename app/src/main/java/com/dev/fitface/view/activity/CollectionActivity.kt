@@ -3,8 +3,6 @@ package com.dev.fitface.view.activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.fitface.R

@@ -2,7 +2,6 @@ package com.dev.fitface.camerax
 
 import android.annotation.SuppressLint
 import android.graphics.Rect
-import android.media.Image
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task

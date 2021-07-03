@@ -23,5 +23,5 @@ data class Face(
     var roleid: Int,
     var role: String,
     var shortname: String,
-    var userpictureurl: String
+    var avatar: String
 ) : Parcelable

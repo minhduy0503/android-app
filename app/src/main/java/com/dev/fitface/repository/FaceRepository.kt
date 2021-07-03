@@ -51,16 +51,7 @@ class FaceRepository constructor(
             }
     }
 
-    fun postCheckIn(id: Int, input: FaceRequest): LiveData<Resource<FaceResponse>> {
-        return object : NetworkBoundResource<FaceResponse>(appExecutor, context, this.base_url) {
-            override fun saveCallResult(item: FaceResponse) {
-            }
 
-            override fun createCall(): LiveData<ApiResponse<FaceResponse>> {
-                return faceService.postCheckIn(moodle, token, id, input)
-            }
-        }.asLiveData()
-    }
 
     fun postFeedback(input: FeedbackRequest): LiveData<Resource<FeedbackResponse>> {
         return object :

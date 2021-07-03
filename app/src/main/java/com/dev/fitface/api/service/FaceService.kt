@@ -16,18 +16,17 @@ import retrofit2.http.Path
  */
 interface FaceService {
 
-    @POST("checkin/{id}")
-    fun postCheckIn(
-        @Header("moodle") moodle: String,
-        @Header("Authorization") token: String,
-        @Path("id") roomId: Int,
-        @Body bodyReq: FaceRequest
-    ): LiveData<ApiResponse<FaceResponse>>
-
     @POST("feedback")
     fun postFeedback(
         @Header("moodle") moodle: String,
         @Header("Authorization") token: String,
         @Body bodyReq: FeedbackRequest
     ): LiveData<ApiResponse<FeedbackResponse>>
+
+    @POST("find")
+    fun postFindFace(
+        @Header("moodle") moodle: String,
+        @Header("Authorization") token: String,
+        @Body bodyReq: FaceRequest
+    ): LiveData<ApiResponse<FaceResponse>>
 }

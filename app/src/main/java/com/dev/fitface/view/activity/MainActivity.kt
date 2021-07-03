@@ -236,6 +236,4 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
     override fun onHomeFragmentInteraction(bundle: Bundle) {
         AppUtils.startActivityWithBundle(this, CourseDetailActivity::class.java, bundle)
     }
-
-
 }
