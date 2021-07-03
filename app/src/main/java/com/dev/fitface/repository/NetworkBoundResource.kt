@@ -42,9 +42,6 @@ abstract class NetworkBoundResource<Result>
                     }
                     if(processData is BaseResponse){
                         setValue(Resource.success(processData,response.headers))
-/*                        if (processData.status == 200){
-
-                        }*/
                     }
                 }
 

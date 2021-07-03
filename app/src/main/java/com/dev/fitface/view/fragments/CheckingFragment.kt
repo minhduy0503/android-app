@@ -81,7 +81,6 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         subscriberLiveData()
     }
 
-    @Suppress("DEPRECATION")
     private fun subscriberLiveData() {
         mCampusSubscriber = Observer {
             it?.let {
@@ -148,14 +147,14 @@ class CheckingFragment : Fragment(), View.OnClickListener {
             }
             R.id.btnStart -> {
                 if (tvCampus.text.isNotBlank() && tvTypeCheckIn.text.isNotBlank() && tvRoom.text.isNotBlank()) {
-                    startAutomaticallyCheckIn()
+                    startCheckIn()
                 }
             }
         }
     }
 
 
-    private fun startAutomaticallyCheckIn() {
+    private fun startCheckIn() {
         when (tvTypeCheckIn.text) {
             Constants.CheckInType.auto -> {
                 mListener?.onStartCheckIn(Constants.CheckInType.auto)
@@ -171,7 +170,7 @@ class CheckingFragment : Fragment(), View.OnClickListener {
         when (bundle?.getString(Constants.Param.dataType)) {
             Constants.Obj.campus -> {
                 val data: Campus = bundle.getParcelable(Constants.Param.dataSelected)!!
-                tvCampus.text = data.name
+                tvCampus.text = data.id
                 idCampus = data.id
             }
             Constants.Obj.room -> {

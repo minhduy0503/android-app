@@ -35,7 +35,7 @@ class Constants {
             const val autoCheckInActivity = "AutoCheckInActivity"
             const val manualCheckInActivity = "ManualCheckInActivity"
             const val courseDetailActivity = "CourseDetailActivity"
-
+            const val manualCheckInResultActivity = "ManualCheckInResultActivity"
         }
     }
 
@@ -77,8 +77,8 @@ class Constants {
             const val timeIn = "TimeIn"
             const val timeOut = "TimeOut"
             const val passCode = "Passcode"
-
-
+            const val width = "Width"
+            const val height = "Height"
         }
     }
 
@@ -95,7 +95,6 @@ class Constants {
             const val room = "Room"
             const val typeCheckIn ="TypeCheckIn"
             const val course = "Course"
-            const val faceStr = "FaceString64"
             const val report = "Report"
             const val session = "Session"
         }

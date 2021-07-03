@@ -1,6 +1,7 @@
 package com.dev.fitface.camerax
 
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.media.Image
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -14,34 +15,33 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
-        mediaImage?.let { image ->
-            detectInImage(InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees))
-                    .addOnSuccessListener { results ->
-                        onSuccess(
-                                results,
-                                graphicOverlay,
-                                image,
-                        )
-                    }
-                    .addOnFailureListener { e ->
-                        graphicOverlay.clear()
-                        graphicOverlay.postInvalidate()
-                        onFailure(e)
-                    }
-                    .addOnCompleteListener {
-                        imageProxy.close()
-                    }
+        mediaImage?.let {
+            detectInImage(InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees))
+                .addOnSuccessListener { results ->
+                    onSuccess(
+                        results,
+                        graphicOverlay,
+                        it.cropRect
+                    )
+                }
+                .addOnFailureListener {
+                    graphicOverlay.clear()
+                    graphicOverlay.postInvalidate()
+                    onFailure(it)
+                }
+                .addOnCompleteListener {
+                    imageProxy.close()
+                }
         }
     }
-
     abstract fun stop()
 
     protected abstract fun detectInImage(image: InputImage): Task<T>
 
     protected abstract fun onSuccess(
-            results: T,
-            graphicOverlay: GraphicOverlay,
-            image: Image
+        results: T,
+        graphicOverlay: GraphicOverlay,
+        rect: Rect
     )
 
     protected abstract fun onFailure(e: Exception)

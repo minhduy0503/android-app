@@ -221,7 +221,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
         when (bundle?.getString(Constants.Param.dataType)) {
             Constants.Obj.campus -> {
                 val data: Campus? = bundle.getParcelable(Constants.Param.dataSelected)
-                campusName = data?.name ?: ""
+                campusName = data?.id ?: ""
             }
 
             Constants.Obj.room -> {

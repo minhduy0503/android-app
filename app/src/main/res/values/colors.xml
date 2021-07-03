@@ -30,4 +30,5 @@
     <color name="field_green">#60b922</color>
     <color name="skin">#E0AC69</color>
     <color name="bg_gray_keyboard">#D4D7DD</color>
+    <color name="text_black">#323232</color>
 </resources>

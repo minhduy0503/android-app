@@ -25,7 +25,7 @@ class CampusRepository constructor(val context: Context, val base_url: String, v
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
-        val callApiClient = AppUtils.createOkHttpClient(context)
+        val callApiClient = AppUtils.createOkHttpClient()
 
         campusService = Retrofit.Builder()
                 .baseUrl(base_url + suffix)

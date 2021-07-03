@@ -7,7 +7,6 @@ import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.auth.LoginResponse
 import com.dev.fitface.api.models.auth.User
 import com.dev.fitface.api.models.report.*
-import com.dev.fitface.repository.AuthRepository
 import com.dev.fitface.repository.ReportRepository
 import com.dev.fitface.utils.AppUtils
 

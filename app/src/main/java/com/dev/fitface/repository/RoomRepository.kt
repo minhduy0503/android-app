@@ -29,7 +29,7 @@ class RoomRepository constructor(
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
-        val callApiClient = AppUtils.createOkHttpClient(context)
+        val callApiClient = AppUtils.createOkHttpClient()
 
         roomService = Retrofit.Builder()
             .baseUrl(base_url + suffix)

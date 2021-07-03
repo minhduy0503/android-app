@@ -30,7 +30,7 @@ class CourseRepository constructor(
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
-        val callApiClient = AppUtils.createOkHttpClient(context)
+        val callApiClient = AppUtils.createOkHttpClient()
 
         courseService = Retrofit.Builder()
             .baseUrl(base_url + suffix)

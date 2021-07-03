@@ -2,11 +2,9 @@ package com.dev.fitface.view.activity
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.dev.fitface.R
 import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.SharedPrefs

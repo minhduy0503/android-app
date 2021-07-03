@@ -14,90 +14,80 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.dev.fitface.interfaces.CameraCallback
 import com.dev.fitface.interfaces.FaceResultCallback
-import com.dev.fitface.mlkit.FaceDetectorProcessor
+import com.dev.fitface.mlkit.FaceContourDetectionProcessor
 import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.EyeStatus
 import com.dev.fitface.utils.FaceSize
+import com.dev.fitface.utils.SharedPrefs
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class   CameraManager(
+
+class CameraManager(
     private val context: Context,
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
     private val graphicOverlay: GraphicOverlay,
-    private val mActivityResultCallback: CameraCallback?,
-    type: Int
+    private val mCameraCallback: CameraCallback?,
+    private val checkInMode: Int
 ) {
-
-    companion object {
-        private const val TAG = "CameraManager"
-    }
 
     private var preview: Preview? = null
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
-    private var imageAnalyzer: ImageAnalysis? = null
-    private var mCallback: FaceResultCallback? = null
 
+    lateinit var imageAnalyzer: ImageAnalysis
     lateinit var cameraExecutor: ExecutorService
     lateinit var imageCapture: ImageCapture
+
+    private var mCallback: FaceResultCallback? = null
     lateinit var metrics: DisplayMetrics
-
-
     var rotation: Float = 0f
-    private var cameraSelectorOption =
-        if (type == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+    private var cameraSelectorOption = if (checkInMode == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+
+    private var width: Int? = null
+    private var height: Int? = null
 
 
     init {
         createNewExecutor()
-        when (type) {
+        initCamera()
+    }
+
+    private fun initCamera() {
+        when (checkInMode) {
             Constants.CameraMode.automatic -> {
-                initFrontCamera()
+                mCallback = object : FaceResultCallback {
+                    override fun onFaceSize(size: FaceSize) {
+                        mCameraCallback?.onFaceSizeNotify(size)
+                    }
+
+                    override fun onNotFrontFace() {
+                        mCameraCallback?.onFrontFaceNotify()
+                    }
+
+                    override fun onFaceLocated(faceRect: Rect) {
+                        mCameraCallback?.onFaceCapture(faceRect)
+                        cameraProvider?.unbind(imageAnalyzer)
+                    }
+
+                    override fun onFaceOutside() {
+                        mCameraCallback?.onFaceOutsideNotify()
+                    }
+
+                    override fun onNumberOfFace() {
+                        mCameraCallback?.onFaceInvalidNumber()
+                    }
+
+                    override fun onNoFace() {
+                        mCameraCallback?.onFaceNone()
+                    }
+
+                    override fun onEye(eyeStatus: EyeStatus) {
+                        mCameraCallback?.onEyeNotify(eyeStatus)
+                    }
+                }
             }
-            Constants.CameraMode.manual -> {
-                initBackCamera()
-            }
-        }
-
-
-    }
-
-    private fun initBackCamera() {
-    }
-
-    private fun initFrontCamera() {
-        mCallback = object : FaceResultCallback {
-            override fun onFaceSize(size: FaceSize) {
-                mActivityResultCallback?.onFaceSizeNotify(size)
-            }
-
-            override fun onNotFrontFace() {
-                mActivityResultCallback?.onFrontFaceNotify()
-            }
-
-            override fun onFaceLocated(faceRect: Rect) {
-                mActivityResultCallback?.onFaceCapture(faceRect)
-                cameraProvider?.unbind(imageAnalyzer)
-            }
-
-            override fun onFaceOutside() {
-                mActivityResultCallback?.onFaceOutsideNotify()
-            }
-
-            override fun onNumberOfFace() {
-                mActivityResultCallback?.onFaceInvalidNumber()
-            }
-
-            override fun onNoFace() {
-                mActivityResultCallback?.onFaceNone()
-            }
-
-            override fun onEye(eyeStatus: EyeStatus) {
-                mActivityResultCallback?.onEyeNotify(eyeStatus)
-            }
-
         }
     }
 
@@ -126,14 +116,13 @@ class   CameraManager(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setUpPinchToZoom() {
         val listener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
             override fun onScale(detector: ScaleGestureDetector): Boolean {
                 val currentZoomRatio: Float = camera?.cameraInfo?.zoomState?.value?.zoomRatio ?: 1F
                 val delta = detector.scaleFactor
                 camera?.cameraControl?.setZoomRatio(currentZoomRatio * delta)
-                return true//        fragment.getRoomData(data?.id!!)
+                return true
             }
         }
         val scaleGestureDetector = ScaleGestureDetector(context, listener)
@@ -151,51 +140,60 @@ class   CameraManager(
             Runnable {
                 cameraProvider = cameraProviderFuture.get()
                 preview = Preview.Builder().build()
-                metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+                metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+
+                width = metrics.widthPixels
+                height = metrics.heightPixels
+                SharedPrefs.instance.put(Constants.Param.width, width)
+                SharedPrefs.instance.put(Constants.Param.height, height)
+
 
                 imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                     .build()
                     .also {
-                        it.setAnalyzer(
-                            cameraExecutor,
-                            FaceDetectorProcessor(graphicOverlay, mCallback)
-                        )
+                        it.setAnalyzer(cameraExecutor, FaceContourDetectionProcessor(graphicOverlay, mCallback, checkInMode))
                     }
 
                 val cameraSelector = CameraSelector.Builder()
                     .requireLensFacing(cameraSelectorOption)
                     .build()
 
+
                 imageCapture =
                     ImageCapture.Builder()
                         .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                         .build()
 
-                /* if (Constants.CameraMode.manual == 0){
-                     setUpPinchToZoom()
-                 }*/
+                setUpPinchToZoom()
                 setCameraConfig(cameraProvider, cameraSelector)
-
-                /* Do something better than
-           SharedPrefs.instance.put("widthScreen", metrics.widthPixels)
-           SharedPrefs.instance.put("heightScreen", metrics.heightPixels)*/
 
             }, ContextCompat.getMainExecutor(context)
         )
     }
 
-    fun stopCamera() {
-        cameraProvider?.unbind(imageAnalyzer)
+    fun changeCameraSelector() {
+        cameraProvider?.unbindAll()
+        cameraSelectorOption =
+            if (cameraSelectorOption == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+            else CameraSelector.LENS_FACING_BACK
+        graphicOverlay.toggleSelector()
+        startCamera()
     }
 
-    fun isHorizontalMode(): Boolean {
+    fun isHorizontalMode() : Boolean {
         return rotation == 90f || rotation == 270f
     }
 
-    fun isFrontMode(): Boolean {
+    fun isFrontMode() : Boolean {
         return cameraSelectorOption == CameraSelector.LENS_FACING_FRONT
+    }
+
+    companion object {
+        private const val RATIO_4_3_VALUE = 4.0 / 3.0
+        private const val RATIO_16_9_VALUE = 16.0 / 9.0
+        private const val TAG = "CameraXBasic"
     }
 
 }

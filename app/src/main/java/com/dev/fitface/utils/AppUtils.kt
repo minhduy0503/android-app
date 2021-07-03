@@ -23,8 +23,7 @@ import java.util.*
  */
 class AppUtils {
     companion object {
-
-        fun createOkHttpClient(context: Context): OkHttpClient {
+        fun createOkHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
                 .addInterceptor(getLoggingInterceptor())
                 .build()

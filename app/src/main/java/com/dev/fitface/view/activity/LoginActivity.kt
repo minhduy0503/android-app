@@ -15,7 +15,6 @@ import com.dev.fitface.utils.Constants
 import com.dev.fitface.utils.SharedPrefs
 import com.dev.fitface.view.BaseActivity
 import com.dev.fitface.view.customview.ToastMessage
-import com.dev.fitface.view.fragments.EditCheckInFragment
 import com.dev.fitface.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 

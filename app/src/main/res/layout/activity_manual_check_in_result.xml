@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".view.activity.ManualCheckInResultActivity">
+
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBack"
+        app:layout_constraintLeft_toLeftOf="@+id/imgBack"
+        app:layout_constraintRight_toRightOf="@+id/imgBack"
+        app:layout_constraintTop_toTopOf="@+id/imgBack" />
+
+    <TextView
+        android:id="@+id/tvManualCheckIn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_14"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:fontFamily="sans-serif-medium"
+        android:text="Điểm danh thủ công"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_26"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintLeft_toRightOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintRight_toRightOf="parent"/>
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCheckInItem"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dimen_24"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+        tools:listitem="@layout/item_result_manual_check_in"/>
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:background="@drawable/bgr_button_confirm"
+        android:text="Xác nhận điểm danh"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@id/rvCheckInItem"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnCancel"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bgr_button_active"
+        android:text="Hủy bỏ"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16"
+        android:layout_marginHorizontal="@dimen/dimen_24"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/btnConfirm"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btnConfirm"
+        app:layout_constraintBottom_toBottomOf="@id/btnConfirm" />
+
+    <include
+        android:id="@+id/layoutLoading"
+        layout="@layout/fragment_loading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

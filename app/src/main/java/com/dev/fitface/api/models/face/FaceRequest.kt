@@ -5,5 +5,4 @@ package com.dev.fitface.api.models.face
  */
 class FaceRequest{
     var images: List<String?> = listOf()
-    var collection: String? = ""
 }

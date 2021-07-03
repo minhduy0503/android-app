@@ -28,7 +28,7 @@ class CampusAdapter(val context: Context, var campusData: ArrayList<Campus>?, va
 
         fun bind(item: Campus?){
             item?.let { campus ->
-                campus.name?.let {
+                campus.id?.let {
                     tvOption?.text = it
                 }
             }

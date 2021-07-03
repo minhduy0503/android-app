@@ -11,7 +11,7 @@ import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
-import android.view.KeyEvent
+import android.util.Log
 import android.view.OrientationEventListener
 import android.view.View
 import androidx.camera.core.ImageCapture
@@ -38,7 +38,6 @@ import java.io.ByteArrayOutputStream
 
 class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     CheckInResultFragment.OnResultCheckInFragmentInteractionListener,
-    CheckInReportFragment.OnCheckInReportFragmentInteractionListener,
     ReportFragment.OnReportFragmentInteractionListener, View.OnClickListener {
 
     private lateinit var cameraManager: CameraManager
@@ -75,6 +74,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         hideProgressView()
     }
 
+/*
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus) {
@@ -84,6 +84,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                     View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         }
     }
+*/
 
 
     override fun observeData() {
@@ -112,7 +113,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             // Send to fragment
             it?.let {
                 val bundle = Bundle()
-                val fragment = CheckInReportFragment.newInstance(bundle)
+                val fragment = CheckInResultFragment.newInstance(bundle)
                 fragment.isCancelable = false
                 fragment.show(
                     supportFragmentManager,
@@ -133,8 +134,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         })
     }
 
-
-    @Suppress("DEPRECATION")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initValue()
@@ -143,7 +142,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         initCameraManager()
         askPermission()
 
-        val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+      /*  val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -155,7 +154,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                     decorView.systemUiVisibility = flags
                 }
             }
-        }
+        }*/
     }
 
     private fun initCameraManager() {
@@ -178,7 +177,8 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             override fun onFaceCapture(rect: Rect) {
                 tvAction.text = "Đang xử lí"
                 captureFace(rect)
-                cameraManager.stopCamera()
+                Log.i("Debug","OK")
+//                cameraManager.stopCamera()
             }
 
             override fun onFaceSizeNotify(size: FaceSize) {
@@ -373,6 +373,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
     }
 
+/*
     override fun onCheckInReportFragmentInteraction(bundle: Bundle) {
         when (bundle.getString(Constants.ActivityName.autoCheckInActivity)) {
             Constants.Param.confirm -> {
@@ -386,6 +387,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         }
         tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
     }
+*/
 
 
     override fun onReportFragmentInteraction(bundle: Bundle) {
@@ -405,7 +407,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         val faceStr = viewModel.faceStr?.value
         val input = FaceRequest()
         input.images = listOf(faceStr)
-        input.collection = "CNTT3"
         viewModel.postCheckIn(roomId!!, input)
     }
 

@@ -8,9 +8,9 @@ import com.google.mlkit.vision.face.FaceContour
 
 
 class FaceContourGraphic(
-        overlay: GraphicOverlay,
-        private val face: Face,
-        private val imageRect: Rect
+    overlay: GraphicOverlay,
+    private val face: Face,
+    private val imageRect: Rect
 ) : GraphicOverlay.Graphic(overlay) {
 
     private val facePositionPaint: Paint
@@ -18,7 +18,7 @@ class FaceContourGraphic(
     private val boxPaint: Paint
 
     init {
-        val selectedColor = Color.RED
+        val selectedColor = Color.WHITE
 
         facePositionPaint = Paint()
         facePositionPaint.color = selectedColor
@@ -39,13 +39,13 @@ class FaceContourGraphic(
         contour?.points?.forEachIndexed { index, pointF ->
             if (index == 0) {
                 path.moveTo(
-                        translateX(pointF.x),
-                        translateY(pointF.y)
+                    translateX(pointF.x),
+                    translateY(pointF.y)
                 )
             }
             path.lineTo(
-                    translateX(pointF.x),
-                    translateY(pointF.y)
+                translateX(pointF.x),
+                translateY(pointF.y)
             )
         }
         val paint = Paint().apply {
@@ -59,9 +59,9 @@ class FaceContourGraphic(
     override fun draw(canvas: Canvas?) {
 
         val rect = calculateRect(
-                imageRect.height().toFloat(),
-                imageRect.width().toFloat(),
-                face.boundingBox
+            imageRect.height().toFloat(),
+            imageRect.width().toFloat(),
+            face.boundingBox
         )
         canvas?.drawRect(rect, boxPaint)
 

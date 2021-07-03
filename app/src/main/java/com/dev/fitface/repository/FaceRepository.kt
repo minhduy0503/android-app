@@ -33,7 +33,7 @@ class FaceRepository constructor(
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
-        val callApiClient = AppUtils.createOkHttpClient(context)
+        val callApiClient = AppUtils.createOkHttpClient()
 
         faceService = Retrofit.Builder()
             .baseUrl(base_url + suffix)

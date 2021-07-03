@@ -9,9 +9,11 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.camera.core.CameraSelector
+import com.dev.fitface.utils.Constants
 import kotlin.math.ceil
 
-open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(context, attrs){
+open class GraphicOverlay(context: Context?, attrs: AttributeSet?) :
+    View(context, attrs) {
 
     private val lock = Any()
     private val graphics: MutableList<Graphic> = ArrayList()
@@ -34,14 +36,14 @@ open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(conte
             }
 
             fun whenLandScapeModeWidth(): Float {
-                return when(isLandScapeMode()) {
+                return when (isLandScapeMode()) {
                     true -> width
                     false -> height
                 }
             }
 
             fun whenLandScapeModeHeight(): Float {
-                return when(isLandScapeMode()) {
+                return when (isLandScapeMode()) {
                     true -> height
                     false -> width
                 }
@@ -54,7 +56,8 @@ open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(conte
 
             // Calculate offset (we need to center the overlay on the target)
             val offsetX = (overlay.width.toFloat() - ceil(whenLandScapeModeWidth() * scale)) / 2.0f
-            val offsetY = (overlay.height.toFloat() - ceil(whenLandScapeModeHeight() * scale)) / 2.0f
+            val offsetY =
+                (overlay.height.toFloat() - ceil(whenLandScapeModeHeight() * scale)) / 2.0f
 
             overlay.mOffsetX = offsetX
             overlay.mOffsetY = offsetY
@@ -102,8 +105,8 @@ open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(conte
 
     fun toggleSelector() {
         cameraSelector =
-                if (cameraSelector == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
-                else CameraSelector.LENS_FACING_BACK
+            if (cameraSelector == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT
+            else CameraSelector.LENS_FACING_BACK
     }
 
     fun clear() {
@@ -120,7 +123,7 @@ open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(conte
         postInvalidate()
     }
 
-    private fun initProcessCanvas () {
+    private fun initProcessCanvas() {
         processBitmap = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
         processCanvas = Canvas(processBitmap)
     }
@@ -135,4 +138,5 @@ open class GraphicOverlay (context: Context?, attrs: AttributeSet?) : View(conte
             }
         }
     }
+
 }

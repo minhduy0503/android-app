@@ -2,28 +2,17 @@ package com.dev.fitface.view.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.telecom.Call
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.dev.fitface.R
 import com.dev.fitface.adapter.StudentDetailAdapter
-import com.dev.fitface.api.models.auth.LoginResponse
-import com.dev.fitface.api.models.auth.User
 import com.dev.fitface.api.models.report.ReportCheckIn
 import com.dev.fitface.interfaces.CallToAction
 import com.dev.fitface.utils.Constants
-import com.dev.fitface.viewmodel.CourseDetailActivityViewModel
-import kotlinx.android.synthetic.main.fragment_check_in_result.*
 import kotlinx.android.synthetic.main.fragment_student_in_course_detail.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class StudentInCourseDetailFragment : Fragment(),

@@ -25,7 +25,7 @@ class AuthRepository constructor(val context: Context, val base_url: String, val
 
     init {
         val liveDataCallAdapterFactory = LiveDataCallAdapterFactory()
-        val callApiClient = AppUtils.createOkHttpClient(context)
+        val callApiClient = AppUtils.createOkHttpClient()
 
         authService = Retrofit.Builder()
                 .baseUrl(base_url + suffix)

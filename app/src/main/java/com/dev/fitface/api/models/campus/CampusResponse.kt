@@ -14,7 +14,6 @@ class CampusResponse : BaseResponse() {
 @Parcelize
 data class Campus(
         var id: String?,
-        var name: String?,
         @Transient
         var isSelected: Int?
 ): Parcelable
