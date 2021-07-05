@@ -22,8 +22,8 @@ class CheckingFragment : Fragment(), View.OnClickListener {
 
     private var mListener: OnCheckInFragmentInteractionListener? = null
 
-    private lateinit var mCampusSubscriber: Observer<List<Campus>?>
-    private lateinit var mRoomSubscriber: Observer<List<Room>?>
+    private lateinit var mCampusSubscribe: Observer<List<Campus>?>
+    private lateinit var mRoomSubscribe: Observer<List<Room>?>
     private var mMainActivityViewModel: MainActivityViewModel? = null
 
     private var isCallApi: Boolean = false
@@ -54,8 +54,8 @@ class CheckingFragment : Fragment(), View.OnClickListener {
     }
 
     private fun unsubscribeLiveData() {
-        mMainActivityViewModel?.campus?.removeObserver(mCampusSubscriber)
-        mMainActivityViewModel?.roomByCampus?.removeObserver(mRoomSubscriber)
+        mMainActivityViewModel?.campus?.removeObserver(mCampusSubscribe)
+        mMainActivityViewModel?.roomByCampus?.removeObserver(mRoomSubscribe)
     }
 
     override fun onCreateView(
@@ -82,7 +82,7 @@ class CheckingFragment : Fragment(), View.OnClickListener {
     }
 
     private fun subscriberLiveData() {
-        mCampusSubscriber = Observer {
+        mCampusSubscribe = Observer {
             it?.let {
                 if (isCallApi) {
                     val bundle = Bundle()
@@ -98,9 +98,9 @@ class CheckingFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        mMainActivityViewModel?.campus?.observe(viewLifecycleOwner, mCampusSubscriber)
+        mMainActivityViewModel?.campus?.observe(viewLifecycleOwner, mCampusSubscribe)
 
-        mRoomSubscriber = Observer {
+        mRoomSubscribe = Observer {
             it?.let {
                 if (isCallApi) {
                     val bundle = Bundle()
@@ -116,7 +116,7 @@ class CheckingFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        mMainActivityViewModel?.roomByCampus?.observe(viewLifecycleOwner, mRoomSubscriber)
+        mMainActivityViewModel?.roomByCampus?.observe(viewLifecycleOwner, mRoomSubscribe)
     }
 
     private fun initListener() {

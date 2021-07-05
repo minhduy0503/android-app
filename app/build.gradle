@@ -28,12 +28,12 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.koreasouth.cloudapp.azure.com\""
+            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.southeastasia.cloudapp.azure.com\""
         }
 
         release {
             minifyEnabled false
-            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.koreasouth.cloudapp.azure.com\""
+            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.southeastasia.cloudapp.azure.com\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

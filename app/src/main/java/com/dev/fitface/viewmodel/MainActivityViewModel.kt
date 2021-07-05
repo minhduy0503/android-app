@@ -49,8 +49,8 @@ class MainActivityViewModel constructor(application: Application) : BaseViewMode
     }
 
     val responseCourses = MediatorLiveData<Resource<CourseResponse>>()
-    fun getTeacherSchedules() {
-        responseCourses.addSource(moodleRepository.getTeacherSchedules()) { newData ->
+    fun getSchedules() {
+        responseCourses.addSource(moodleRepository.getSchedules()) { newData ->
             setResultData<Resource<CourseResponse>>(newData)?.let {
                 responseCourses.value = it
             }

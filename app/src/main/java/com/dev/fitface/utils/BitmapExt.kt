@@ -3,7 +3,9 @@ package com.dev.fitface.utils
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
+import android.util.Base64
 import android.view.View
+import java.io.ByteArrayOutputStream
 
 
 fun Bitmap.rotateFlipImage(degree: Float, isFrontMode: Boolean): Bitmap? {
@@ -57,4 +59,11 @@ fun Bitmap.calculateBrightnessEstimate(bitmap: Bitmap): Int{
         n++
     }
     return (r + g + b) / (n * 3)
+}
+
+fun Bitmap.toBase64(): String{
+    val byteArrayOutputStream = ByteArrayOutputStream();
+    this.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+    val byteArray = byteArrayOutputStream.toByteArray()
+    return Base64.encodeToString(byteArray, Base64.DEFAULT)
 }

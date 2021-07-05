@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private var mCallFromChild: CallToAction? = null
 
 
-    private lateinit var mCoursesSubscriber: Observer<List<Course>?>
+    private lateinit var mCoursesSubscribe: Observer<List<Course>?>
     private var mMainActivityViewModel: MainActivityViewModel? =null
 
     interface OnHomeFragmentInteractionListener {
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun unsubscribeLiveData() {
-        mMainActivityViewModel?.courses?.removeObserver(mCoursesSubscriber)
+        mMainActivityViewModel?.courses?.removeObserver(mCoursesSubscribe)
     }
 
 
@@ -92,7 +92,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun subscriberLiveData() {
-        mCoursesSubscriber = Observer { data ->
+        mCoursesSubscribe = Observer { data ->
             data?.let {
                 mContext?.let { context ->
                     val courseAdapter = CourseAdapter(context, ArrayList(data), mCallFromChild )
@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        mMainActivityViewModel?.courses?.observe(viewLifecycleOwner, mCoursesSubscriber)
+        mMainActivityViewModel?.courses?.observe(viewLifecycleOwner, mCoursesSubscribe)
     }
 
 

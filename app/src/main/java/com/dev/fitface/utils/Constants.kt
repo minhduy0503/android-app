@@ -1,14 +1,14 @@
 package com.dev.fitface.utils
 
 class Constants {
-    class CallApiAction {
+    class CallAction {
         companion object {
             const val postLogin = "post-login"
             const val getStudentReport = "get-student-reports"
             const val getReportsById = "get-report-by-id"
             const val getCampus = "get-campus"
             const val getRoom = "get-room"
-            const val getTeacherSchedules = "get-teacher-schedules"
+            const val getSchedules = "get-teacher-schedules"
             const val getReportBySessionId = "get-session-by-id"
             const val updateAttendanceLog = "post-update-attendance-log"
             const val getStudentInfo = "get-student"
@@ -17,6 +17,10 @@ class Constants {
             const val putFaceByStudentId = "put-face-by-student-id"
             const val deleteFaceByStudentId = "delete-face-by-student-id"
             const val postFeedback = "post-feedback"
+            const val postFindFace = "post-find-face"
+            const val postCheckIn = "post-check-in"
+            const val retryCapture = "retry-capture"
+
         }
     }
 
@@ -79,6 +83,10 @@ class Constants {
             const val passCode = "Passcode"
             const val width = "Width"
             const val height = "Height"
+            const val image = "Image"
+            const val userTaken = "TakenUser"
+            const val username = "Username"
+            const val startCamera = "StartCamera"
         }
     }
 

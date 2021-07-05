@@ -23,7 +23,7 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
     }
 
     private var mListener: OnCheckInReportFragmentInteractionListener? = null
-    private lateinit var mFaceStrSubscriber: Observer<String?>
+    private lateinit var mFaceStrSubscribe: Observer<String?>
     private var mFaceViewModel: AutoCheckInActivityViewModel? = null
     private lateinit var timer: CountDownTimer
 
@@ -56,7 +56,7 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
     }
 
     private fun unsubscribeLiveData() {
-        mFaceViewModel?.faceStr?.removeObserver(mFaceStrSubscriber)
+        mFaceViewModel?.faceStr?.removeObserver(mFaceStrSubscribe)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,13 +74,13 @@ class CheckInReportFragment : BottomSheetDialogFragment(), View.OnClickListener 
     }
 
     private fun subscribeLiveData() {
-        mFaceStrSubscriber = Observer {
+        mFaceStrSubscribe = Observer {
             it?.let {
                 val bitmap = it.base64ToImage()
                 profileStudent.setImageBitmap(bitmap)
             }
         }
-        mFaceViewModel?.faceStr?.observe(viewLifecycleOwner, mFaceStrSubscriber)
+        mFaceViewModel?.faceStr?.observe(viewLifecycleOwner, mFaceStrSubscribe)
     }
 
     private fun initListener() {

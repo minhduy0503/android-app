@@ -1,19 +1,17 @@
 package com.dev.fitface.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.dev.fitface.api.api_utils.ApiResponse
+import com.dev.fitface.api.api_utils.AppExecutor
+import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.api_utils.Resource
 import com.dev.fitface.api.models.auth.LoginInput
 import com.dev.fitface.api.models.auth.LoginResponse
 import com.dev.fitface.api.models.campus.CampusResponse
-import android.content.Context
-import com.dev.fitface.api.api_utils.AppExecutor
-import com.dev.fitface.api.api_utils.LiveDataCallAdapterFactory
 import com.dev.fitface.api.models.course.CourseResponse
 import com.dev.fitface.api.models.face.CheckInRequest
 import com.dev.fitface.api.models.face.CheckInResponse
-import com.dev.fitface.api.models.face.FaceRequest
-import com.dev.fitface.api.models.face.FaceResponse
 import com.dev.fitface.api.models.report.*
 import com.dev.fitface.api.models.room.RoomResponse
 import com.dev.fitface.api.service.MoodleService
@@ -143,13 +141,13 @@ class MoodleRepository constructor(
         }.asLiveData()
     }
 
-    fun getTeacherSchedules(): LiveData<Resource<CourseResponse>> {
+    fun getSchedules(): LiveData<Resource<CourseResponse>> {
         return object : NetworkBoundResource<CourseResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: CourseResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<CourseResponse>> {
-                return moodleService.getTeacherSchedules(moodle, token)
+                return moodleService.getSchedules(moodle, token)
             }
         }.asLiveData()
     }

@@ -9,7 +9,6 @@ import com.dev.fitface.api.models.feedback.FeedbackResponse
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 /**
  * Created by Dang Minh Duy on 18,May,2021

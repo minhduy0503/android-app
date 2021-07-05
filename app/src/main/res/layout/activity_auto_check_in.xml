@@ -36,7 +36,7 @@
         android:fontFamily="sans-serif-medium"
         android:lines="2"
         android:textAlignment="center"
-        android:textColor="@color/orange"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_30"
         app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
         app:layout_constraintLeft_toLeftOf="parent"

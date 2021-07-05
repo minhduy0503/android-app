@@ -42,7 +42,8 @@ class CameraManager(
     private var mCallback: FaceResultCallback? = null
     lateinit var metrics: DisplayMetrics
     var rotation: Float = 0f
-    private var cameraSelectorOption = if (checkInMode == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+    private var cameraSelectorOption =
+        if (checkInMode == Constants.CameraMode.automatic) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
 
     private var width: Int? = null
     private var height: Int? = null
@@ -56,6 +57,7 @@ class CameraManager(
     private fun initCamera() {
         when (checkInMode) {
             Constants.CameraMode.automatic -> {
+                graphicOverlay.cameraSelector = CameraSelector.LENS_FACING_FRONT
                 mCallback = object : FaceResultCallback {
                     override fun onFaceSize(size: FaceSize) {
                         mCameraCallback?.onFaceSizeNotify(size)
@@ -67,7 +69,9 @@ class CameraManager(
 
                     override fun onFaceLocated(faceRect: Rect) {
                         mCameraCallback?.onFaceCapture(faceRect)
-                        cameraProvider?.unbind(imageAnalyzer)
+                    }
+
+                    override fun onFaceLocated(faceRect: ArrayList<Rect>?) {
                     }
 
                     override fun onFaceOutside() {
@@ -84,6 +88,37 @@ class CameraManager(
 
                     override fun onEye(eyeStatus: EyeStatus) {
                         mCameraCallback?.onEyeNotify(eyeStatus)
+                    }
+                }
+            }
+
+            Constants.CameraMode.manual -> {
+                graphicOverlay.cameraSelector = CameraSelector.LENS_FACING_BACK
+                mCallback = object : FaceResultCallback {
+                    override fun onFaceSize(size: FaceSize) {
+                    }
+
+                    override fun onNotFrontFace() {
+                    }
+
+                    override fun onFaceLocated(faceRect: Rect) {
+
+                    }
+
+                    override fun onFaceLocated(faceRect: ArrayList<Rect>?) {
+                        mCameraCallback?.onFaceCapture(faceRect)
+                    }
+
+                    override fun onFaceOutside() {
+                    }
+
+                    override fun onNumberOfFace() {
+                    }
+
+                    override fun onNoFace() {
+                    }
+
+                    override fun onEye(eyeStatus: EyeStatus) {
                     }
                 }
             }
@@ -139,7 +174,7 @@ class CameraManager(
             Runnable {
                 cameraProvider = cameraProviderFuture.get()
                 preview = Preview.Builder().build()
-                metrics =  DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+                metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
 
                 width = metrics.widthPixels
                 height = metrics.heightPixels
@@ -152,7 +187,10 @@ class CameraManager(
                     .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                     .build()
                     .also {
-                        it.setAnalyzer(cameraExecutor, FaceContourDetectionProcessor(graphicOverlay, mCallback, checkInMode))
+                        it.setAnalyzer(
+                            cameraExecutor,
+                            FaceContourDetectionProcessor(graphicOverlay, mCallback, checkInMode)
+                        )
                     }
 
                 val cameraSelector = CameraSelector.Builder()
@@ -165,7 +203,9 @@ class CameraManager(
                         .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
                         .build()
 
-                setUpPinchToZoom()
+                if (checkInMode == Constants.CameraMode.manual) {
+                    setUpPinchToZoom()
+                }
                 setCameraConfig(cameraProvider, cameraSelector)
 
             }, ContextCompat.getMainExecutor(context)
@@ -181,12 +221,16 @@ class CameraManager(
         startCamera()
     }
 
-    fun isHorizontalMode() : Boolean {
+    fun isHorizontalMode(): Boolean {
         return rotation == 90f || rotation == 270f
     }
 
-    fun isFrontMode() : Boolean {
+    fun isFrontMode(): Boolean {
         return cameraSelectorOption == CameraSelector.LENS_FACING_FRONT
+    }
+
+    fun stopCamera() {
+        cameraProvider?.unbind(imageAnalyzer)
     }
 
     companion object {

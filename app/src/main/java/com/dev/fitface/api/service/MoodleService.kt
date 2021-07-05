@@ -8,8 +8,6 @@ import com.dev.fitface.api.models.campus.CampusResponse
 import com.dev.fitface.api.models.course.CourseResponse
 import com.dev.fitface.api.models.face.CheckInRequest
 import com.dev.fitface.api.models.face.CheckInResponse
-import com.dev.fitface.api.models.face.FaceRequest
-import com.dev.fitface.api.models.face.FaceResponse
 import com.dev.fitface.api.models.report.*
 import com.dev.fitface.api.models.room.RoomResponse
 import retrofit2.http.*
@@ -28,8 +26,8 @@ interface MoodleService {
         @Header("Authorization") token: String
     ): LiveData<ApiResponse<CampusResponse>>
 
-    @GET("teacher-schedules")
-    fun getTeacherSchedules(
+    @GET("schedules")
+    fun getSchedules(
         @Header("moodle") moodle: String,
         @Header("Authorization") token: String
     ): LiveData<ApiResponse<CourseResponse>>

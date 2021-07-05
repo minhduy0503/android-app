@@ -17,18 +17,21 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.ManualCheckInResultActivity"></activity>
-        <activity android:name=".view.activity.PasscodeActivity" />
-        <activity android:name=".view.activity.CollectionActivity">
+        <activity android:name=".view.activity.ManualCheckInResultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.PasscodeActivity" />
+        <activity android:name=".view.activity.CollectionActivity">
+
+        </activity>
         <activity android:name=".view.activity.StudentDetailActivity" />
         <activity android:name=".view.activity.CourseDetailActivity" />
-        <activity android:name=".view.activity.ManualCheckInActivity">
+        <activity android:name=".view.activity.ManualCheckInActivity"
+            android:theme="@style/Theme.FitFace">
 
         </activity>
         <activity android:name=".view.activity.SplashActivity" />

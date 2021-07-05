@@ -13,16 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bgr_bottom_sheet"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
-
-        <ImageView
-            android:id="@+id/btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_close_popup"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCheckInTitle"
@@ -44,28 +37,12 @@
             android:layout_height="240dp"
             android:layout_marginTop="36dp"
             android:scaleType="centerCrop"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/imgStudentProfile"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCheckInTitle"
             app:shapeAppearance="@style/circleImageView"
             app:strokeColor="@color/white"
             app:strokeWidth="@dimen/dimen_2" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imgStudentProfile"
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="@id/imgCheckIn"
-            app:layout_constraintBottom_toBottomOf="@id/imgCheckIn"
-            app:layout_constraintLeft_toRightOf="@id/imgCheckIn"
-            app:layout_constraintRight_toRightOf="parent"
-            app:shapeAppearance="@style/circleImageView"
-            app:strokeColor="@color/white"
-            app:strokeWidth="@dimen/dimen_2" />
-
 
         <TextView
             android:id="@+id/tvCheckInResult"
@@ -73,33 +50,30 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_30"
             android:fontFamily="sans-serif-medium"
-            android:text="Điểm danh thành công"
             android:textColor="@color/field_green"
             android:textSize="@dimen/text_20"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgCheckIn" />
+            app:layout_constraintTop_toBottomOf="@id/tvStudentId" />
 
         <TextView
             android:id="@+id/tvStudentId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_30"
             android:fontFamily="sans-serif-medium"
-            android:text="MSSV"
             android:textColor="@color/white"
             android:textSize="@dimen/text_20"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/spacer"
-            app:layout_constraintTop_toBottomOf="@+id/tvCheckInResult" />
+            app:layout_constraintTop_toBottomOf="@+id/imgCheckIn" />
 
         <TextView
             android:id="@+id/spacer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text=" - "
             android:textColor="@color/white"
             android:textSize="@dimen/text_20"
             app:layout_constraintBottom_toBottomOf="@id/tvStudentId"
@@ -113,7 +87,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Họ tên sinh viên"
             android:textColor="@color/white"
             android:textSize="@dimen/text_20"
             app:layout_constraintBottom_toBottomOf="@id/tvStudentId"
@@ -126,52 +99,52 @@
             android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_30"
             android:layout_marginBottom="@dimen/dimen_20"
             android:background="@drawable/bgr_button_confirm"
             android:text="Đồng ý"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:layout_marginHorizontal="@dimen/dimen_24"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/btnRetry"
-            app:layout_constraintTop_toBottomOf="@id/tvStudentId"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/tvCheckInResult"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
             android:id="@+id/btnRetry"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_20"
             android:background="@drawable/bgr_button_active"
             android:text="Thử lại"
-            android:layout_marginHorizontal="@dimen/dimen_24"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16"
-            app:layout_constraintRight_toLeftOf="@id/btnReport"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="@id/btnConfirm"
             app:layout_constraintBottom_toBottomOf="@id/btnConfirm"
-            app:layout_constraintLeft_toRightOf="@id/btnConfirm"/>
+            app:layout_constraintLeft_toRightOf="@id/btnConfirm"
+            app:layout_constraintRight_toLeftOf="@id/btnReport"
+            app:layout_constraintTop_toTopOf="@id/btnConfirm"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <Button
             android:id="@+id/btnReport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_20"
             android:layout_marginBottom="@dimen/dimen_20"
             android:background="@drawable/bgr_button_error"
             android:text="Khiếu nại"
-            android:layout_marginHorizontal="@dimen/dimen_24"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintTop_toTopOf="@id/btnConfirm"
             app:layout_constraintBottom_toBottomOf="@id/btnConfirm"
             app:layout_constraintLeft_toRightOf="@id/btnRetry"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnConfirm"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <!--  <View
               android:id="@+id/btnRetry"
@@ -209,7 +182,7 @@
               app:layout_constraintRight_toLeftOf="@id/tvRetry"
               app:layout_constraintTop_toTopOf="@+id/tvConfirm" />
   -->
-       <!-- <View
+        <!-- <View
             android:id="@+id/btnReport"
             android:layout_width="160dp"
             android:layout_height="0dp"
@@ -252,11 +225,9 @@
             android:id="@+id/grStudentInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tvStudentId, tvStudentName, spacer"/>
+            app:constraint_referenced_ids="tvStudentId, tvStudentName, spacer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

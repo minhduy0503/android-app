@@ -16,7 +16,11 @@ import com.dev.fitface.utils.Constants
 /**
  * Created by Dang Minh Duy on 25,May,2021
  */
-class CourseAdapter(private val mContext: Context, var coursesData: ArrayList<Course>?, val actionToParent: CallToAction?): RecyclerView.Adapter<CourseAdapter.CourseHolder>() {
+class CourseAdapter(
+    private val mContext: Context,
+    var coursesData: ArrayList<Course>?,
+    val actionToParent: CallToAction?
+) : RecyclerView.Adapter<CourseAdapter.CourseHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseAdapter.CourseHolder {
@@ -32,7 +36,8 @@ class CourseAdapter(private val mContext: Context, var coursesData: ArrayList<Co
         return coursesData?.size ?: 0
     }
 
-    inner class CourseHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class CourseHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
         private val ctrRootView: ConstraintLayout? = itemView.findViewById(R.id.ctrRootView)
         private val tvFullName: TextView? = itemView.findViewById(R.id.tvFullCourseName)
@@ -42,7 +47,7 @@ class CourseAdapter(private val mContext: Context, var coursesData: ArrayList<Co
             ctrRootView?.setOnClickListener(this)
         }
 
-        fun bind(item: Course?){
+        fun bind(item: Course?) {
             item?.let {
                 tvFullName?.text = it.fullname ?: ""
                 tvShortName?.text = it.shortname ?: ""

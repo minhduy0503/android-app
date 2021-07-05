@@ -26,7 +26,7 @@ class SessionInCourseFragment : Fragment() {
     private var mContext: Context? = null
     private var mCallFromChild: CallToAction? = null
 
-    private lateinit var mSessionDetailByCourseIdSubscriber: Observer<List<Session>?>
+    private lateinit var mSessionDetailByCourseIdSubscribe: Observer<List<Session>?>
     private var mCourseDetailActivityViewModel: CourseDetailActivityViewModel? = null
 
     override fun onAttach(context: Context) {
@@ -50,7 +50,7 @@ class SessionInCourseFragment : Fragment() {
     }
 
     private fun unsubscribeLiveData() {
-        mCourseDetailActivityViewModel?.session?.removeObserver(mSessionDetailByCourseIdSubscriber)
+        mCourseDetailActivityViewModel?.session?.removeObserver(mSessionDetailByCourseIdSubscribe)
     }
 
     override fun onCreateView(
@@ -76,7 +76,7 @@ class SessionInCourseFragment : Fragment() {
     }
 
     private fun subscriberLiveData() {
-        mSessionDetailByCourseIdSubscriber = Observer { data ->
+        mSessionDetailByCourseIdSubscribe = Observer { data ->
             data?.let {
                 mContext?.let {
                     val sessionAdapter = SessionAdapter(it, ArrayList(data), mCallFromChild)
@@ -86,7 +86,7 @@ class SessionInCourseFragment : Fragment() {
                 }
             }
         }
-        mCourseDetailActivityViewModel?.session?.observe(viewLifecycleOwner, mSessionDetailByCourseIdSubscriber)
+        mCourseDetailActivityViewModel?.session?.observe(viewLifecycleOwner, mSessionDetailByCourseIdSubscribe)
     }
 
     private fun initListener() {

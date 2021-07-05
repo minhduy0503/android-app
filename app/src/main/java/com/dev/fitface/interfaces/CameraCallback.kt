@@ -9,6 +9,7 @@ import com.dev.fitface.utils.FaceSize
  */
 interface CameraCallback {
     fun onFaceCapture(rect: Rect)
+    fun onFaceCapture(rect: ArrayList<Rect>?)
     fun onFaceSizeNotify(size: FaceSize)
     fun onFrontFaceNotify()
     fun onFaceOutsideNotify()

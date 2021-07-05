@@ -28,7 +28,7 @@ class StudentInCourseFragment : Fragment() {
     private var mCallFromChild: CallToAction? = null
 
 
-    private lateinit var mReportDetailByCourseIdSubscriber: Observer<List<ReportCheckIn>?>
+    private lateinit var mReportDetailByCourseIdSubscribe: Observer<List<ReportCheckIn>?>
     private var mCourseDetailActivityViewModel: CourseDetailActivityViewModel? =null
 
     override fun onAttach(context: Context) {
@@ -52,7 +52,7 @@ class StudentInCourseFragment : Fragment() {
     }
 
     private fun unsubscribeLiveData() {
-        mCourseDetailActivityViewModel?.report?.removeObserver(mReportDetailByCourseIdSubscriber)
+        mCourseDetailActivityViewModel?.report?.removeObserver(mReportDetailByCourseIdSubscribe)
     }
 
     override fun onCreateView(
@@ -83,7 +83,7 @@ class StudentInCourseFragment : Fragment() {
 
     private fun subscriberLiveData() {
         // TODO: Something
-        mReportDetailByCourseIdSubscriber = Observer { data ->
+        mReportDetailByCourseIdSubscribe = Observer { data ->
             data?.let {
                 mContext?.let {
                     val studentAdapter = StudentAdapter(it, ArrayList(data), mCallFromChild)
@@ -94,7 +94,7 @@ class StudentInCourseFragment : Fragment() {
             }
         }
 
-        mCourseDetailActivityViewModel?.report?.observe(viewLifecycleOwner, mReportDetailByCourseIdSubscriber)
+        mCourseDetailActivityViewModel?.report?.observe(viewLifecycleOwner, mReportDetailByCourseIdSubscribe)
     }
 
     private fun initValue() {

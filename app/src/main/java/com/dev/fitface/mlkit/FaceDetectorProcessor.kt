@@ -95,17 +95,13 @@ class FaceContourDetectionProcessor(
         graphicOverlay: GraphicOverlay,
         rect: Rect
     ) {
+        val faceRects: ArrayList<Rect> = ArrayList()
         graphicOverlay.clear()
         results.forEach { face ->
             val faceGraphic = FaceContourGraphic(graphicOverlay, face, rect)
             graphicOverlay.add(faceGraphic)
-
-            Log.i(
-                "Debug",
-                "${face.boundingBox.left} - ${face.boundingBox.top} - ${face.boundingBox.right} - ${face.boundingBox.bottom} "
-            )
-
             if (checkInMode == Constants.CameraMode.automatic) {
+
                 if (results.size > 1) {
                     callback?.onNumberOfFace()
                     return@forEach
@@ -143,8 +139,13 @@ class FaceContourDetectionProcessor(
                     return@forEach
                 }
             }
+            else {
+                faceRects.add(face.boundingBox)
+                return@forEach
+            }
 
         }
+        callback?.onFaceLocated(faceRects)
         graphicOverlay.postInvalidate()
     }
 
@@ -165,7 +166,7 @@ class FaceContourDetectionProcessor(
 
         // Calculate coordinate of face bounding box:
         val realFaceRect = translateCoordinate(faceRect)
-        Log.i("Debug","-- real: ${realFaceRect.left} ${realFaceRect.top} ${realFaceRect.right} ${realFaceRect.bottom} ")
+
         // Check: frameRect contains realFaceRect ?
         return frameRect.contains(realFaceRect)
     }

@@ -7,8 +7,8 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.media.Image
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Base64
-import android.util.Log
 import android.view.OrientationEventListener
 import android.view.View
 import androidx.camera.core.ImageCapture
@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
+import com.dev.fitface.api.api_utils.ApiStatus
+import com.dev.fitface.api.models.face.CheckInRequest
 import com.dev.fitface.api.models.face.FaceRequest
 import com.dev.fitface.api.models.feedback.FeedbackRequest
 import com.dev.fitface.camerax.CameraManager
@@ -43,11 +45,13 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     private var campusName: String? = null
     private var studentTakenId: String? = null
 
-    private var isDone: Boolean? = null
-    private val currentApiVersion = 0
+    private lateinit var timer: CountDownTimer
+
+
+    private var checkInResultFragment: CheckInResultFragment? = null
 
     override fun setLoadingView(): View? {
-        return null
+        return layoutLoading
     }
 
     override fun setActivityView() {
@@ -70,29 +74,40 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         hideProgressView()
     }
 
-/*
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        }
-    }
-*/
-
-
     override fun observeData() {
-        observeFaceResponseCheckIn()
         observeFaceStr()
         observeFeedback()
+        observeFindFaceResponse()
+        observeCheckInResponse()
+    }
+
+    private fun observeCheckInResponse() {
+        viewModel.checkInResponse.observe(this, {
+            it?.resource?.data?.let { face ->
+                checkInResultFragment?.setResultCheckInMessage(face[0].message, face[0].status)
+            }
+        })
+    }
+
+    private fun observeFindFaceResponse() {
+        viewModel.findFaceResponse.observe(this, {
+            it?.resource?.data?.let { faces ->
+                val bundle = Bundle()
+                checkInResultFragment = CheckInResultFragment.newInstance(bundle)
+                checkInResultFragment?.isCancelable = false
+                checkInResultFragment?.show(
+                    supportFragmentManager,
+                    Constants.FragmentName.checkInReportFragment
+                )
+                viewModel.foundFace?.postValue(faces[0])
+            }
+        })
     }
 
     private fun observeFeedback() {
         viewModel.feedbackResponse.observe(this, Observer {
-            when (it.resource?.status) {
-                200 -> {
+            when (it.status) {
+                ApiStatus.SUCCESS -> {
                     ToastMessage.makeText(
                         this,
                         "Khiếu nại thành công",
@@ -116,30 +131,12 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
 
     private fun observeFaceStr() {
         viewModel.faceStr?.observe(this, {
-            // Send to fragment
             it?.let {
-                val bundle = Bundle()
-                val fragment = CheckInResultFragment.newInstance(bundle)
-                fragment.isCancelable = false
-                fragment.show(
-                    supportFragmentManager,
-                    Constants.FragmentName.checkInReportFragment
-                )
+                callApiPostFindFace(it)
             }
         })
     }
 
-    private fun observeFaceResponseCheckIn() {
-        viewModel.faceResponse.observe(this, Observer {
-            it?.resource?.data?.let { data ->
-                val bundle = Bundle()
-                bundle.putParcelableArrayList(Constants.Param.dataSrc, ArrayList(data))
-                val fragment = CheckInResultFragment.newInstance(bundle)
-                fragment.show(supportFragmentManager, Constants.FragmentName.checkInResultFragment)
-            }
-        })
-    }
-    
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initListener()
@@ -147,19 +144,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         initView()
         initCameraManager()
         askPermission()
-        /*  val flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                  View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                  View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                  View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-          if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
-              window.decorView.systemUiVisibility = flags
-              val decorView = window.decorView
-              decorView.setOnSystemUiVisibilityChangeListener { visibility ->
-                  if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                      decorView.systemUiVisibility = flags
-                  }
-              }
-          }*/
     }
 
     private fun initCameraManager() {
@@ -182,8 +166,11 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
             override fun onFaceCapture(rect: Rect) {
                 tvAction.text = "Đang xử lí"
                 captureFace(rect)
-                Log.i("Debug", "OK")
-//                cameraManager.stopCamera()
+                cameraManager.stopCamera()
+            }
+
+            override fun onFaceCapture(rect: ArrayList<Rect>?) {
+
             }
 
             override fun onFaceSizeNotify(size: FaceSize) {
@@ -277,10 +264,10 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                 val top = faceRect.top
                 val width = faceRect.width()
                 val height = faceRect.height()
-                var res = Bitmap.createBitmap(bitmap, left, top, width, height)
-                var byteArrayOutputStream = ByteArrayOutputStream();
+                val res = Bitmap.createBitmap(bitmap, left, top, width, height)
+                val byteArrayOutputStream = ByteArrayOutputStream();
                 res.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                var byteArray = byteArrayOutputStream.toByteArray()
+                val byteArray = byteArrayOutputStream.toByteArray()
                 val str64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
                 viewModel.faceStr?.postValue(str64)
             }
@@ -346,13 +333,18 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
 
     override fun onCheckInResultFragmentInteraction(bundle: Bundle?) {
         when (bundle?.getString(Constants.ActivityName.autoCheckInActivity)) {
-            Constants.Param.confirm,
-            Constants.Param.close -> {
+            Constants.Param.confirm -> {
+                val studentId = bundle.getString(Constants.Param.studentId) ?: "Error"
+                callApiPostCheckIn(studentId)
+            }
+
+            Constants.Param.retry,
+            Constants.Param.startCamera-> {
                 cameraManager.startCamera()
             }
 
             Constants.Param.report -> {
-                studentTakenId = bundle.getString(Constants.Param.studentId)
+                studentTakenId = bundle.getString(Constants.Param.userTaken)
                 val bundle = Bundle()
                 bundle.putString(Constants.Param.studentId, studentTakenId)
                 val fragment = ReportFragment.newInstance(bundle)
@@ -362,22 +354,6 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         }
         tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
     }
-
-/*
-    override fun onCheckInReportFragmentInteraction(bundle: Bundle) {
-        when (bundle.getString(Constants.ActivityName.autoCheckInActivity)) {
-            Constants.Param.confirm -> {
-                // Call api
-                callApiPostCheckIn()
-            }
-            Constants.Param.retry,
-            Constants.Param.close -> {
-                cameraManager.startCamera()
-            }
-        }
-        tvAction.text = "Vui lòng đặt khuôn mặt vào vùng hiển thị"
-    }
-*/
 
 
     override fun onReportFragmentInteraction(bundle: Bundle) {
@@ -393,87 +369,50 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
         }
     }
 
-    private fun callApiPostCheckIn() {
-        val faceStr = viewModel.faceStr?.value
-        val input = FaceRequest()
-        input.images = listOf(faceStr)
+    private fun callApiPostCheckIn(username: String) {
+        val input = CheckInRequest()
+        input.usernames = listOf(username)
         viewModel.postCheckIn(roomId!!, input)
+    }
+
+    private fun callApiPostFindFace(faceStr: String?) {
+        faceStr?.let {
+            val faceRequest = FaceRequest()
+            faceRequest.images = listOf(it)
+            viewModel.postFindFace(faceRequest)
+        }
     }
 
     private fun callApiPostFeedback(studentId: String) {
         val feedbackReq = FeedbackRequest()
-        feedbackReq.image = viewModel.faceStr?.value
-        feedbackReq.description = "Missing in face"
         feedbackReq.roomid = roomId
         feedbackReq.userbetaken = studentTakenId
         feedbackReq.usertaken = studentId
+        feedbackReq.image = viewModel.faceStr?.value
+        feedbackReq.description = "Mistaken in face recognition"
+
         viewModel.postFeedback(feedbackReq)
+    }
+
+    private fun closeDialogTimer(time: Int) {
+        timer = object : CountDownTimer(time.toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                checkInResultFragment?.dismiss()
+                cameraManager.startCamera()
+            }
+        }
+        timer.start()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnBack -> {
-                Log.i("Debug", "as")
                 super.onBackPressed()
             }
         }
-
     }
-
-    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-         @Suppress("DEPRECATION")
-         super.onActivityResult(requestCode, resultCode, data)
-         if(requestCode == 1) {
-
-             // resultCode được set bởi DetailActivity
-             // RESULT_OK chỉ ra rằng kết quả này đã thành công
-             if(resultCode == Activity.RESULT_OK) {
-                 // Nhận dữ liệu từ Intent trả về
-                 when(data?.getStringExtra(Constants.ActivityName.autoCheckInActivity)){
-                     "Ok" -> {
-                         if (btnBack.isEnabled){
-                             btnBack.isEnabled = false
-                             ToastMessage.makeText(
-                                 this,
-                                 "Khóa thành công",
-                                 ToastMessage.SHORT,
-                                 ToastMessage.Type.SUCCESS.type
-                             ).show()
-                             imgLock.setImageResource(R.drawable.ic_lock)
-                         } else {
-                             btnBack.isEnabled = true
-                             ToastMessage.makeText(
-                                 this,
-                                 "Mở khóa thành công",
-                                 ToastMessage.SHORT,
-                                 ToastMessage.Type.SUCCESS.type
-                             ).show()
-                             imgLock.setImageResource(R.drawable.ic_unlock)
-                         }
-
-                     }
-                     "Saved" -> {
-                         btnBack.isEnabled = false
-                         ToastMessage.makeText(
-                             this,
-                             "Thiết lập khóa thành công",
-                             ToastMessage.SHORT,
-                             ToastMessage.Type.SUCCESS.type
-                         ).show()
-                         imgLock.setImageResource(R.drawable.ic_lock)
-                     }
-                 }
-
-             } else {
-                 ToastMessage.makeText(
-                     this,
-                     "Thiết lập khóa không thành công",
-                     ToastMessage.SHORT,
-                     ToastMessage.Type.ERROR.type
-                 ).show()
-             }
-         }
-     }
- */
-
 }

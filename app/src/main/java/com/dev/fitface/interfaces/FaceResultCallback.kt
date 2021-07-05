@@ -11,6 +11,7 @@ interface FaceResultCallback {
     fun onFaceSize(size: FaceSize)
     fun onNotFrontFace()
     fun onFaceLocated(faceRect: Rect)
+    fun onFaceLocated(faceRect: ArrayList<Rect>?)
     fun onFaceOutside()
     fun onNumberOfFace()
     fun onNoFace()
