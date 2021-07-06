@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
@@ -16,8 +15,7 @@ import com.google.android.material.imageview.ShapeableImageView
 
 class FaceCaptureAdapter(
     private val mContext: Context,
-    val dataSrc: ArrayList<MiniFace>?,
-    val actionToParent: CallToAction?
+    var dataSrc: ArrayList<MiniFace>?
 ) : RecyclerView.Adapter<FaceCaptureAdapter.FaceCaptureHolder>() {
 
     override fun onCreateViewHolder(
@@ -49,15 +47,17 @@ class FaceCaptureAdapter(
 
         fun bind(item: MiniFace?) {
             item?.let {
-                imgCaptured?.setImageBitmap(it.bitmap?.base64ToImage())
-                imgCheck?.visibility = View.INVISIBLE
+                imgCaptured?.setImageBitmap(it.bm.base64ToImage())
+                imgCheck?.visibility = if (it.isSelected) View.VISIBLE else View.INVISIBLE
             }
         }
 
         override fun onClick(v: View?) {
-            imgCheck?.visibility = View.VISIBLE
+            val position = adapterPosition
+            val item = dataSrc?.get(position)
+            item?.isSelected = item?.isSelected != true
+            notifyDataSetChanged()
         }
-
     }
 
 }

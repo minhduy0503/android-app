@@ -55,7 +55,7 @@ class Constants {
             const val checkInReportFragment = "CheckInReportFragment"
             const val reportFragment = "ReportFragment"
             const val studentInCourseDetailFragment = "StudentInCourseDetailFragment"
-
+            const val manualCheckInResultFragment = "ManualCheckInResultFragment"
         }
     }
 
@@ -105,6 +105,7 @@ class Constants {
             const val course = "Course"
             const val report = "Report"
             const val session = "Session"
+            const val errorAvatar = "https://courses.fit.hcmus.edu.vn/theme/image.php/academi/core/1624873944/u/f1"
         }
     }
 

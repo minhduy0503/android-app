@@ -204,7 +204,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>(),
             }
 
             Constants.CheckInType.manual -> {
-                val intent = Intent(this, ManualCheckInResultActivity::class.java)
+                val intent = Intent(this, ManualCheckInActivity::class.java)
                 intent.putExtra(Constants.Param.campusName, campusName)
                 intent.putExtra(Constants.Param.roomName, roomName)
                 intent.putExtra(Constants.Param.roomId, roomId)

@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
 }
 
 android {
@@ -28,12 +30,12 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.southeastasia.cloudapp.azure.com\""
+            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.koreasouth.cloudapp.azure.com\""
         }
 
         release {
             minifyEnabled false
-            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.southeastasia.cloudapp.azure.com\""
+            buildConfigField "String", "BASE_URL_API", "\"https://faceapi.koreasouth.cloudapp.azure.com\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,8 +68,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.7'
 
 
-    implementation platform ('com.google.firebase:firebase-bom:26.8.0')
+    implementation platform ('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

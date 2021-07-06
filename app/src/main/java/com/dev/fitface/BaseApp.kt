@@ -2,6 +2,7 @@ package com.dev.fitface
 
 import android.app.Application
 import com.dev.fitface.api.api_utils.AppExecutor
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 
 class FitFaceApp : Application() {
@@ -14,6 +15,7 @@ class FitFaceApp : Application() {
         mSelf = this
         gSon = Gson()
         mAppExecutor = AppExecutor()
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
     }
 
     companion object {

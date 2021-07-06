@@ -14,14 +14,14 @@ class FaceResponse : BaseResponse() {
 
 @Parcelize
 data class Face(
-    var status: Int,
-    var message: String,
-    var id: Int,
-    var username: String,
-    var firstname: String,
-    var lastname: String,
-    var roleid: Int,
-    var role: String,
-    var shortname: String,
-    var userpictureurl: String,
+    var status: Int?,
+    var message: String?,
+    var id: Int?,
+    var username: String?,
+    var firstname: String?,
+    var lastname: String?,
+    var roleid: Int?,
+    var role: String?,
+    var shortname: String?,
+    var userpictureurl: String?,
 ) : Parcelable

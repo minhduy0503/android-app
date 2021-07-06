@@ -26,7 +26,7 @@ interface MoodleService {
         @Header("Authorization") token: String
     ): LiveData<ApiResponse<CampusResponse>>
 
-    @GET("schedules")
+    @GET("teacher-schedules")
     fun getSchedules(
         @Header("moodle") moodle: String,
         @Header("Authorization") token: String
