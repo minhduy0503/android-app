@@ -18,6 +18,10 @@ class ManualCheckInActivityViewModel constructor(application: Application) :
         it.value = null
     }
 
+    var checkInImage: MediatorLiveData<List<String>>? = MediatorLiveData<List<String>>().also {
+        it.value = null
+    }
+
     val findFaceResponse = MediatorLiveData<Resource<FaceResponse>>()
     fun postFindFace(input: FaceRequest) {
         findFaceResponse.addSource(faceRepository.postFindFace(input)) { newData ->

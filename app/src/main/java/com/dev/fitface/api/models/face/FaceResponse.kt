@@ -24,4 +24,8 @@ data class Face(
     var role: String?,
     var shortname: String?,
     var userpictureurl: String?,
+    @Transient
+    var statusCheckIn: Int = -1,
+    @Transient
+    var isSelected: Boolean = false
 ) : Parcelable

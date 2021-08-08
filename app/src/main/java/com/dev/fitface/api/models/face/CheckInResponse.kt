@@ -8,7 +8,6 @@ class CheckInResponse : BaseResponse() {
     var data: List<CheckInData>? = null
 }
 
-
 @Parcelize
 data class CheckInData(
     var status: Int,

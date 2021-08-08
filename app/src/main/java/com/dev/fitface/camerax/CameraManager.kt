@@ -174,17 +174,20 @@ class CameraManager(
             Runnable {
                 cameraProvider = cameraProviderFuture.get()
                 preview = Preview.Builder().build()
-                metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
+//                metrics = DisplayMetrics().also { finderView.display.getRealMetrics(it) }
 
-                width = metrics.widthPixels
-                height = metrics.heightPixels
+/*                width = metrics.widthPixels
+                height = metrics.heightPixels*/
+                width = 800
+                height = 1280
+
                 SharedPrefs.instance.put(Constants.Param.width, width)
                 SharedPrefs.instance.put(Constants.Param.height, height)
 
 
                 imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
+                    .setTargetResolution(Size(width!!, height!!))
                     .build()
                     .also {
                         it.setAnalyzer(
@@ -200,7 +203,7 @@ class CameraManager(
 
                 imageCapture =
                     ImageCapture.Builder()
-                        .setTargetResolution(Size(metrics.widthPixels, metrics.heightPixels))
+                        .setTargetResolution(Size(width!!, height!!))
                         .build()
 
                 if (checkInMode == Constants.CameraMode.manual) {

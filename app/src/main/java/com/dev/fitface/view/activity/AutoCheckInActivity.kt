@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.activity_auto_check_in.*
 import java.io.ByteArrayOutputStream
 
 
-class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
+class  AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
     CheckInResultFragment.OnResultCheckInFragmentInteractionListener,
     ReportFragment.OnReportFragmentInteractionListener, View.OnClickListener {
 
@@ -255,9 +255,7 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                         cameraView,
                         cameraManager.isHorizontalMode()
                     ),
-                    Paint().apply {
-                        xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OVER)
-                    })
+                    null)
 
 //                  Create bitmap and encode to Base64 string
                 val left = faceRect.left
@@ -265,8 +263,9 @@ class AutoCheckInActivity : BaseActivity<AutoCheckInActivityViewModel>(),
                 val width = faceRect.width()
                 val height = faceRect.height()
                 val res = Bitmap.createBitmap(bitmap, left, top, width, height)
+                val resB = Bitmap.createScaledBitmap(res, 160, 160, false)
                 val byteArrayOutputStream = ByteArrayOutputStream();
-                res.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                resB.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 val byteArray = byteArrayOutputStream.toByteArray()
                 val str64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
                 viewModel.faceStr?.postValue(str64)

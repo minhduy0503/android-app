@@ -111,14 +111,14 @@ class LoginActivity : BaseActivity<LoginActivityViewModel>(), View.OnClickListen
 
     private fun observeLogin() {
         viewModel.responseLogin.observe(this, Observer {
-            it.resource?.data.let { user ->
+            it.resource?.data?.let { user ->
                 ToastMessage.makeText(
                     this,
                     " Đăng nhập thành công",
                     ToastMessage.SHORT,
                     ToastMessage.Type.SUCCESS.type
                 ).show()
-                SharedPrefs.instance.put("Token", user?.token)
+                SharedPrefs.instance.put(Constants.Param.token, user.token)
                 AppUtils.startActivityWithNameAndClearTask(this, MainActivity::class.java)
             }
         })

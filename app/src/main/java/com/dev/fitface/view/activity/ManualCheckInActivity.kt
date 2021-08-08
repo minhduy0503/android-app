@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.dev.fitface.R
+import com.dev.fitface.api.models.face.CheckInRequest
 import com.dev.fitface.api.models.face.FaceRequest
 import com.dev.fitface.api.models.face.MiniFace
 import com.dev.fitface.camerax.CameraManager
@@ -31,14 +32,17 @@ import kotlinx.android.synthetic.main.activity_manual_check_in.*
 
 
 class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
-    ManualCheckInResultFragment.OnManualCheckInFragmentInteractionListener
-    ,View.OnClickListener {
+    ManualCheckInResultFragment.OnManualCheckInFragmentInteractionListener, View.OnClickListener {
 
     private lateinit var cameraManager: CameraManager
     private var mCallback: CameraCallback? = null
 
     private var faceRectList: ArrayList<Rect>? = ArrayList()
     private var manualCheckInResultFragment: ManualCheckInResultFragment? = null
+
+    private var roomId: Int? = null
+    private var roomName: String? = null
+    private var campusName: String? = null
 
     companion object {
         const val REQUEST_CODE_PERMISSIONS = 10
@@ -94,6 +98,9 @@ class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
     }
 
     private fun initValue() {
+        roomId = intent.getIntExtra(Constants.Param.roomId, -1)
+        roomName = intent.getStringExtra(Constants.Param.roomName)
+        campusName = intent.getStringExtra(Constants.Param.campusName)
 
         mCallback = object : CameraCallback {
             override fun onFaceCapture(rect: Rect) {
@@ -104,6 +111,7 @@ class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
             }
 
             override fun onFaceSizeNotify(size: FaceSize) {
+
             }
 
             override fun onFrontFaceNotify() {
@@ -139,25 +147,55 @@ class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
     override fun observeData() {
         observeCapturedFace()
         observeFindFaceResponse()
+        observeSelectedCheckInFace()
+        observeCheckInResponse()
+    }
+
+    private fun observeCheckInResponse() {
+        viewModel.checkInResponse.observe(this, {
+            manualCheckInResultFragment?.updateUICheckInResult(it.resource?.status, it.resource?.message)
+            val data = it.resource?.data
+            data?.forEach { item ->
+                if (item.status == 200){
+                    viewModel.findFaceResponse.value?.resource?.data?.first { it.username == item.username}?.statusCheckIn = 1
+                }else{
+                    viewModel.findFaceResponse.value?.resource?.data?.first { it.username == item.username}?.statusCheckIn = 0
+                }
+            }
+        })
+    }
+
+    private fun observeSelectedCheckInFace() {
+        viewModel.checkInImage?.observe(this, { list  ->
+            list?.let {
+                callApiPostCheckIn(list)
+            }
+        })
     }
 
     private fun observeFindFaceResponse() {
-        viewModel.findFaceResponse?.observe(this, {
+        viewModel.findFaceResponse.observe(this, {
             val bundle = Bundle()
             manualCheckInResultFragment = ManualCheckInResultFragment.newInstance(bundle)
             manualCheckInResultFragment?.isCancelable = false
-            manualCheckInResultFragment?.show(supportFragmentManager, Constants.FragmentName.reportFragment)
+            manualCheckInResultFragment?.show(
+                supportFragmentManager,
+                Constants.FragmentName.reportFragment
+            )
         })
     }
 
     private fun observeCapturedFace() {
         viewModel.capturedFace?.observe(this, { list ->
             list?.let {
-                val collection:ArrayList<String> = ArrayList()
-                it.forEach{ miniface ->
-                    collection.add(miniface.bm)
+                if (it.isNotEmpty()) {
+                    val collection: ArrayList<String> = ArrayList()
+                    it.forEach { miniface ->
+                        collection.add(miniface.bm)
+                    }
+                    callApiPostFindFace(collection)
                 }
-                callApiPostFindFace(collection)
+
             }
         })
 
@@ -178,12 +216,26 @@ class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnDone -> {
-
+                onBackPressed()
             }
             R.id.btnCapture -> {
                 captureFace(faceRectList)
             }
         }
+    }
+
+    private fun callApiPostFindFace(faceCollection: List<String>?) {
+        faceCollection?.let {
+            val faceRequest = FaceRequest()
+            faceRequest.images = it
+            viewModel.postFindFace(faceRequest)
+        }
+    }
+
+    private fun callApiPostCheckIn(username: List<String>) {
+        val input = CheckInRequest()
+        input.usernames = username
+        viewModel.postCheckIn(roomId!!, input)
     }
 
     private fun captureFace(faceRect: ArrayList<Rect>?) {
@@ -251,15 +303,6 @@ class ManualCheckInActivity : BaseActivity<ManualCheckInActivityViewModel>(),
         }
         orientationEventListener.enable()
     }
-
-    private fun callApiPostFindFace(faceCollection: List<String>?) {
-        faceCollection?.let {
-            val faceRequest = FaceRequest()
-            faceRequest.images = it
-            viewModel.postFindFace(faceRequest)
-        }
-    }
-
 
     override fun onManualCheckInFragmentInteraction(bundle: Bundle?) {
 

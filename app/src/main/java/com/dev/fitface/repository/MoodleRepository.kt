@@ -1,6 +1,7 @@
 package com.dev.fitface.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dev.fitface.api.api_utils.ApiResponse
 import com.dev.fitface.api.api_utils.AppExecutor
@@ -29,8 +30,8 @@ class MoodleRepository constructor(
 
     private var moodleService: MoodleService
     val suffix = "/api/"
-    val moodle = SharedPrefs.instance[Constants.Param.collection, String::class.java] ?: ""
-    val token = SharedPrefs.instance[Constants.Param.token, String::class.java] ?: ""
+    val moodle = SharedPrefs.instance[Constants.Param.collection, String::class.java]
+    val token = SharedPrefs.instance[Constants.Param.token, String::class.java]
 
 
     init {
@@ -43,6 +44,8 @@ class MoodleRepository constructor(
             .addCallAdapterFactory(liveDataCallAdapterFactory)
             .client(callApiClient).build()
             .create(MoodleService::class.java)
+
+        Log.i("Debug", "$token")
     }
 
     companion object {
@@ -54,78 +57,91 @@ class MoodleRepository constructor(
     }
 
     fun postLogin(input: LoginInput): LiveData<Resource<LoginResponse>> {
-        return  object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url){
+        return object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: LoginResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
-                return moodleService.postLogin(moodle,input)
+                return moodleService.postLogin(moodle!!, input)
             }
         }.asLiveData()
     }
 
     fun getCampus(): LiveData<Resource<CampusResponse>> {
-        return  object : NetworkBoundResource<CampusResponse>(appExecutor, context, this.base_url){
+        return object : NetworkBoundResource<CampusResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: CampusResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<CampusResponse>> {
-                return moodleService.getCampus(moodle,token)
+                return moodleService.getCampus(moodle!!, token!!)
             }
         }.asLiveData()
     }
 
     fun getReportByCourseId(id: Int): LiveData<Resource<ReportCheckInResponse>> {
-        return object : NetworkBoundResource<ReportCheckInResponse>(appExecutor, context, this.base_url) {
+        return object :
+            NetworkBoundResource<ReportCheckInResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: ReportCheckInResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<ReportCheckInResponse>> {
-                return moodleService.getReportByCourseId(moodle, token, id)
+                return moodleService.getReportByCourseId(moodle!!, token!!, id)
             }
         }.asLiveData()
     }
 
     fun getSessionByCourseId(id: Int): LiveData<Resource<SessionReportResponse>> {
-        return object : NetworkBoundResource<SessionReportResponse>(appExecutor, context, this.base_url) {
+        return object :
+            NetworkBoundResource<SessionReportResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: SessionReportResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<SessionReportResponse>> {
-                return moodleService.getSessionByCourseId(moodle, token, id)
+                return moodleService.getSessionByCourseId(moodle!!, token!!, id)
             }
         }.asLiveData()
     }
 
-    fun getSessionByStudentId(username: Int, courseid: Int): LiveData<Resource<SessionReportByStudentIdResponse>> {
-        return object : NetworkBoundResource<SessionReportByStudentIdResponse>(appExecutor, context, this.base_url) {
+    fun getSessionByStudentId(
+        username: Int,
+        courseid: Int
+    ): LiveData<Resource<SessionReportByStudentIdResponse>> {
+        return object : NetworkBoundResource<SessionReportByStudentIdResponse>(
+            appExecutor,
+            context,
+            this.base_url
+        ) {
             override fun saveCallResult(item: SessionReportByStudentIdResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<SessionReportByStudentIdResponse>> {
-                return moodleService.getSessionByStudentId(moodle, token, username, courseid)
+                return moodleService.getSessionByStudentId(moodle!!, token!!, username, courseid)
             }
         }.asLiveData()
     }
 
     fun getStudentInfo(username: String): LiveData<Resource<LoginResponse>> {
-        return  object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url){
+        return object : NetworkBoundResource<LoginResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: LoginResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<LoginResponse>> {
-                return moodleService.getStudentInfo(token, moodle,username)
+                return moodleService.getStudentInfo(token!!, moodle!!, username)
             }
         }.asLiveData()
     }
 
-    fun postUpdateAttendanceLog(sessionId: String, input: UpdateLogRequest): LiveData<Resource<UpdateLogResponse>> {
-        return  object : NetworkBoundResource<UpdateLogResponse>(appExecutor, context, this.base_url){
+    fun postUpdateAttendanceLog(
+        sessionId: String,
+        input: UpdateLogRequest
+    ): LiveData<Resource<UpdateLogResponse>> {
+        return object :
+            NetworkBoundResource<UpdateLogResponse>(appExecutor, context, this.base_url) {
             override fun saveCallResult(item: UpdateLogResponse) {
             }
 
             override fun createCall(): LiveData<ApiResponse<UpdateLogResponse>> {
-                return moodleService.postUpdateAttendanceLog(token, moodle, sessionId, input)
+                return moodleService.postUpdateAttendanceLog(token!!, moodle!!, sessionId, input)
             }
         }.asLiveData()
     }
@@ -136,7 +152,7 @@ class MoodleRepository constructor(
             }
 
             override fun createCall(): LiveData<ApiResponse<RoomResponse>> {
-                return moodleService.getRoom(moodle, token, campus)
+                return moodleService.getRoom(moodle!!, token!!, campus)
             }
         }.asLiveData()
     }
@@ -147,7 +163,7 @@ class MoodleRepository constructor(
             }
 
             override fun createCall(): LiveData<ApiResponse<CourseResponse>> {
-                return moodleService.getSchedules(moodle, token)
+                return moodleService.getSchedules(moodle!!, token!!)
             }
         }.asLiveData()
     }
@@ -158,7 +174,7 @@ class MoodleRepository constructor(
             }
 
             override fun createCall(): LiveData<ApiResponse<CheckInResponse>> {
-                return moodleService.postCheckIn(moodle, token, id, input)
+                return moodleService.postCheckIn(moodle!!, token!!, id, input)
             }
         }.asLiveData()
     }

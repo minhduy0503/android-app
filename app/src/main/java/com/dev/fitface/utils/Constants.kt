@@ -20,7 +20,8 @@ class Constants {
             const val postFindFace = "post-find-face"
             const val postCheckIn = "post-check-in"
             const val retryCapture = "retry-capture"
-
+            const val add = "add"
+            const val del = "delete"
         }
     }
 
@@ -87,6 +88,7 @@ class Constants {
             const val userTaken = "TakenUser"
             const val username = "Username"
             const val startCamera = "StartCamera"
+            const val action = "Action"
         }
     }
 
@@ -106,6 +108,7 @@ class Constants {
             const val report = "Report"
             const val session = "Session"
             const val errorAvatar = "https://courses.fit.hcmus.edu.vn/theme/image.php/academi/core/1624873944/u/f1"
+            const val base64Str = "Base64"
         }
     }
 

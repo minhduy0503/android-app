@@ -1,6 +1,7 @@
 package com.dev.fitface.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dev.fitface.R
 import com.dev.fitface.api.models.face.MiniFace
-import com.dev.fitface.interfaces.CallToAction
+
 import com.dev.fitface.utils.base64ToImage
 import com.google.android.material.imageview.ShapeableImageView
 
 class FaceCaptureAdapter(
     private val mContext: Context,
-    var dataSrc: ArrayList<MiniFace>?
+    var dataSrc: ArrayList<MiniFace>?,
 ) : RecyclerView.Adapter<FaceCaptureAdapter.FaceCaptureHolder>() {
 
     override fun onCreateViewHolder(
@@ -35,29 +36,37 @@ class FaceCaptureAdapter(
         return dataSrc?.size ?: 0
     }
 
-    inner class FaceCaptureHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    inner class FaceCaptureHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private val imgCaptured: ShapeableImageView? = itemView.findViewById(R.id.imgCaptured)
-        private val imgCheck: ImageView? = itemView.findViewById(R.id.imgCheck)
-        private val ctrRootView: ConstraintLayout? = itemView.findViewById(R.id.ctrRootView)
-
-        init {
-            ctrRootView?.setOnClickListener(this)
-        }
 
         fun bind(item: MiniFace?) {
             item?.let {
                 imgCaptured?.setImageBitmap(it.bm.base64ToImage())
-                imgCheck?.visibility = if (it.isSelected) View.VISIBLE else View.INVISIBLE
             }
         }
 
-        override fun onClick(v: View?) {
+       /* override fun onClick(v: View?) {
+            val bundle = Bundle()
             val position = adapterPosition
             val item = dataSrc?.get(position)
-            item?.isSelected = item?.isSelected != true
+            when (item?.isSelected) {
+                false -> {
+                    item.isSelected = true
+                    bundle.putString(Constants.Param.action, Constants.CallAction.add)
+                    bundle.putString(Constants.Param.image, item.bm)
+                    notifyDataSetChanged()
+                }
+                true -> {
+                    item.isSelected = false
+                    bundle.putString(Constants.Param.action, Constants.CallAction.del)
+                    bundle.putString(Constants.Param.image, item.bm)
+                    notifyDataSetChanged()
+                }
+
+            }
             notifyDataSetChanged()
-        }
+            actionToParent?.action(bundle)
+        }*/
     }
 
 }
